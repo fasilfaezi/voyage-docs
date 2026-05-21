@@ -10,8 +10,8 @@
   },
   "favicon": "/favicon.svg",
   "logo": {
-    "light": "/logo/voyage-logo-navy.svg",
-    "dark": "/logo/voyage-logo-white.svg"
+    "light": "/logo/voyager-logo-navy.svg",
+    "dark": "/logo/voyager-logo-white.svg"
   },
   "appearance": {
     "default": "light"
