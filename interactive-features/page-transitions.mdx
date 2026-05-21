@@ -1,13 +1,13 @@
 ---
 title: "Page transitions"
-description: "The navy curtain that rises and falls between pages — Voyage's cinematic navigation rhythm."
+description: "The navy curtain that rises and falls between pages — Voyager's cinematic navigation rhythm."
 ---
 
-Voyage's most recognisable signature is the page-transition curtain. On every internal link click, a navy panel rises from the bottom of the viewport, fully covers the page, then falls away from the top to reveal the next page. The effect is cinematic — like a theatre curtain between scenes — and gives the storefront a film-like pacing that distinguishes it from the usual hard cut between Shopify pages.
+Voyager's most recognisable signature is the page-transition curtain. On every internal link click, a navy panel rises from the bottom of the viewport, fully covers the page, then falls away from the top to reveal the next page. The effect is cinematic — like a theatre curtain between scenes — and gives the storefront a film-like pacing that distinguishes it from the usual hard cut between Shopify pages.
 
 ## How it works
 
-The curtain is a single fixed-position element (`<div class="curtain">`) sitting at `z-index: 800`, with a navy background and the Voyage wordmark centred. CSS keyframes handle the rise and fall:
+The curtain is a single fixed-position element (`<div class="curtain">`) sitting at `z-index: 800`, with a navy background and the Voyager wordmark centred. CSS keyframes handle the rise and fall:
 
 ```css
 .curtain[data-state="rising"]  { animation: curtain-rise 0.7s ease forwards; }
@@ -45,7 +45,7 @@ The `voyage-curtain-pending` key is set on link click and cleared once the curta
 
 ## bfcache reset
 
-Browser back-button restores can leave a page in any state. Voyage explicitly resets the curtain on `pageshow` events where `event.persisted === true`:
+Browser back-button restores can leave a page in any state. Voyager explicitly resets the curtain on `pageshow` events where `event.persisted === true`:
 
 - Curtain `data-state` cleared
 - Inline `transform` and `animation` cleared
@@ -72,13 +72,13 @@ This is handled by the global `@media (prefers-reduced-motion: reduce)` rule in 
 
 ## Disabling the curtain globally
 
-There's no theme setting to turn the curtain off — it's part of Voyage's signature pacing. If you genuinely don't want it, you can:
+There's no theme setting to turn the curtain off — it's part of Voyager's signature pacing. If you genuinely don't want it, you can:
 
 - Remove the `<div class="curtain">` from `layout/theme.liquid`
 - Remove the `.curtain-incoming` block from the pre-paint coordinator inline script in the same file
 - The page-transition click handler will then find no curtain element and silently no-op
 
-We recommend keeping it. It's the small touch that gives Voyage its film-like rhythm.
+We recommend keeping it. It's the small touch that gives Voyager its film-like rhythm.
 
 ## What's next
 
@@ -87,6 +87,6 @@ We recommend keeping it. It's the small touch that gives Voyage its film-like rh
     The hover micro-interactions that complement the page rhythm.
   </Card>
   <Card title="Dark mode & grain" href="/interactive-features/dark-mode-and-grain">
-    The other two pillars of Voyage's premium feel.
+    The other two pillars of Voyager's premium feel.
   </Card>
 </CardGroup>

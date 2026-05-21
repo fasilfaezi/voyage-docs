@@ -3,7 +3,7 @@ title: "Search panel"
 description: "A live, full-width search dropdown with recent terms, popular searches, and a four-product preview grid."
 ---
 
-When the visitor clicks the search icon in the header, Voyage slides a full-width panel down from below the navigation. The panel splits into a left aside (recent searches, popular searches, services) and a right grid (live product results, default to four featured products on first open). Type into the input and the right side replaces itself with matched products as you type.
+When the visitor clicks the search icon in the header, Voyager slides a full-width panel down from below the navigation. The panel splits into a left aside (recent searches, popular searches, services) and a right grid (live product results, default to four featured products on first open). Type into the input and the right side replaces itself with matched products as you type.
 
 ## Triggers
 
@@ -27,7 +27,7 @@ The bar at the top contains the search input and a Close button.
 
 ### Recent searches
 
-Hidden by default. The first time a visitor performs a successful search, Voyage saves the term to `localStorage` under `voyage-recent-searches` (cap of 5, most-recent-first). The Recent Searches block reveals itself the next time the panel opens.
+Hidden by default. The first time a visitor performs a successful search, Voyager saves the term to `localStorage` under `voyage-recent-searches` (cap of 5, most-recent-first). The Recent Searches block reveals itself the next time the panel opens.
 
 Clicking a recent term repopulates the input and triggers a new search.
 
@@ -47,7 +47,7 @@ A single link by default ("Contact"). Edit `snippets/search-panel.liquid` to add
 
 ## Live results
 
-Typing into the input fires a debounced fetch. After the visitor stops typing for a moment, Voyage hits a custom JSON endpoint:
+Typing into the input fires a debounced fetch. After the visitor stops typing for a moment, Voyager hits a custom JSON endpoint:
 
 ```js
 fetch(`/search?q=${encodeURIComponent(q)}&type=product&view=json`)
@@ -65,7 +65,7 @@ In a single round-trip you get both the preview grid (4 products) and the true t
 
 The fetch is debounced so we don't fire on every keystroke. But debouncing alone isn't enough — if the visitor types "cot", then quickly "cotton", a slow response for "cot" could arrive after the response for "cotton" and stale-overwrite the grid.
 
-Voyage handles this with an `AbortController`:
+Voyager handles this with an `AbortController`:
 
 1. Each new keystroke aborts the previous in-flight fetch
 2. Each response is double-checked against the current input value before being rendered

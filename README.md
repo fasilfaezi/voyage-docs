@@ -1,6 +1,6 @@
-# Voyage docs
+# Voyager docs
 
-Source for the Voyage Shopify theme documentation site at [voyage.mintlify.app](https://voyage.mintlify.app).
+Source for the Voyager Shopify theme documentation site at [voyage.mintlify.app](https://voyage.mintlify.app).
 
 ## Local preview
 

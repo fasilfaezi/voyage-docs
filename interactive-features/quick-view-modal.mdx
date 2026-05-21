@@ -18,7 +18,7 @@ Both elements carry `data-pcard-quickview` and the product's `handle` in `data-h
 
 ## How it loads
 
-When the modal opens, Voyage fetches the rendered quick-view section via Shopify's **Section Rendering API**:
+When the modal opens, Voyager fetches the rendered quick-view section via Shopify's **Section Rendering API**:
 
 ```js
 // inside theme.js
@@ -27,7 +27,7 @@ const html = await res.text();
 modalBody.innerHTML = html;
 ```
 
-The endpoint returns the same product section Voyage uses inside the modal — defined in `sections/quick-view.liquid`. Because it's server-rendered with full Shopify product context, the modal includes accurate prices, variant availability, accelerated-checkout buttons, and stock states.
+The endpoint returns the same product section Voyager uses inside the modal — defined in `sections/quick-view.liquid`. Because it's server-rendered with full Shopify product context, the modal includes accurate prices, variant availability, accelerated-checkout buttons, and stock states.
 
 While the fetch is in flight, the modal shows a quiet "Loading…" state. On network failure, it falls back to a polite "Sorry — could not load this piece" message.
 
@@ -44,7 +44,7 @@ The buy column uses `flex: column; justify-content: space-between` so the eyebro
 
 ## Variant picker
 
-The picker mirrors the full PDP. Voyage emits a JSON blob (`#quickview-variants-data`) with every variant's id, price, availability, and option values. As the visitor changes options, JS finds the matching variant, updates the hidden variant id, and refreshes the displayed price.
+The picker mirrors the full PDP. Voyager emits a JSON blob (`#quickview-variants-data`) with every variant's id, price, availability, and option values. As the visitor changes options, JS finds the matching variant, updates the hidden variant id, and refreshes the displayed price.
 
 If a colour and size combo is sold out, **Add to Cart** stays clickable — Shopify's cart API will return an error which is surfaced as a toast. This deliberate choice mirrors the full PDP behaviour and keeps the modal's logic light.
 

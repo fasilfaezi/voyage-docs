@@ -3,7 +3,7 @@ title: "Search and 404"
 description: "Search results, the not-found page, and the predictive-search JSON endpoint."
 ---
 
-Voyage ships three search-related templates and one 404 template. Two are user-facing pages; one is a JSON endpoint that powers the live predictive-search dropdown in the header.
+Voyager ships three search-related templates and one 404 template. Two are user-facing pages; one is a JSON endpoint that powers the live predictive-search dropdown in the header.
 
 ## Search results — `templates/search.json`
 
@@ -16,19 +16,19 @@ Voyage ships three search-related templates and one 404 template. Two are user-f
 }
 ```
 
-The search results page renders `search.results` — a mixed list of products, articles, and pages that match the query. Voyage styles it like a PLP — sticky toolbar, view-mode picker, grid — but tightened to handle the heterogeneity of mixed object types.
+The search results page renders `search.results` — a mixed list of products, articles, and pages that match the query. Voyager styles it like a PLP — sticky toolbar, view-mode picker, grid — but tightened to handle the heterogeneity of mixed object types.
 
 ### Result types
 
-A single search query returns a mix of object types. Voyage renders each differently:
+A single search query returns a mix of object types. Voyager renders each differently:
 
-| `search.results[i].object_type` | Voyage render |
+| `search.results[i].object_type` | Voyager render |
 |---|---|
 | `product` | Product card with image, title, price, swatch row, "Select Options" overlay. |
 | `article` | Article card with featured image, title, published date, excerpt. |
 | `page` | Page card with title and excerpt. |
 
-The merchant controls which object types are searchable via Shopify's **Search & Discovery** app. Voyage's `search.json` simply renders whatever Shopify returns.
+The merchant controls which object types are searchable via Shopify's **Search & Discovery** app. Voyager's `search.json` simply renders whatever Shopify returns.
 
 ### Default rendering
 

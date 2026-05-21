@@ -1,13 +1,13 @@
 ---
 title: "Dark mode & film grain"
-description: "Two surface treatments that lift Voyage from clean to cinematic — both purely CSS, both free at runtime."
+description: "Two surface treatments that lift Voyager from clean to cinematic — both purely CSS, both free at runtime."
 ---
 
-Dark mode and the film-grain overlay are the two surface treatments that give Voyage its premium feel. Neither requires JavaScript at the render layer — both are pure CSS, both flip with a single attribute on `<html>`, and both stay out of the critical-path cost.
+Dark mode and the film-grain overlay are the two surface treatments that give Voyager its premium feel. Neither requires JavaScript at the render layer — both are pure CSS, both flip with a single attribute on `<html>`, and both stay out of the critical-path cost.
 
 ## Dark mode
 
-Voyage ships with a fully wired dark mode. A moon icon in the header acts as the toggle. Click it and the entire token system inverts: paper backgrounds become navy, navy ink becomes paper-cream, surface-warm becomes a deep variant, and the film grain switches blend modes.
+Voyager ships with a fully wired dark mode. A moon icon in the header acts as the toggle. Click it and the entire token system inverts: paper backgrounds become navy, navy ink becomes paper-cream, surface-warm becomes a deep variant, and the film grain switches blend modes.
 
 ### How the toggle works
 
@@ -44,9 +44,9 @@ Specific surfaces also get small targeted overrides — the announcement bar, bu
 
 ### Persistence
 
-The visitor's choice persists via `localStorage` (`voyage-theme`). On page navigation, hard reload, or new tab open from a same-origin link, the preference holds. Across browser sessions, it holds. Across devices, it doesn't — Voyage doesn't sync the preference to a Shopify customer account.
+The visitor's choice persists via `localStorage` (`voyage-theme`). On page navigation, hard reload, or new tab open from a same-origin link, the preference holds. Across browser sessions, it holds. Across devices, it doesn't — Voyager doesn't sync the preference to a Shopify customer account.
 
-To support OS-level "prefer dark mode" auto-detection, you can extend the pre-paint coordinator to read `matchMedia('(prefers-color-scheme: dark)').matches` if no `localStorage` value is set. By default, Voyage starts every fresh visitor in light mode.
+To support OS-level "prefer dark mode" auto-detection, you can extend the pre-paint coordinator to read `matchMedia('(prefers-color-scheme: dark)').matches` if no `localStorage` value is set. By default, Voyager starts every fresh visitor in light mode.
 
 ### Removing dark mode
 
@@ -107,7 +107,7 @@ The combined render cost of dark mode + grain is below any measurable threshold 
 
 <CardGroup cols={2}>
   <Card title="Page transitions" href="/interactive-features/page-transitions">
-    The third pillar of Voyage's premium feel — the navy curtain.
+    The third pillar of Voyager's premium feel — the navy curtain.
   </Card>
   <Card title="Colors" href="/theme-setup/colors">
     The brand palette and four schemes — which both modes flip across.

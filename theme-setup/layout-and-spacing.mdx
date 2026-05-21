@@ -3,7 +3,7 @@ title: "Layout & spacing"
 description: "Container width, section pacing, rule weight, card image ratios, and card hover affordances."
 ---
 
-Voyage gives you four global layout controls — container width, section spacing, rule style, and card image ratio — plus a handful of toggles for card behaviour. Combined, they let you tune the storefront's pace without touching any single section.
+Voyager gives you four global layout controls — container width, section spacing, rule style, and card image ratio — plus a handful of toggles for card behaviour. Combined, they let you tune the storefront's pace without touching any single section.
 
 All controls live in **Theme settings → Layout** and **Theme settings → Cards**.
 
@@ -20,7 +20,7 @@ Container width applies to most sections, but full-bleed sections (Hero, Categor
 
 ## Section spacing
 
-The vertical breathing room between sections. Voyage applies the value as `padding-top` and `padding-bottom` on every section.
+The vertical breathing room between sections. Voyager applies the value as `padding-top` and `padding-bottom` on every section.
 
 | Option | Approx. desktop spacing | Best for |
 |---|---|---|
@@ -28,7 +28,7 @@ The vertical breathing room between sections. Voyage applies the value as `paddi
 | **Comfortable** (default) | `90–120 px` | The editorial default — generous but not slow |
 | **Spacious** | `130–180 px` | Brands selling few high-priced pieces; lets each section read as a chapter |
 
-On mobile, Voyage scales these down proportionally — Compact becomes `40 px`, Spacious becomes `80 px`. You don't need to set mobile spacing separately.
+On mobile, Voyager scales these down proportionally — Compact becomes `40 px`, Spacious becomes `80 px`. You don't need to set mobile spacing separately.
 
 ## Rule / divider style
 
@@ -36,7 +36,7 @@ The weight of every hairline rule in the theme — between cart line items, arou
 
 | Option | Weight | When to use |
 |---|---|---|
-| **Thin** (default) | `1 px` | The signature Voyage hairline — quiet, editorial |
+| **Thin** (default) | `1 px` | The signature Voyager hairline — quiet, editorial |
 | **Medium** | `2 px` | When your imagery is high-contrast and the rule needs to hold its own |
 | **Double** | A `1 px` rule with a `1 px` gap and a second `1 px` rule | The Italian editorial detail — works beautifully on cream backgrounds |
 
@@ -52,7 +52,7 @@ The aspect ratio applied to every product-card image on collection pages, the ho
 | **Square** | `1 : 1` | Accessories, beauty, jewellery — anywhere the product reads compactly |
 | **Landscape** | `4 : 3` | Home goods, furniture, wide editorial product photography |
 
-Whatever ratio you pick, Voyage uses `object-fit: cover` to fill the frame. If your photography isn't shot to ratio, the crop happens at the centre of the image — important faces, logos, or product details near the edge will be cut.
+Whatever ratio you pick, Voyager uses `object-fit: cover` to fill the frame. If your photography isn't shot to ratio, the crop happens at the centre of the image — important faces, logos, or product details near the edge will be cut.
 
 ## Card text alignment
 
@@ -73,19 +73,19 @@ Three toggles control what shows up on hover (or as static badges on mobile).
 
 ## Hover image (second media)
 
-Voyage automatically uses a product's *second* media as the hover-reveal image on the collection page. This isn't a setting you configure — it's automatic. If your product has only one image, the card stays static on hover.
+Voyager automatically uses a product's *second* media as the hover-reveal image on the collection page. This isn't a setting you configure — it's automatic. If your product has only one image, the card stays static on hover.
 
 To set up hover images cleanly: upload a primary product image, then a secondary image (a back-view, a flat-lay, a context shot). The second image becomes the hover state on every card. This is a small detail that lifts the collection page dramatically.
 
 ## Colour swatches on cards
 
-If your product has a `Color` (or `Colour`) option, Voyage automatically renders a swatch row below the card title — small circles in each option's colour. Hovering a swatch swaps the card's main image to that variant's media.
+If your product has a `Color` (or `Colour`) option, Voyager automatically renders a swatch row below the card title — small circles in each option's colour. Hovering a swatch swaps the card's main image to that variant's media.
 
 Swatch behaviour:
 
-- Colours map to CSS values via the option value name. "Navy" becomes `#002F5B`, "Cream" becomes `#F6F4EF`, "Charcoal" becomes `#0A0F18` — Voyage ships with a mapping for ~40 common colour names.
+- Colours map to CSS values via the option value name. "Navy" becomes `#002F5B`, "Cream" becomes `#F6F4EF`, "Charcoal" becomes `#0A0F18` — Voyager ships with a mapping for ~40 common colour names.
 - Unknown names fall back to a neutral grey ring.
-- For exact colour matching, name your variants with hex codes inside square brackets: `Navy [#002F5B]`. Voyage parses the hex and uses it.
+- For exact colour matching, name your variants with hex codes inside square brackets: `Navy [#002F5B]`. Voyager parses the hex and uses it.
 
 ## What's next
 
@@ -94,6 +94,6 @@ Swatch behaviour:
     Three presets that ship with curated layout + colour combinations.
   </Card>
   <Card title="Animation" href="/interactive-features/page-transitions">
-    Page transitions, scroll reveals, image blur — Voyage's motion system.
+    Page transitions, scroll reveals, image blur — Voyager's motion system.
   </Card>
 </CardGroup>

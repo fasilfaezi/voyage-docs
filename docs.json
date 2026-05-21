@@ -1,8 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Voyage",
-  "description": "Documentation for the Voyage Shopify theme — editorial fashion theme for considered brands.",
+  "name": "Voyager",
+  "description": "Documentation for the Voyager Shopify theme — editorial fashion theme for considered brands.",
   "colors": {
     "primary": "#002F5B",
     "light": "#C39738",

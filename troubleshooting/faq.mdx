@@ -1,33 +1,33 @@
 ---
 title: "Frequently asked questions"
-description: "Thirty-plus answers to the questions Voyage merchants ask before they buy and after they install."
+description: "Thirty-plus answers to the questions Voyager merchants ask before they buy and after they install."
 ---
 
 A long list, grouped loosely from general → specific. If you're looking for a fix for something visibly broken, see [common issues](/troubleshooting/common-issues) instead.
 
 <AccordionGroup>
-  <Accordion title="Can I use Voyage for non-fashion stores?">
-    Yes. Voyage's editorial restraint reads as luxury in any category — beauty, home goods, wellness, fragrance, jewelry, even artisanal food and drink. The product card supports any image ratio (portrait, square, landscape) and the section library covers most considered-DTC content patterns. The theme leans fashion in its default copy, but the structure is category-agnostic.
+  <Accordion title="Can I use Voyager for non-fashion stores?">
+    Yes. Voyager's editorial restraint reads as luxury in any category — beauty, home goods, wellness, fragrance, jewelry, even artisanal food and drink. The product card supports any image ratio (portrait, square, landscape) and the section library covers most considered-DTC content patterns. The theme leans fashion in its default copy, but the structure is category-agnostic.
   </Accordion>
 
-  <Accordion title="Does Voyage require a build step or npm?">
-    No. Voyage is pure Liquid, CSS, and vanilla JavaScript. There is no `package.json`, no `node_modules`, no compile step. You can edit any file directly in the Shopify code editor and see the result on save.
+  <Accordion title="Does Voyager require a build step or npm?">
+    No. Voyager is pure Liquid, CSS, and vanilla JavaScript. There is no `package.json`, no `node_modules`, no compile step. You can edit any file directly in the Shopify code editor and see the result on save.
   </Accordion>
 
   <Accordion title="Will the hero video autoplay on mobile?">
-    Yes. Mobile browsers require three conditions to autoplay — `muted`, `playsinline`, and `loop` — all of which Voyage sets by default. As long as your MP4 has no embedded audio (or is silent) and is under 4 MB, it will autoplay on iOS Safari, Android Chrome, and every modern desktop browser.
+    Yes. Mobile browsers require three conditions to autoplay — `muted`, `playsinline`, and `loop` — all of which Voyager sets by default. As long as your MP4 has no embedded audio (or is silent) and is under 4 MB, it will autoplay on iOS Safari, Android Chrome, and every modern desktop browser.
   </Accordion>
 
   <Accordion title="How big should product images be?">
-    1500–2000 px on the longest edge, JPG q85. Shopify's image CDN serves resized variants on demand, but it can only downscale — uploading at 800 px and asking the CDN for 1600 px gives you an upscaled blur. Aim larger on upload, and Voyage will serve the right size at every breakpoint.
+    1500–2000 px on the longest edge, JPG q85. Shopify's image CDN serves resized variants on demand, but it can only downscale — uploading at 800 px and asking the CDN for 1600 px gives you an upscaled blur. Aim larger on upload, and Voyager will serve the right size at every breakpoint.
   </Accordion>
 
-  <Accordion title="Does Voyage support multi-currency and multi-language?">
-    Yes. Enable **Shopify Markets** in your admin → **Settings → Markets**. Voyage renders a currency picker and a language picker in the announcement bar and the header utilities. Prices format via Shopify's `money` filter, so currencies follow the shopper's chosen market.
+  <Accordion title="Does Voyager support multi-currency and multi-language?">
+    Yes. Enable **Shopify Markets** in your admin → **Settings → Markets**. Voyager renders a currency picker and a language picker in the announcement bar and the header utilities. Prices format via Shopify's `money` filter, so currencies follow the shopper's chosen market.
   </Accordion>
 
   <Accordion title="Why does my announcement bar show 'Currently sailing'?">
-    Default placeholder copy. Open the Theme Editor → **Header group** → **Announcement bar** → edit each **Message** block. Voyage rotates messages in a marquee — replace all four defaults with your own.
+    Default placeholder copy. Open the Theme Editor → **Header group** → **Announcement bar** → edit each **Message** block. Voyager rotates messages in a marquee — replace all four defaults with your own.
   </Accordion>
 
   <Accordion title="Can I have more than one collection on the homepage?">
@@ -35,7 +35,7 @@ A long list, grouped loosely from general → specific. If you're looking for a 
   </Accordion>
 
   <Accordion title="How do I show variant images on the PDP?">
-    In the Shopify admin, open the product → scroll to **Variants** → click each variant → upload or assign an image. Voyage's gallery swaps automatically when a variant is selected on the storefront.
+    In the Shopify admin, open the product → scroll to **Variants** → click each variant → upload or assign an image. Voyager's gallery swaps automatically when a variant is selected on the storefront.
   </Accordion>
 
   <Accordion title="How do I disable the cinematic page-transition curtain?">
@@ -48,7 +48,7 @@ A long list, grouped loosely from general → specific. If you're looking for a 
     Most performance regressions come from apps that load synchronous JavaScript and large CSS bundles on every page. Look for apps that ship theme app extensions (lazy-loaded by default) over apps that ask you to paste `<script>` tags into your theme code.
   </Accordion>
 
-  <Accordion title="Does Voyage support subscriptions?">
+  <Accordion title="Does Voyager support subscriptions?">
     Yes. The PDP includes a **Selling plans** block that works with Shopify Subscriptions and most third-party subscription apps (Recharge, Bold). Shoppers see a one-time / subscription toggle on the product page; the subscription is honored in the cart and at checkout.
   </Accordion>
 
@@ -57,22 +57,22 @@ A long list, grouped loosely from general → specific. If you're looking for a 
   </Accordion>
 
   <Accordion title="How do I migrate from another theme?">
-    1. **Install Voyage as unpublished.** The current theme keeps serving while you customize Voyage.
+    1. **Install Voyager as unpublished.** The current theme keeps serving while you customize Voyager.
     2. **Audit content.** Walk the homepage and product page templates. Most content (logo, copy, product images) carries over automatically; section-specific settings need re-entering.
-    3. **Decide Classic vs New customer accounts.** Voyage's customer pages only render under Classic. Switch in **Settings → Customer accounts**.
-    4. **Re-brand the Checkout.** Match your Checkout colors to Voyage — see [checkout branding](/customization/checkout-branding).
+    3. **Decide Classic vs New customer accounts.** Voyager's customer pages only render under Classic. Switch in **Settings → Customer accounts**.
+    4. **Re-brand the Checkout.** Match your Checkout colors to Voyager — see [checkout branding](/customization/checkout-branding).
     5. **Test on staging.** Use the preview URL Shopify generates for unpublished themes. Walk a full purchase flow.
-    6. **Publish.** Themes → Voyage → Publish.
+    6. **Publish.** Themes → Voyager → Publish.
   </Accordion>
 
   <Accordion title="Will theme updates overwrite my customizations?">
-    Theme Editor settings (the JSON in `templates/*.json` and `config/settings_data.json`) are preserved across theme updates. Code edits (changes to `.liquid` files, custom CSS, modified JavaScript) are not — they'll be overwritten if you re-install Voyage.
+    Theme Editor settings (the JSON in `templates/*.json` and `config/settings_data.json`) are preserved across theme updates. Code edits (changes to `.liquid` files, custom CSS, modified JavaScript) are not — they'll be overwritten if you re-install Voyager.
 
     If you've made code changes, fork the theme (duplicate it in your admin before applying updates) and merge changes manually.
   </Accordion>
 
   <Accordion title="Can customers leave reviews?">
-    Voyage doesn't include a native reviews engine — reviews are a category best handled by a dedicated app (Loox, Judge.me, Yotpo, Stamped). Install one, then add its app block on the PDP via **Add block** in the main-product section.
+    Voyager doesn't include a native reviews engine — reviews are a category best handled by a dedicated app (Loox, Judge.me, Yotpo, Stamped). Install one, then add its app block on the PDP via **Add block** in the main-product section.
   </Accordion>
 
   <Accordion title="How do I add a size guide?">
@@ -81,23 +81,23 @@ A long list, grouped loosely from general → specific. If you're looking for a 
     1. **Inline link.** Product template → **Variant picker** block → paste a URL in **Size guide link**. A small link appears alongside the size selector.
     2. **Modal.** Use the Custom Liquid block on the PDP to inject a "Size guide" button that opens a modal. Most third-party size-finder apps also expose a block.
 
-    Voyage also has a native **size finder helper** — a brand cross-reference tool. Toggle it on in the Variant picker block.
+    Voyager also has a native **size finder helper** — a brand cross-reference tool. Toggle it on in the Variant picker block.
   </Accordion>
 
-  <Accordion title="Is Voyage RTL-compatible?">
+  <Accordion title="Is Voyager RTL-compatible?">
     Yes. The body font default falls back to Tajawal in production, which supports Arabic, Hebrew, and other RTL scripts. Set **Theme settings → Typography → Body font** to a face that supports your language. Shopify Markets handles the RTL direction switching automatically.
   </Accordion>
 
-  <Accordion title="What font does Voyage use?">
-    Voyage's editorial production uses Tajawal for body, Italianno (or Playfair Display italic) for the script accent, and Playfair Display for headings. All three are picker-swappable in **Theme settings → Typography**.
+  <Accordion title="What font does Voyager use?">
+    Voyager's editorial production uses Tajawal for body, Italianno (or Playfair Display italic) for the script accent, and Playfair Display for headings. All three are picker-swappable in **Theme settings → Typography**.
   </Accordion>
 
   <Accordion title="Can I sell digital products?">
-    Yes. Create the product as usual, set its weight to zero, and disable shipping for the relevant shipping zones. Voyage renders the PDP the same way for physical and digital products. Pair with a digital delivery app (DigitalDownloads is Shopify's free first-party option) for the file delivery flow.
+    Yes. Create the product as usual, set its weight to zero, and disable shipping for the relevant shipping zones. Voyager renders the PDP the same way for physical and digital products. Pair with a digital delivery app (DigitalDownloads is Shopify's free first-party option) for the file delivery flow.
   </Accordion>
 
   <Accordion title="How do I add a press logo strip?">
-    Add a **Logo list** section to the homepage. **Add section → Logo list** → add a block per logo → upload each. Voyage renders them in a single row on desktop, two rows on tablet, scrolling carousel on mobile.
+    Add a **Logo list** section to the homepage. **Add section → Logo list** → add a block per logo → upload each. Voyager renders them in a single row on desktop, two rows on tablet, scrolling carousel on mobile.
   </Accordion>
 
   <Accordion title="How do I add a testimonial section?">
@@ -115,7 +115,7 @@ A long list, grouped loosely from general → specific. If you're looking for a 
     2. **Full.** Create a dedicated template — `templates/page.bespoke.liquid` — that renders a multi-step booking flow. This requires custom Liquid work.
   </Accordion>
 
-  <Accordion title="Does Voyage have a wishlist?">
+  <Accordion title="Does Voyager have a wishlist?">
     The heart icon on product cards saves favorites to `localStorage` by default — a per-browser, per-device list. For a persistent cross-device wishlist tied to a customer account, integrate a wishlist app (Wishlist Plus, Wishlist King). The hover button toggle in **Theme settings → Cards → Show wishlist hover button** controls the icon's visibility.
   </Accordion>
 
@@ -125,7 +125,7 @@ A long list, grouped loosely from general → specific. If you're looking for a 
     1. **Shopify Plus.** Plus stores can run multiple themes simultaneously via the Theme Library and serve them to different segments.
     2. **App.** Tools like Intelligems, Visually, and Convert work across all Shopify plans and let you A/B test by section or by URL.
 
-    Voyage's section-based architecture makes A/B testing easy — variants typically differ by which sections are enabled, not by code changes.
+    Voyager's section-based architecture makes A/B testing easy — variants typically differ by which sections are enabled, not by code changes.
   </Accordion>
 
   <Accordion title="Why is the cart drawer empty after I added a product?">
@@ -142,7 +142,7 @@ A long list, grouped loosely from general → specific. If you're looking for a 
   </Accordion>
 
   <Accordion title="Will the theme work on Shopify Basic plan?">
-    Yes. Every Voyage feature works on Basic. The only Shopify-side limitations: Plus-specific features (multiple themes, B2B catalog, Shopify Functions) aren't accessible, but Voyage doesn't depend on any of them.
+    Yes. Every Voyager feature works on Basic. The only Shopify-side limitations: Plus-specific features (multiple themes, B2B catalog, Shopify Functions) aren't accessible, but Voyager doesn't depend on any of them.
   </Accordion>
 
   <Accordion title="How do I add a video to the homepage?">
@@ -163,11 +163,11 @@ A long list, grouped loosely from general → specific. If you're looking for a 
   </Accordion>
 
   <Accordion title="Can I customize email templates?">
-    Yes, but not in the theme. Shopify admin → **Settings → Notifications**. Each transactional email (order confirmation, shipping, abandoned cart, customer welcome) is its own template, editable in HTML. Voyage doesn't ship branded email templates — these are a separate project.
+    Yes, but not in the theme. Shopify admin → **Settings → Notifications**. Each transactional email (order confirmation, shipping, abandoned cart, customer welcome) is its own template, editable in HTML. Voyager doesn't ship branded email templates — these are a separate project.
   </Accordion>
 
-  <Accordion title="Does Voyage work with Shop Pay?">
-    Yes. Shop Pay is a Shopify Payments feature, not a theme feature — once enabled in **Settings → Payments**, Voyage renders the Shop Pay button in the buy buttons area and the Shop Pay Installments banner on the price block (toggleable in the Price block settings).
+  <Accordion title="Does Voyager work with Shop Pay?">
+    Yes. Shop Pay is a Shopify Payments feature, not a theme feature — once enabled in **Settings → Payments**, Voyager renders the Shop Pay button in the buy buttons area and the Shop Pay Installments banner on the price block (toggleable in the Price block settings).
   </Accordion>
 
   <Accordion title="How do I get help if I'm stuck?">

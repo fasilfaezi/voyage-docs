@@ -1,6 +1,6 @@
 ---
 title: "Magnetic CTAs & custom cursor"
-description: "The two cursor-aware micro-interactions that give Voyage its tactile feel."
+description: "The two cursor-aware micro-interactions that give Voyager its tactile feel."
 ---
 
 Two small effects — a magnetic pull on call-to-action elements and a minimal custom cursor — make the storefront feel responsive in a way that's hard to articulate but easy to perceive. Both are toggleable, both are pointer-aware, and both gracefully disable on touch devices where they wouldn't make sense.
@@ -27,9 +27,9 @@ The numeric value of `data-magnetic` controls strength — the fraction of the c
 | `0.3` (default if only `.magnetic` class is used) | Pronounced, recommended for hero buttons |
 | `0.5+` | Theatrical — best reserved for full-bleed editorial moments |
 
-### Where Voyage applies it
+### Where Voyager applies it
 
-The default magnetic targets in Voyage:
+The default magnetic targets in Voyager:
 
 - The two hero CTAs (`Discover the collection` / `Read the studio note`)
 - The "Reveal my 15% code →" button in the offer popup
@@ -43,7 +43,7 @@ There's no theme setting to disable the effect globally — to remove it from a 
 
 ## Custom cursor
 
-On hover-capable devices, Voyage replaces the system cursor with a small dot and a subtle ring that follows your pointer with a slight lag. The lag gives the cursor a physical-feeling weight; the ring grows on hover targets and shrinks on the body.
+On hover-capable devices, Voyager replaces the system cursor with a small dot and a subtle ring that follows your pointer with a slight lag. The lag gives the cursor a physical-feeling weight; the ring grows on hover targets and shrinks on the body.
 
 ### Anatomy
 
@@ -56,7 +56,7 @@ The cursor flips with dark mode — on a dark theme, the dot and ring switch fro
 
 ### State changes via `data-cursor`
 
-Hover-target elements can change the cursor state by exposing a `data-cursor` attribute. Voyage uses two states:
+Hover-target elements can change the cursor state by exposing a `data-cursor` attribute. Voyager uses two states:
 
 | State | Dot | Ring | Where applied |
 |---|---|---|---|
@@ -67,7 +67,7 @@ If a `data-cursor` attribute is set to anything else (or unset), the cursor retu
 
 ### Touch & coarse-pointer behaviour
 
-On any device matching `(hover: none)` or `(pointer: coarse)` — phones, most tablets, touch-screen laptops — Voyage skips the cursor entirely. The standard system cursor is used, and the magnetic targets still work via touch (the elements just don't visibly track since there's no hovering pointer).
+On any device matching `(hover: none)` or `(pointer: coarse)` — phones, most tablets, touch-screen laptops — Voyager skips the cursor entirely. The standard system cursor is used, and the magnetic targets still work via touch (the elements just don't visibly track since there's no hovering pointer).
 
 ### Disabling
 
@@ -77,7 +77,7 @@ You can also disable it per-page by setting `data-cursor="off"` on the `<html>` 
 
 ## A note on combining the two
 
-Magnetic CTAs and the custom cursor work together: the cursor's ring grows over a hover target while the target itself drifts toward the cursor. The combined effect is what gives Voyage its tactile feel. Disabling one but not the other still works — the cursor recognises any `data-cursor` target, magnetic or not.
+Magnetic CTAs and the custom cursor work together: the cursor's ring grows over a hover target while the target itself drifts toward the cursor. The combined effect is what gives Voyager its tactile feel. Disabling one but not the other still works — the cursor recognises any `data-cursor` target, magnetic or not.
 
 ## What's next
 

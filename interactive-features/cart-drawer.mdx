@@ -3,7 +3,7 @@ title: "Cart drawer"
 description: "The slide-in cart — how it opens, refreshes, and renders accelerated checkout."
 ---
 
-The Voyage cart is a drawer by default — it slides in from the right edge on any cart-icon click, on any add-to-bag submission, and on the empty cart-icon click. It coexists with the full cart page at `/cart`; both share the same data and Liquid logic.
+The Voyager cart is a drawer by default — it slides in from the right edge on any cart-icon click, on any add-to-bag submission, and on the empty cart-icon click. It coexists with the full cart page at `/cart`; both share the same data and Liquid logic.
 
 ## Triggers
 
@@ -20,7 +20,7 @@ The drawer closes on backdrop click, on the close (`×`) button, on **Continue s
 
 ## How the live refresh works
 
-The cart drawer is server-rendered from the Liquid `{{ cart }}` object. To keep the displayed item count, prices, and discounts honest after every add, Voyage uses Shopify's **Section Rendering API**:
+The cart drawer is server-rendered from the Liquid `{{ cart }}` object. To keep the displayed item count, prices, and discounts honest after every add, Voyager uses Shopify's **Section Rendering API**:
 
 ```js
 // inside theme.js

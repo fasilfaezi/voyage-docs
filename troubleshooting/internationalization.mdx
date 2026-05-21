@@ -1,9 +1,9 @@
 ---
 title: "Internationalization"
-description: "Shopify Markets, multi-currency, multi-language, RTL, locale files, and money formatting in Voyage."
+description: "Shopify Markets, multi-currency, multi-language, RTL, locale files, and money formatting in Voyager."
 ---
 
-Voyage is built to be sold from anywhere to anywhere. The platform layer — Shopify Markets — handles currencies, languages, taxes, and routing. The theme layer renders the switchers and respects the shopper's choice across every page.
+Voyager is built to be sold from anywhere to anywhere. The platform layer — Shopify Markets — handles currencies, languages, taxes, and routing. The theme layer renders the switchers and respects the shopper's choice across every page.
 
 ## Shopify Markets setup
 
@@ -32,7 +32,7 @@ Markets is Shopify's name for the framework that ties together a country, a curr
 
 ## Multi-currency switching
 
-Once you've configured more than one currency, Voyage renders a currency switcher in the announcement bar (right side) and in the footer.
+Once you've configured more than one currency, Voyager renders a currency switcher in the announcement bar (right side) and in the footer.
 
 | Surface | Where it lives |
 |---|---|
@@ -48,13 +48,13 @@ Prices format via Shopify's `money` filter — which honors the shopper's chosen
 
 Same pattern as currency. After adding a second language in Markets:
 
-1. Voyage renders a language switcher in the announcement bar and footer.
+1. Voyager renders a language switcher in the announcement bar and footer.
 2. Translations are stored as `locales/[lang].json` files (e.g., `locales/fr.json`).
 3. Shopify's Translate & Adapt app (free, first-party) lets non-developers translate every storefront string in a friendly UI.
 
 ### Locale files
 
-Voyage ships with `locales/en.default.json` containing every translatable string the theme renders. To support a new language manually:
+Voyager ships with `locales/en.default.json` containing every translatable string the theme renders. To support a new language manually:
 
 <Steps>
   <Step title="Duplicate the English file">
@@ -77,9 +77,9 @@ For most stores, Shopify's **Translate & Adapt** app is faster than editing loca
 
 ## RTL support
 
-Voyage supports right-to-left languages (Arabic, Hebrew, Persian).
+Voyager supports right-to-left languages (Arabic, Hebrew, Persian).
 
-| What Voyage does | What it means |
+| What Voyager does | What it means |
 |---|---|
 | Sets `dir="rtl"` on `<html>` for RTL locales | Browser mirrors block-level layout automatically |
 | Uses CSS logical properties (`margin-inline-start`, etc.) | Flex and grid layouts mirror without overrides |
@@ -97,7 +97,7 @@ Shopify exposes two filters: `money` and `money_with_currency`.
 | `{{ product.price \| money }}` | `$45.00` |
 | `{{ product.price \| money_with_currency }}` | `$45.00 USD` |
 
-Voyage uses `money` everywhere — the currency code is appended automatically when **Theme settings → Currency → Show currency codes** is checked.
+Voyager uses `money` everywhere — the currency code is appended automatically when **Theme settings → Currency → Show currency codes** is checked.
 
 Format itself is controlled by the shop's currency settings in **Settings → Currency**. Most stores leave this on the default. If you want to override (e.g., always use European spacing — `45,00 €` even for USD), use Shopify's HTML format override: **Settings → Currency** → **Change formatting**.
 
@@ -126,7 +126,7 @@ To customize:
 
 <AccordionGroup>
   <Accordion title="My language switcher shows but the page doesn't translate">
-    The locale file is missing. Voyage falls back to English if the requested language's locale file doesn't exist. Check `locales/` for the file matching the language code.
+    The locale file is missing. Voyager falls back to English if the requested language's locale file doesn't exist. Check `locales/` for the file matching the language code.
   </Accordion>
 
   <Accordion title="Prices look wrong in the cart drawer">
@@ -138,7 +138,7 @@ To customize:
   </Accordion>
 
   <Accordion title="One section ignores RTL mirroring">
-    Likely a section that uses absolute positioning or hand-rolled margins instead of logical properties. Voyage's native sections all use logical properties; if you've added custom sections, audit their CSS.
+    Likely a section that uses absolute positioning or hand-rolled margins instead of logical properties. Voyager's native sections all use logical properties; if you've added custom sections, audit their CSS.
   </Accordion>
 </AccordionGroup>
 

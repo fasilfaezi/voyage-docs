@@ -1,6 +1,6 @@
 ---
 title: "Common issues"
-description: "Twenty-plus fixes for the questions Voyage merchants run into most often."
+description: "Twenty-plus fixes for the questions Voyager merchants run into most often."
 ---
 
 If something isn't behaving the way you expect, scan the list below. Each accordion is a self-contained answer — open the one closest to your symptom.
@@ -9,7 +9,7 @@ If something isn't behaving the way you expect, scan the list below. Each accord
   <Accordion title="My logo doesn't show in the header">
     Two possible causes.
 
-    1. **The logo wasn't uploaded.** Theme settings → **Logo** → check both **Logo (default / navy variant)** and **Logo (light variant for dark backgrounds)**. If both are empty, Voyage falls back to the shop name in Playfair Display.
+    1. **The logo wasn't uploaded.** Theme settings → **Logo** → check both **Logo (default / navy variant)** and **Logo (light variant for dark backgrounds)**. If both are empty, Voyager falls back to the shop name in Playfair Display.
 
     2. **Only the light variant is uploaded.** The default variant is what shows on the cream page background and on most pages. The light variant only shows on the navy hero overlay. If you've uploaded one but not the other, the missing variant falls back to the wordmark.
 
@@ -17,13 +17,13 @@ If something isn't behaving the way you expect, scan the list below. Each accord
   </Accordion>
 
   <Accordion title="Hero video isn't playing on mobile">
-    Mobile autoplay only works under three conditions, all of which Voyage sets by default. If one is broken upstream, autoplay fails silently.
+    Mobile autoplay only works under three conditions, all of which Voyager sets by default. If one is broken upstream, autoplay fails silently.
 
-    1. **Muted.** Voyage adds `muted` to every hero video. If you re-encode the MP4 with embedded audio and then strip the attribute, autoplay breaks. Keep the file silent or muted.
-    2. **Playsinline.** Voyage adds `playsinline` so iOS doesn't fullscreen the video. Don't remove this attribute.
+    1. **Muted.** Voyager adds `muted` to every hero video. If you re-encode the MP4 with embedded audio and then strip the attribute, autoplay breaks. Keep the file silent or muted.
+    2. **Playsinline.** Voyager adds `playsinline` so iOS doesn't fullscreen the video. Don't remove this attribute.
     3. **Supported format.** MP4 (H.264 / AAC) and WebM are universally supported. AVI, MOV, and HEVC are not.
 
-    File size matters too. Voyage caps hero videos at 4 MB before warning the merchant. Over that, mobile data connections may stall the load and skip autoplay entirely.
+    File size matters too. Voyager caps hero videos at 4 MB before warning the merchant. Over that, mobile data connections may stall the load and skip autoplay entirely.
   </Accordion>
 
   <Accordion title="Cart drawer won't open">
@@ -33,11 +33,11 @@ If something isn't behaving the way you expect, scan the list below. Each accord
     2. If nothing happens, open browser DevTools → **Network**. Click the cart icon again.
     3. Look for a request to `/?sections=cart-drawer`. If it returns 4xx or 5xx, your store is rate-limited or the section doesn't exist.
 
-    Fix: check that **`sections/cart-drawer.liquid`** (or the section referenced in `theme.js`) is present in your theme. If you've deleted it, re-add from the Voyage source. If the request is being blocked by a security app, allowlist the path.
+    Fix: check that **`sections/cart-drawer.liquid`** (or the section referenced in `theme.js`) is present in your theme. If you've deleted it, re-add from the Voyager source. If the request is being blocked by a security app, allowlist the path.
   </Accordion>
 
   <Accordion title="Customer pages look like generic Shopify pages">
-    You're on **New customer accounts**, which renders Shopify-hosted pages instead of your theme's templates. Voyage's `customers/*.liquid` templates only render under **Classic customer accounts**.
+    You're on **New customer accounts**, which renders Shopify-hosted pages instead of your theme's templates. Voyager's `customers/*.liquid` templates only render under **Classic customer accounts**.
 
     Switch in **Settings → Customer accounts** → **Accounts version**. Classic is the version that uses your theme.
   </Accordion>
@@ -51,14 +51,14 @@ If something isn't behaving the way you expect, scan the list below. Each accord
   <Accordion title="Theme styles dropdown only shows Default">
     A `settings_data.json` issue. The three named theme styles (Editorial Navy / Warm Cream / Minimal Monochrome) are encoded as presets. If only one shows, your `settings_data.json` is missing the `presets` key.
 
-    Fix: re-upload `config/settings_data.json` from the Voyage source. The file is overwritten safely — your other settings are stored separately.
+    Fix: re-upload `config/settings_data.json` from the Voyager source. The file is overwritten safely — your other settings are stored separately.
   </Accordion>
 
   <Accordion title="Magnetic CTAs not working">
     The magnetic effect — buttons that follow the cursor on hover — is wired in `assets/theme.js`. If buttons aren't reacting:
 
     1. **Asset URL.** Confirm `assets/theme.js` is being loaded by checking `layout/theme.liquid` for `{{ 'theme.js' | asset_url | script_tag }}`.
-    2. **Prefers reduced motion.** macOS and iOS both expose this OS-level preference. Voyage respects it — magnetic CTAs are disabled for visitors who have reduced motion turned on.
+    2. **Prefers reduced motion.** macOS and iOS both expose this OS-level preference. Voyager respects it — magnetic CTAs are disabled for visitors who have reduced motion turned on.
     3. **Touch devices.** Magnetic only fires on cursor-based devices. Phones and tablets get a tap state instead.
   </Accordion>
 
@@ -77,11 +77,11 @@ If something isn't behaving the way you expect, scan the list below. Each accord
     2. Open the **Network** panel, filter to **Img**, and sort by size.
     3. Anything over 200 KB on first load is suspect. Hero posters can run 300–500 KB; everything else should be lighter.
 
-    Fix: re-export from your image source at JPG q85, max 1800 px on the longest edge. Voyage uses `image_url` with explicit width hints so Shopify can serve smaller sources to smaller viewports — but only if the upload itself isn't oversized.
+    Fix: re-export from your image source at JPG q85, max 1800 px on the longest edge. Voyager uses `image_url` with explicit width hints so Shopify can serve smaller sources to smaller viewports — but only if the upload itself isn't oversized.
   </Accordion>
 
   <Accordion title="Color contrast fails in dark mode">
-    The most common cause: a muted-text token that read fine on cream becomes illegible on charcoal. Voyage uses `color_muted` (default `#565E6B`) across both light and dark modes — the same hex.
+    The most common cause: a muted-text token that read fine on cream becomes illegible on charcoal. Voyager uses `color_muted` (default `#565E6B`) across both light and dark modes — the same hex.
 
     Fix: pick a muted color with a contrast ratio of at least 4.5:1 against both your light and dark backgrounds. `#6B7280` (Tailwind gray-500) is a safe middle ground.
   </Accordion>
@@ -133,13 +133,13 @@ If something isn't behaving the way you expect, scan the list below. Each accord
   </Accordion>
 
   <Accordion title="PDP variant images not swapping">
-    Voyage swaps gallery images when a variant is selected — but only if each variant has at least one image assigned in **Products → [product] → Variants**.
+    Voyager swaps gallery images when a variant is selected — but only if each variant has at least one image assigned in **Products → [product] → Variants**.
 
     Fix: open the product in the admin → scroll to the **Variants** table → click each variant → upload or pick an image. The gallery now swaps on the storefront.
   </Accordion>
 
   <Accordion title="Newsletter form not submitting">
-    Voyage's newsletter form posts to Shopify's customer-creation endpoint with a `marketing_opt_in` flag. If submissions silently fail:
+    Voyager's newsletter form posts to Shopify's customer-creation endpoint with a `marketing_opt_in` flag. If submissions silently fail:
 
     1. **Customer notifications.** Check **Settings → Notifications** → confirm "Customer welcome" and "Customer account invite" are enabled.
     2. **Spam filter.** Test with a clean email address.
@@ -147,7 +147,7 @@ If something isn't behaving the way you expect, scan the list below. Each accord
   </Accordion>
 
   <Accordion title="404 page not found">
-    If visiting `/404` returns a generic Shopify 404 instead of Voyage's branded one, you're missing the template.
+    If visiting `/404` returns a generic Shopify 404 instead of Voyager's branded one, you're missing the template.
 
     Fix: confirm `templates/404.json` and `sections/main-404.liquid` both exist. The JSON template references the section; if either is missing, Shopify falls back to the platform default.
   </Accordion>

@@ -3,13 +3,13 @@ title: "Gift card"
 description: "The issued-gift-card template — a standalone passport with QR, Apple Wallet pass, and print."
 ---
 
-The gift card template (`templates/gift_card.liquid`) is the one storefront-facing page in Voyage that does **not** inherit `theme.liquid`. It's a complete standalone HTML document, designed to look like a tangible certificate when printed and to function as a wallet-ready pass on a phone.
+The gift card template (`templates/gift_card.liquid`) is the one storefront-facing page in Voyager that does **not** inherit `theme.liquid`. It's a complete standalone HTML document, designed to look like a tangible certificate when printed and to function as a wallet-ready pass on a phone.
 
 ## Why it's standalone
 
 Shopify renders the gift card template at a unique URL — `/account/gift_cards/[token]` — that the customer reaches from their issuance email. It's a closed-loop, single-purpose page: no nav, no footer, no cart drawer, no curtain transition. The standalone document avoids loading any of that infrastructure and keeps the page render light enough to feel like opening a paper certificate.
 
-The template emits its own `<head>` block (with `meta robots noindex, nofollow`), pulls in only the two stylesheets needed to inherit Voyage's typography and color tokens (`styles.css` and `premium.css`), and ships all of its own layout CSS inline.
+The template emits its own `<head>` block (with `meta robots noindex, nofollow`), pulls in only the two stylesheets needed to inherit Voyager's typography and color tokens (`styles.css` and `premium.css`), and ships all of its own layout CSS inline.
 
 ## Layout
 
@@ -44,13 +44,13 @@ The page handles three states:
 
 ## Apple Wallet pass
 
-Shopify auto-generates an Apple Wallet pass for every gift card and exposes the URL at `gift_card.pass_url`. When that URL is available, Voyage renders an "Add to Apple Wallet" button. Tapping the button on iOS opens the Wallet add-pass flow.
+Shopify auto-generates an Apple Wallet pass for every gift card and exposes the URL at `gift_card.pass_url`. When that URL is available, Voyager renders an "Add to Apple Wallet" button. Tapping the button on iOS opens the Wallet add-pass flow.
 
 The pass carries the same code and balance, and stays in sync if the balance changes.
 
 ## Code formatting
 
-The `format_code` filter is a Shopify-built filter that takes a raw gift card code (e.g. `ABCD1234WXYZ5678`) and renders it grouped for legibility (`ABCD 1234 WXYZ 5678`). Voyage uses it both in the code input and in the QR code's aria-label.
+The `format_code` filter is a Shopify-built filter that takes a raw gift card code (e.g. `ABCD1234WXYZ5678`) and renders it grouped for legibility (`ABCD 1234 WXYZ 5678`). Voyager uses it both in the code input and in the QR code's aria-label.
 
 ## Print
 
@@ -58,7 +58,7 @@ The Print button calls `window.print()`. The template's standalone document and 
 
 ## Typography
 
-The standalone CSS uses Voyage's design tokens (`var(--paper)`, `var(--ink)`, `var(--navy)`, `var(--muted)`, `var(--hairline)`, `var(--f-script)`, `var(--f-sans)`, `var(--ease)`) — so the gift card automatically inherits the merchant's color and font settings without any extra wiring.
+The standalone CSS uses Voyager's design tokens (`var(--paper)`, `var(--ink)`, `var(--navy)`, `var(--muted)`, `var(--hairline)`, `var(--f-script)`, `var(--f-sans)`, `var(--ease)`) — so the gift card automatically inherits the merchant's color and font settings without any extra wiring.
 
 ## Customizing
 
@@ -70,7 +70,7 @@ Because `gift_card.liquid` is Liquid (not JSON), edits happen in the code editor
 - **Change the QR size** — `gift-card__qr img { width: 140px; height: 140px; }` (line 101).
 
 <Note>
-  Shopify's Theme Store policy requires that every shipped theme include a gift card template that displays the code, a QR code at minimum 120×120, an Apple Wallet pass link, and the logo or `shop.name`. Voyage's default ships all four — don't remove them.
+  Shopify's Theme Store policy requires that every shipped theme include a gift card template that displays the code, a QR code at minimum 120×120, an Apple Wallet pass link, and the logo or `shop.name`. Voyager's default ships all four — don't remove them.
 </Note>
 
 ## What's next

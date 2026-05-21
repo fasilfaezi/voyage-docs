@@ -1,20 +1,20 @@
 ---
 title: "Templates overview"
-description: "Every Voyage template at a glance — JSON, Liquid, default sections, and how alternate templates are assigned."
+description: "Every Voyager template at a glance — JSON, Liquid, default sections, and how alternate templates are assigned."
 ---
 
-Voyage is fully **Online Store 2.0**. Almost every page is a JSON template that composes sections — meaning a merchant can reorder, add, remove, or restyle any block in the Theme Editor without touching code. Two templates remain Liquid by necessity: the gift card (which renders outside the standard `theme.liquid` shell) and the predictive search endpoint (which returns JSON to the storefront's predictive-search island).
+Voyager is fully **Online Store 2.0**. Almost every page is a JSON template that composes sections — meaning a merchant can reorder, add, remove, or restyle any block in the Theme Editor without touching code. Two templates remain Liquid by necessity: the gift card (which renders outside the standard `theme.liquid` shell) and the predictive search endpoint (which returns JSON to the storefront's predictive-search island).
 
 ## JSON vs Liquid
 
-| Format | When Voyage uses it | What you can do in the Editor |
+| Format | When Voyager uses it | What you can do in the Editor |
 |---|---|---|
 | **JSON template** | Every storefront page — home, product, collection, cart, blog, customer pages. | Reorder sections, add or remove any section from the library, edit every block setting, change section visibility. |
 | **Liquid template** | Gift card (`gift_card.liquid`), predictive search endpoint (`search.json.liquid`). | Edit only by editing the file in the code editor. These are intentionally fixed — they ship with a complete, standalone document. |
 
 ## The 24 templates
 
-Voyage ships with twenty-four template files spanning storefront, customer, system, and alternate-page routes.
+Voyager ships with twenty-four template files spanning storefront, customer, system, and alternate-page routes.
 
 <CardGroup cols={2}>
   <Card title="Homepage" href="/templates/homepage" icon="house">
@@ -79,14 +79,14 @@ Strictly twenty-three discrete files; the gift card is counted once. Shopify als
 
 ## Assigning alternate templates
 
-Voyage ships three alternate `page.*` templates designed for specific editorial layouts — an About / Heritage page, a Lookbook gallery, and a Contact form. To use them, the merchant assigns the template on a per-page basis in admin.
+Voyager ships three alternate `page.*` templates designed for specific editorial layouts — an About / Heritage page, a Lookbook gallery, and a Contact form. To use them, the merchant assigns the template on a per-page basis in admin.
 
 <Steps>
   <Step title="Create the page in admin">
     **Online Store → Pages → Add page.** Give it a title (for example "Heritage" or "Lookbook").
   </Step>
   <Step title="Pick the template in the sidebar">
-    On the right side of the page editor, find the **Theme template** dropdown. Voyage's alternate templates appear there: `page.about`, `page.lookbook`, `page.contact`.
+    On the right side of the page editor, find the **Theme template** dropdown. Voyager's alternate templates appear there: `page.about`, `page.lookbook`, `page.contact`.
   </Step>
   <Step title="Save, then customize in the Theme Editor">
     Once saved, open the page in the Theme Editor. The sections defined in `page.about.json`, `page.lookbook.json`, or `page.contact.json` are now editable for that one page.
@@ -97,10 +97,10 @@ The default `page.json` template stays in place for every other page — terms o
 
 ## A note on customer accounts
 
-Shopify offers two customer-account modes: **Classic** and **New customer accounts**. Voyage ships seven editorial templates for the Classic experience. If the merchant switches to New customer accounts in admin, Shopify takes over rendering and Voyage's templates no longer appear. The trade-off is covered in detail on the [Customer pages](/templates/customer-pages) page.
+Shopify offers two customer-account modes: **Classic** and **New customer accounts**. Voyager ships seven editorial templates for the Classic experience. If the merchant switches to New customer accounts in admin, Shopify takes over rendering and Voyager's templates no longer appear. The trade-off is covered in detail on the [Customer pages](/templates/customer-pages) page.
 
 <Note>
-  Voyage's templates ship pre-wired with sensible defaults — most merchants never need to edit JSON directly. Everything that lives in a JSON template can be reordered, toggled, or replaced from the Theme Editor.
+  Voyager's templates ship pre-wired with sensible defaults — most merchants never need to edit JSON directly. Everything that lives in a JSON template can be reordered, toggled, or replaced from the Theme Editor.
 </Note>
 
 ## What's next

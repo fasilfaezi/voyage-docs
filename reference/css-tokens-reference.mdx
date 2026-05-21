@@ -1,9 +1,9 @@
 ---
 title: "CSS tokens reference"
-description: "Every CSS custom property Voyage defines — brand palette, schemes, typography, layout, motion."
+description: "Every CSS custom property Voyager defines — brand palette, schemes, typography, layout, motion."
 ---
 
-Voyage defines its design tokens as CSS custom properties on the `:root` selector. Two files publish them:
+Voyager defines its design tokens as CSS custom properties on the `:root` selector. Two files publish them:
 
 1. **`layout/theme.liquid`** — emits tokens driven by `settings_schema.json`, so the merchant's Theme Editor choices become CSS variables at render time.
 2. **`assets/styles.css`** — emits the literal fallback tokens that ship with the theme, used when a setting hasn't been customized.
@@ -163,7 +163,7 @@ This means a merchant changing `color_primary` in the Theme Editor instantly upd
 
 ## Dark mode
 
-Voyage's dark mode is opt-in via the `data-theme="dark"` attribute on `<html>`. When set, the `--surface` and `--ink` tokens flip:
+Voyager's dark mode is opt-in via the `data-theme="dark"` attribute on `<html>`. When set, the `--surface` and `--ink` tokens flip:
 
 | Token | Light mode | Dark mode |
 |---|---|---|

@@ -1,9 +1,9 @@
 ---
 title: "JavaScript API"
-description: "Voyage's public JavaScript surface — global functions, custom events, and data-attribute hooks."
+description: "Voyager's public JavaScript surface — global functions, custom events, and data-attribute hooks."
 ---
 
-Voyage ships a small public JavaScript API designed for advanced merchants and app developers. Every entry point is either a global function on `window`, a custom event dispatched on a known element, or a `data-*` attribute that triggers behavior when added to any element.
+Voyager ships a small public JavaScript API designed for advanced merchants and app developers. Every entry point is either a global function on `window`, a custom event dispatched on a known element, or a `data-*` attribute that triggers behavior when added to any element.
 
 The theme is deliberately framework-free — vanilla JS, no build step — so you can call into it from any inline script, any Shopify app, or any custom snippet you add via the **Custom Liquid** block.
 
@@ -40,7 +40,7 @@ Defined in: `assets/theme.js`.
 
 ## Custom events
 
-Voyage's JavaScript is bound primarily through DOM event delegation rather than CustomEvent dispatch — most behavior is keyed off click events on elements with specific `data-*` attributes. The one notable dispatched event:
+Voyager's JavaScript is bound primarily through DOM event delegation rather than CustomEvent dispatch — most behavior is keyed off click events on elements with specific `data-*` attributes. The one notable dispatched event:
 
 | Event | Where | Purpose |
 |---|---|---|
@@ -50,7 +50,7 @@ For most custom integrations, the better pattern is to call `window.refreshCart(
 
 ## Data-attribute hooks
 
-Voyage uses `data-*` attributes extensively to bind behavior to markup. Adding any of these attributes to your own markup (in a Custom Liquid block, in a section template, or via an app) wires the element into Voyage's JavaScript automatically.
+Voyager uses `data-*` attributes extensively to bind behavior to markup. Adding any of these attributes to your own markup (in a Custom Liquid block, in a section template, or via an app) wires the element into Voyager's JavaScript automatically.
 
 ### Cart drawer
 

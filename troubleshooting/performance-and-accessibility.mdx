@@ -1,13 +1,13 @@
 ---
 title: "Performance and accessibility"
-description: "What's built into Voyage, what merchants control, and how to keep both healthy after going live."
+description: "What's built into Voyager, what merchants control, and how to keep both healthy after going live."
 ---
 
-Voyage ships with a considered baseline for performance and accessibility. Most of the heavy lifting is invisible — it happens at the markup and asset-loading layer. The merchant's job is to not undo it.
+Voyager ships with a considered baseline for performance and accessibility. Most of the heavy lifting is invisible — it happens at the markup and asset-loading layer. The merchant's job is to not undo it.
 
 ## What's built in
 
-The Voyage codebase is opinionated about how to be fast and accessible.
+The Voyager codebase is opinionated about how to be fast and accessible.
 
 ### Performance
 
@@ -18,7 +18,7 @@ The Voyage codebase is opinionated about how to be fast and accessible.
 | **LCP preload hints** | The hero poster image is preloaded via `<link rel="preload">` so the LCP element renders in the first paint cycle. |
 | **Deferred non-critical assets** | `theme.js`, `pdp.js`, and section-specific scripts are deferred. The above-the-fold CSS is inlined; the rest is loaded async. |
 | **Section Rendering API** | Cart updates re-render only the cart drawer section, not the whole page. The same applies to filter changes on the collection page. |
-| **Image CDN sizing** | Voyage's image helpers emit `srcset` with three widths per image, so the browser picks the smallest viable file for the viewport. |
+| **Image CDN sizing** | Voyager's image helpers emit `srcset` with three widths per image, so the browser picks the smallest viable file for the viewport. |
 | **No build step** | No bundler, no `node_modules`. Liquid renders directly. The HTTP request count is low, the bundle is intentionally small. |
 
 ### Accessibility
@@ -32,7 +32,7 @@ The Voyage codebase is opinionated about how to be fast and accessible.
 | **WCAG-AA contrast** | The default color schemes all pass 4.5:1 contrast for body text and 3:1 for large text. |
 | **ARIA on interactive widgets** | The cart drawer, the offer popup, the search panel, the quick-view modal, and the variant picker all expose correct `aria-*` attributes. |
 | **Reduced-motion respect** | Magnetic cursor effects, scroll reveals, blur-to-clear, and the page-transition curtain all defer to the OS-level `prefers-reduced-motion: reduce` query. |
-| **Alt text on images** | Voyage uses each image's Shopify alt attribute. Empty alt is used for purely decorative images (logo lockups, hero overlays). |
+| **Alt text on images** | Voyager uses each image's Shopify alt attribute. Empty alt is used for purely decorative images (logo lockups, hero overlays). |
 
 ## What merchants control
 
@@ -40,7 +40,7 @@ The merchant decides four things that drive most performance scores.
 
 ### Image weight
 
-Voyage's image helpers serve the right size — but only from the source you uploaded. A 5 MB hero JPG can't become a 200 KB one through CDN magic.
+Voyager's image helpers serve the right size — but only from the source you uploaded. A 5 MB hero JPG can't become a 200 KB one through CDN magic.
 
 | Asset | Target |
 |---|---|
@@ -56,7 +56,7 @@ Re-export from your image source with q85 (not q100) and the LCP usually drops b
 
 MP4 is universally supported. WebM is smaller for equivalent quality but isn't supported on older iOS. For hero use, MP4 is the safest choice.
 
-Voyage doesn't transcode video — what you upload is what gets served. If your video is 12 MB, that's the file every mobile visitor downloads.
+Voyager doesn't transcode video — what you upload is what gets served. If your video is 12 MB, that's the file every mobile visitor downloads.
 
 ### Color choices
 
@@ -113,7 +113,7 @@ Lighthouse scores aren't pass/fail — they're targets.
 | 60–74 | Acceptable. Probably one heavy asset or one heavy app. |
 | Below 60 | Investigate. Usually a single large file (hero video, app bundle) is the cause. |
 
-Voyage's reference home page scores **65–80 on mobile performance** and **95–100 on accessibility** under default content. After replacing demo assets with merchant-supplied content, scores typically stay in that range — or improve, if the merchant ships smaller assets than the demo.
+Voyager's reference home page scores **65–80 on mobile performance** and **95–100 on accessibility** under default content. After replacing demo assets with merchant-supplied content, scores typically stay in that range — or improve, if the merchant ships smaller assets than the demo.
 
 ## Target scores
 

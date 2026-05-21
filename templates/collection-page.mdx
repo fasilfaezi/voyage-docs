@@ -33,7 +33,7 @@ The default JSON is intentionally minimal — every setting on `main-collection`
 
 ## Chip nav
 
-The chip nav is a horizontal scrollable list of category labels. The default labels match the Voyage demo catalog vocabulary; merchants override per-vertical via the `chip_labels` setting (comma-separated string).
+The chip nav is a horizontal scrollable list of category labels. The default labels match the Voyager demo catalog vocabulary; merchants override per-vertical via the `chip_labels` setting (comma-separated string).
 
 <ParamField path="show_chip_nav" type="checkbox" default="true" />
 <ParamField path="chip_labels" type="text" default="All Pieces,Shirts,Trousers,Shorts,Knitwear,Outerwear,Accessories">
@@ -44,9 +44,9 @@ Each chip links to `/collections/all?type={chip}` — meaning chips filter Shopi
 
 ## Filter sidebar
 
-The sidebar is driven by Shopify's Storefront API filters — configured in admin under **Online Store → Navigation → Filters**. Voyage renders three filter types differently:
+The sidebar is driven by Shopify's Storefront API filters — configured in admin under **Online Store → Navigation → Filters**. Voyager renders three filter types differently:
 
-| Filter type | Voyage render |
+| Filter type | Voyager render |
 |---|---|
 | `list` (Color / Colour) | Circular color swatches in a horizontal row. |
 | `list` (Size) | Pill-style size chips in a horizontal row. |

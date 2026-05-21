@@ -3,7 +3,7 @@ title: "Offer popup"
 description: "A three-stage email/SMS capture modal — persuasion, capture, then the reward code."
 ---
 
-Voyage's offer popup is a small, considered conversion surface. It's intentionally not a generic "10% off!" overlay — it's framed editorially ("First voyage, fifteen percent.") and stages the conversion in three deliberate steps that mirror how a fashion-led brand would speak to a first-time visitor.
+Voyager's offer popup is a small, considered conversion surface. It's intentionally not a generic "10% off!" overlay — it's framed editorially ("First voyage, fifteen percent.") and stages the conversion in three deliberate steps that mirror how a fashion-led brand would speak to a first-time visitor.
 
 The popup is gated behind a sessionStorage flag, fires once per session on the home page only, and is dismissible at every step.
 
@@ -12,7 +12,7 @@ The popup is gated behind a sessionStorage flag, fires once per session on the h
 | Page | Behaviour |
 |---|---|
 | **Home page** | Triggers when the visitor has scrolled past the hero (one full viewport height down). Fires once per session. |
-| **Any other page** | Triggers after one viewport of scroll on pages without a hero — but Voyage's other templates rarely include the popup snippet, so in practice it's home-only by default. |
+| **Any other page** | Triggers after one viewport of scroll on pages without a hero — but Voyager's other templates rarely include the popup snippet, so in practice it's home-only by default. |
 
 The trigger uses a scroll listener. Once the threshold is crossed, the popup opens, the scroll listener becomes inert, and the body's `overflow` is locked to `hidden` so the popup feels modal.
 
@@ -41,7 +41,7 @@ First-voyage subscribers only.
 15% won't appear again on this visit.   No thanks
 ```
 
-The headline uses the Voyage script-and-serif typography. The asterisk and "won't appear again on this visit" copy lean into the loss-aversion principle — once the visitor declines, the dismissal is persisted to `sessionStorage` so the claim is honest.
+The headline uses the Voyager script-and-serif typography. The asterisk and "won't appear again on this visit" copy lean into the loss-aversion principle — once the visitor declines, the dismissal is persisted to `sessionStorage` so the claim is honest.
 
 The primary CTA ("Reveal my 15% code →") commits the visitor to the small first "yes" — the psychological foot-in-the-door that makes the second-stage email field feel less like a transactional cost.
 
@@ -105,7 +105,7 @@ The dismissal copy ("15% won't appear again on this visit") is honest because of
 
 ## Performance handling
 
-The popup includes a `9:16` video in the media frame. The video file is large (~7.9 MB) and would otherwise drag down the home-page LCP. Voyage handles this with lazy attachment:
+The popup includes a `9:16` video in the media frame. The video file is large (~7.9 MB) and would otherwise drag down the home-page LCP. Voyager handles this with lazy attachment:
 
 - The `<video>` element ships with `data-lazy-src` instead of `src`
 - The hidden poster image ships with `data-lazy-src` too
