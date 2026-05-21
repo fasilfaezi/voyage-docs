@@ -1,0 +1,167 @@
+---
+title: "Custom & advanced"
+description: "Custom Liquid section, custom Liquid blocks, and the @app block type for Shopify app embeds."
+---
+
+Two tools let merchants extend Voyage beyond its built-in vocabulary: the **Custom Liquid** section (and the matching block inside `main-product` / `featured-product`), and the **`@app` block type** that hosts Shopify app blocks.
+
+Together they cover three needs:
+
+| Need | Tool |
+|---|---|
+| Drop arbitrary Liquid / HTML / CSS / JS on any page | Custom Liquid section |
+| Drop arbitrary code into the PDP buy column | `custom_liquid` block inside `main-product` |
+| Embed a Shopify app's official app block | `@app` block type inside `main-product` / `featured-product` |
+
+---
+
+## Custom Liquid (section) — `sections/custom-liquid.liquid`
+
+Insertable Liquid section. The merchant types arbitrary code into the schema setting and the section renders it as-is. Useful for app snippets that don't ship as app blocks, one-off embeds (calendar widgets, third-party players, custom JSON-LD), or quick per-page edits the merchant doesn't want a dedicated section for.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Content
+
+<ParamField path="custom_liquid" type="liquid">
+  Arbitrary Liquid, HTML, CSS, or JS. Rendered inside a `<section class="custom-liquid">` wrapper with the merchant-set padding.
+</ParamField>
+
+#### Layout
+
+<ParamField path="top_padding" type="range" default="40">
+  Top padding in pixels. Range 0–200, step 4.
+</ParamField>
+<ParamField path="bottom_padding" type="range" default="40">
+  Bottom padding in pixels.
+</ParamField>
+<ParamField path="bg_color" type="color">
+  Section background color. Optional.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Reach for Custom Liquid when:
+
+- **An app doesn't have an app block** — many older Shopify apps still ship a Liquid snippet. Paste it here instead of editing theme files.
+- **You need a one-off embed** — a Calendly widget, a YouTube playlist player, a third-party reviews badge.
+- **You want to drop custom JSON-LD** on a page (alongside the page's own structured data).
+- **A merchant is comfortable with code** and wants to extend the storefront without theme edits.
+
+<Warning>
+  Custom Liquid is a power tool. Code typed into the setting runs against the live storefront — broken code can break a page. Test edits in a draft theme first, especially for any code that includes `<script>` blocks.
+</Warning>
+
+For Shopify apps that ship official app blocks, use `@app` instead (see below).
+
+---
+
+## Custom Liquid (PDP block) — inside `main-product`
+
+The `main-product` and `featured-product` sections each accept a `custom_liquid` block, identical in behavior to the section above but rendered **inside the buy column**. Lets merchants drop product-page-specific code (a reviews widget, a "made in" badge, a custom variant note) without needing a full section.
+
+### Block settings
+
+<ParamField path="custom_liquid" type="liquid">
+  Arbitrary Liquid / HTML / CSS / JS. Rendered as-is inside a `<div class="pdp__custom-liquid">` wrapper.
+</ParamField>
+
+### When to use
+
+Anything that needs to sit between the product's price, variant picker, accordion, etc. Common patterns:
+
+- **Trust badges** — "Made in Italy" or "B Corp certified" with a custom SVG.
+- **Stock-level snippets** — "Only 3 left in this size" from a third-party inventory app.
+- **One-off reviews badges** — when the reviews app doesn't ship a dedicated app block.
+
+The block is repeatable (no `limit` in the schema), so a merchant can drop multiple custom Liquid blocks at different positions in the buy column.
+
+---
+
+## App blocks — `@app` block type
+
+The `@app` block type is Shopify's standard mechanism for letting installed apps inject UI into your sections. When a merchant installs an app that has an app block targeted at the product page, that block becomes available in the **Add block** menu of `main-product` (or `featured-product`) alongside Voyage's built-in blocks.
+
+### Where `@app` is enabled
+
+The `@app` block type is declared in the schemas of these sections:
+
+| Section | File |
+|---|---|
+| Product | `main-product.liquid` |
+| Featured product | `featured-product.liquid` |
+
+This means a merchant can add Shopify app blocks to the PDP buy column (and any featured-product showcase) but not to, say, the cart or collection pages — Shopify's app block system requires the section to opt-in by declaring `{ "type": "@app" }` in its block list.
+
+### How merchants add an app block
+
+1. Install an app that ships an app block for the product page (most reviews apps, subscription apps, currency converters, and "frequently bought together" apps do).
+2. In the Theme Editor, open the product template and click **Add block** inside the `Product` section.
+3. Apps with available app blocks appear in the picker list. Click to add — the block appears in the buy column and the merchant can drag it into the desired position.
+
+### What renders
+
+When an `@app` block is added, Voyage renders it inside a `<div class="pdp__app-block">` wrapper:
+
+```liquid
+{%- when '@app' -%}
+  <div {{ block.shopify_attributes }} class="pdp__app-block">
+    {% render block %}
+  </div>
+```
+
+The app's own template controls the content; Voyage just provides the wrapper and the block ordering. The wrapper applies the same spacing rhythm as the surrounding blocks so app UIs sit naturally next to the price, variant picker, etc.
+
+### Compatible apps
+
+Any Shopify app that ships an app block targeted at the product page (`product_blocks` in the app's `shopify.app.toml`) will appear. Common categories:
+
+- **Reviews** — Yotpo, Judge.me, Loox, Stamped, Okendo, Shopify Product Reviews.
+- **Subscriptions** — Recharge, Loop, Smartrr, Bold.
+- **Currency / language** — Geolocation, Currency by Bold, Langify.
+- **Cross-sell / FBT** — Frequently Bought Together apps, Wiser.
+- **Trust signals** — Trust badges, security seals.
+- **Customizers** — Product personalization, monogram tools.
+
+For apps that don't ship an app block, fall back to the `custom_liquid` block (see above).
+
+### Theme Store compliance note
+
+Voyage's PDP section declares `@app` to satisfy Shopify Theme Store §4 — the requirement that themes must support app blocks on the product page. Without `@app`, merchants installing an app that has a product-page block would have no way to add it without theme code edits.
+
+---
+
+## Custom Liquid vs `@app` vs section — when to use which
+
+A short decision tree for merchants and developers:
+
+| Situation | Use |
+|---|---|
+| Shopify app, has an app block, wants to live on the PDP | `@app` block inside `main-product` |
+| Shopify app, has an app block, wants to live on the home page or content page | Add a new section in the Theme Editor that supports `@app` — or use the [App embeds](https://help.shopify.com/manual/online-store/themes/customizing-themes/embed-app-block) feature for global injections |
+| Shopify app, no app block, ships a Liquid snippet, wants to live on the PDP | `custom_liquid` block inside `main-product` |
+| Shopify app, no app block, ships a Liquid snippet, wants to live anywhere | Custom Liquid section |
+| Merchant-authored one-off code (embeds, custom JSON-LD, third-party widgets) | Custom Liquid section, or `custom_liquid` block on the PDP |
+| Bespoke / advanced layouts that need a full section template | Build a new section file in `sections/` (developer-only — outside the Theme Editor surface) |
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Product sections · main-product" href="/sections-reference/product-sections#product--sectionsmain-product-liquid">
+    The full list of `main-product` blocks, including custom Liquid and `@app`.
+  </Card>
+  <Card title="Customization · Apps and integrations" href="/customization/apps-and-integrations">
+    Guide to common app integrations and where each one tends to land.
+  </Card>
+  <Card title="Reference · Section schema tables" href="/reference/section-schema-tables">
+    Every section's schema in one compendium.
+  </Card>
+</CardGroup>

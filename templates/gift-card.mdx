@@ -1,0 +1,85 @@
+---
+title: "Gift card"
+description: "The issued-gift-card template — a standalone passport with QR, Apple Wallet pass, and print."
+---
+
+The gift card template (`templates/gift_card.liquid`) is the one storefront-facing page in Voyage that does **not** inherit `theme.liquid`. It's a complete standalone HTML document, designed to look like a tangible certificate when printed and to function as a wallet-ready pass on a phone.
+
+## Why it's standalone
+
+Shopify renders the gift card template at a unique URL — `/account/gift_cards/[token]` — that the customer reaches from their issuance email. It's a closed-loop, single-purpose page: no nav, no footer, no cart drawer, no curtain transition. The standalone document avoids loading any of that infrastructure and keeps the page render light enough to feel like opening a paper certificate.
+
+The template emits its own `<head>` block (with `meta robots noindex, nofollow`), pulls in only the two stylesheets needed to inherit Voyage's typography and color tokens (`styles.css` and `premium.css`), and ships all of its own layout CSS inline.
+
+## Layout
+
+| Element | What it renders |
+|---|---|
+| **Brand mark** | Either the merchant's uploaded logo (480px wide) or the shop name in the script accent font, depending on whether `settings.logo` is set. |
+| **Eyebrow** | "Gift card" in tracked-out caps. |
+| **Status badge** | "Expired" or "Disabled" — rendered only when applicable. |
+| **Amount** | The current balance, large display, navy ink, formatted with `money_without_trailing_zeros`. |
+| **Original amount note** | When the balance has been partially redeemed, shows "[Original] originally" beneath. |
+| **Code** | The gift card code, formatted with the `format_code` filter (visually grouped for legibility), in a monospaced font, inside a navy-bordered box. Click to select. |
+| **Copy hint** | "Tap to select — use at checkout" in caps. |
+| **QR code** | A 140×140 QR rendered client-side by Shopify, paired with an aria-label that includes the code. |
+| **Actions** | Apple Wallet button (when `gift_card.pass_url` is available), Shop button (returns to storefront), Print button (triggers `window.print()`). |
+| **Expiry** | "Expires [Month Day, Year]" — rendered only when `gift_card.expires_on` is set. |
+
+## States
+
+The page handles three states:
+
+<Tabs>
+  <Tab title="Active">
+    Default state. Code and amount render at full opacity, all actions enabled, no status badge.
+  </Tab>
+  <Tab title="Expired">
+    The `data-disabled` attribute on `<main>` flips to `true`. CSS strikes through the code and amount and dims them to the muted color. The "Expired" status badge renders below the eyebrow.
+  </Tab>
+  <Tab title="Disabled">
+    Same visual treatment as expired (struck through, dimmed), but with a "Disabled" status badge instead. Triggered when `gift_card.enabled == false` in admin.
+  </Tab>
+</Tabs>
+
+## Apple Wallet pass
+
+Shopify auto-generates an Apple Wallet pass for every gift card and exposes the URL at `gift_card.pass_url`. When that URL is available, Voyage renders an "Add to Apple Wallet" button. Tapping the button on iOS opens the Wallet add-pass flow.
+
+The pass carries the same code and balance, and stays in sync if the balance changes.
+
+## Code formatting
+
+The `format_code` filter is a Shopify-built filter that takes a raw gift card code (e.g. `ABCD1234WXYZ5678`) and renders it grouped for legibility (`ABCD 1234 WXYZ 5678`). Voyage uses it both in the code input and in the QR code's aria-label.
+
+## Print
+
+The Print button calls `window.print()`. The template's standalone document and minimal stylesheet mean the printed page renders cleanly — wordmark, amount, code, QR, expiry — on a single sheet.
+
+## Typography
+
+The standalone CSS uses Voyage's design tokens (`var(--paper)`, `var(--ink)`, `var(--navy)`, `var(--muted)`, `var(--hairline)`, `var(--f-script)`, `var(--f-sans)`, `var(--ease)`) — so the gift card automatically inherits the merchant's color and font settings without any extra wiring.
+
+## Customizing
+
+Because `gift_card.liquid` is Liquid (not JSON), edits happen in the code editor. Common tweaks:
+
+- **Change the eyebrow** — line 161, replace `"Gift card"` with your label.
+- **Change the action labels** — lines 190–199, update "Add to Apple Wallet", "Shop now", and "Print".
+- **Add a custom message** — insert a paragraph between the eyebrow and the amount.
+- **Change the QR size** — `gift-card__qr img { width: 140px; height: 140px; }` (line 101).
+
+<Note>
+  Shopify's Theme Store policy requires that every shipped theme include a gift card template that displays the code, a QR code at minimum 120×120, an Apple Wallet pass link, and the logo or `shop.name`. Voyage's default ships all four — don't remove them.
+</Note>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Issuing gift cards" href="/customization/recipes-overview">
+    How merchants create and send gift cards in admin.
+  </Card>
+  <Card title="Cart settings" href="/theme-setup/cart">
+    Configuring gift cards to be redeemable in the cart drawer.
+  </Card>
+</CardGroup>

@@ -1,0 +1,127 @@
+---
+title: "Customer pages"
+description: "Voyage's seven editorial customer templates — and the Classic vs New customer accounts trade-off."
+---
+
+Voyage ships **seven editorial customer-account templates**. Each is a JSON template wrapping a single `main-customer-*` section, styled in the same vocabulary as the rest of the storefront — script accent on every heading, eyebrow tracked-out caps, serif body, navy ink, paper background.
+
+Before listing them, the most important decision a merchant makes:
+
+## Classic vs New customer accounts
+
+Shopify offers two customer-account modes. The choice is set in admin under **Settings → Customer accounts → Login experience**, and it determines whether Voyage's templates are used at all.
+
+<Tabs>
+  <Tab title="Classic">
+    The historical Shopify experience. Customers create accounts with email + password, log in, view their order history and addresses. **The storefront renders Voyage's editorial templates** — passport-style order detail, script-prefixed welcome, magnetic CTA buttons.
+    
+    Use Classic when:
+    - The editorial styling is part of the brand promise
+    - Customers expect a username/password sign-in
+    - You want the account dashboard to feel like the rest of the storefront
+  </Tab>
+  <Tab title="New customer accounts">
+    Shopify's modern, passwordless experience. Customers sign in via a one-time code sent to email — no password, no register flow. **Shopify hosts the account UI**, not Voyage. The storefront's templates are bypassed entirely.
+    
+    Use New customer accounts when:
+    - Password-management is friction you want to eliminate
+    - You're using Shop Pay heavily and want a unified identity layer
+    - The default Shopify styling is acceptable
+  </Tab>
+</Tabs>
+
+<Warning>
+  Once a merchant enables New customer accounts, Voyage's seven customer templates stop rendering on the storefront. They remain in the codebase — switching back to Classic restores them — but they're inert while New customer accounts is on.
+</Warning>
+
+The seven templates documented below assume **Classic** is enabled.
+
+## The seven templates
+
+| # | Template | Section | Renders |
+|---|---|---|---|
+| 1 | `customers/login.json` | `main-customer-login` | Sign-in form + forgot-password sub-form |
+| 2 | `customers/register.json` | `main-customer-register` | New account form |
+| 3 | `customers/account.json` | `main-customer-account` | Dashboard — order history + default address |
+| 4 | `customers/order.json` | `main-customer-order` | Single order detail, passport-style |
+| 5 | `customers/addresses.json` | `main-customer-addresses` | Address book — list, add, edit, delete |
+| 6 | `customers/reset_password.json` | `main-customer-reset-password` | Password reset form |
+| 7 | `customers/activate_account.json` | `main-customer-activate-account` | First-time account activation |
+
+## Editorial vocabulary
+
+Every customer template shares a typographic vocabulary:
+
+- **Script prefix** — an accent line in the accent font ("Welcome back", "Bonjour", "Almost there", "Welcome aboard"). Set per-template via `script_prefix` setting.
+- **Serif heading** — the main label ("Sign in", "Your account", "Reset password"). Set via `heading`.
+- **Eyebrow** — tracked-out caps above the heading ("Account", "New customer", "Reset"). Set via `eyebrow`.
+- **Magnetic CTA** — every primary submit wraps in a `.magnetic` span, mirroring the PDP add-to-bag.
+
+## Notable layouts
+
+### Account dashboard (`customers/account.json`)
+
+A personalized "Bonjour, [first name]" greeting opens the page. Below it, a two-column dashboard:
+
+- **Main column** — paginated order history table (Order #, Date, Payment, Fulfillment, Total). 10 orders per page.
+- **Aside column** — the customer's default address as a typeset `<address>` block, with a link to manage all addresses.
+
+When the customer has no orders yet, the empty state shows a "Browse the collection" magnetic button instead of the table.
+
+### Order detail (`customers/order.json`) — passport style
+
+The most distinctive customer template in Voyage. The order number renders in the script accent ("VY-12041") as the headline, with "Order detail" as the subtitle — designed to read like a vintage passport stamp.
+
+Below the headline, a passport-style definition-list strip:
+
+| Term | Value |
+|---|---|
+| Payment status | `order.financial_status_label` |
+| Fulfillment status | `order.fulfillment_status_label` |
+| Items | `order.item_count` |
+| Total | `order.total_price | money` |
+
+Then the line-items table — image, title, selling-plan note, unit-price note, quantity, unit price, total. The bottom of the page renders shipping and billing addresses side by side as `<address>` definition lists.
+
+### Addresses (`customers/addresses.json`)
+
+Each saved address renders as a card with the address typeset like a letter. Buttons under each card: **Edit**, **Make default**, **Delete**. A "+ Add a new address" CTA at the top of the list opens an inline form.
+
+### Reset and activate (`customers/reset_password.json`, `customers/activate_account.json`)
+
+Both follow the same two-field form pattern as login — script accent above the field, magnetic submit button below, divider rule, return-to-sign-in link in the footer row. Activation accepts a token from the activation email; reset accepts a new password twice.
+
+## Customizable section settings
+
+Most customer sections expose three settings — `eyebrow`, `script_prefix` (or `script_greeting`), and `heading`. A merchant who wants to retune the editorial voice across all customer pages can do so in seven small edits, each one through the Theme Editor.
+
+For the login template:
+
+<ParamField path="eyebrow" type="text" default="Account" />
+<ParamField path="script_prefix" type="text" default="Welcome back" />
+<ParamField path="heading" type="text" default="Sign in" />
+<ParamField path="intro" type="textarea">
+  Optional paragraph beneath the heading.
+</ParamField>
+<ParamField path="button_label" type="text" default="Sign in" />
+
+For the account dashboard:
+
+<ParamField path="eyebrow" type="text" default="Account" />
+<ParamField path="script_prefix" type="text" default="Bonjour">
+  Followed by the customer's first name if available — "Bonjour, Marco".
+</ParamField>
+<ParamField path="heading" type="text" default="Your account" />
+
+The other customer sections follow the same three-setting pattern. See the [sections reference](/sections-reference/sections-overview) for each one's exact schema.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Sections — customer" href="/sections-reference/main-customer-login">
+    Each customer section's exact schema.
+  </Card>
+  <Card title="New customer accounts mode" href="/troubleshooting/common-issues">
+    Troubleshooting the New customer accounts trade-off.
+  </Card>
+</CardGroup>

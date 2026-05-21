@@ -1,0 +1,336 @@
+---
+title: "Hero & banners"
+description: "Home hero, image banner, and slideshow — the three full-bleed hero patterns in Voyage."
+---
+
+Voyage ships three hero treatments. They sit at the top of a page and own the first viewport. Pick one per page; they're not designed to stack.
+
+| Section | Use when |
+|---|---|
+| **Home · Hero** | The cinematic option. Video or image carousel, parallax, coordinates plate. Built for the home page. |
+| **Image banner** | A single full-bleed image with overlaid copy + CTAs. Best for collection landings, blog index, or content pages. |
+| **Slideshow** | A scroll-snap carousel of image slides with autoplay. Best when you have multiple campaigns to rotate without the production overhead of video. |
+
+---
+
+## Home · Hero — `sections/home-hero.liquid`
+
+A cinematic carousel of up to 8 slides. Each slide is an image or video poster with overlaid eyebrow, script + sans heading, body copy, and up to two CTAs. Carousel auto-advances on a configurable timer with a numbered progress nav at the bottom right and an optional coordinates plate at the bottom left.
+
+**Available on:** All templates. Designed for the home page.
+
+### Section settings
+
+#### Visibility
+
+<ParamField path="show_section" type="checkbox" default="true">
+  Master toggle. Hides the section entirely without removing it.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the script headline from 60% to 140% of the default size. Step 10, unit `%`.
+</ParamField>
+<ParamField path="show_scroll_cue" type="checkbox" default="true">
+  Show the "SCROLL" indicator at the bottom.
+</ParamField>
+<ParamField path="show_plate" type="checkbox" default="true">
+  Show the coordinates plate (location label + lat/long).
+</ParamField>
+<ParamField path="min_height" type="select" default="100dvh">
+  Section height. Options: `100dvh` (full viewport), `80dvh`, `70vh`, `60vh`.
+</ParamField>
+
+#### Style
+
+<ParamField path="eyebrow_color" type="color" default="#F6F4EF">
+  Color of the small eyebrow line above each slide's heading.
+</ParamField>
+<ParamField path="headline_color" type="color" default="#F6F4EF">
+  Color of the script + sans heading.
+</ParamField>
+<ParamField path="body_color" type="color" default="#F6F4EF">
+  Color of the body paragraph.
+</ParamField>
+<ParamField path="overlay_color" type="color" default="#002F5B">
+  The dark gradient color laid over the image/video.
+</ParamField>
+<ParamField path="overlay_strength" type="range" default="100">
+  Overlay opacity 0–100%. 0 = invisible, 100 = full strength.
+</ParamField>
+<ParamField path="cta_style" type="select" default="light">
+  Button style. Options: `light` (outline), `dark` (outline), `filled-cream`, `filled-navy`.
+</ParamField>
+<ParamField path="text_align" type="select" default="left">
+  Default slide text alignment. Options: `left`, `center`, `right`. Each slide can override.
+</ParamField>
+<ParamField path="headline_style" type="select" default="both">
+  Which heading lines render. Options: `both` (script + sans), `script` (script only), `sans` (sans only).
+</ParamField>
+
+#### Animation
+
+<ParamField path="slide_transition" type="select" default="cinema">
+  Transition between slides. Options: `cinema` (clip-path reveal), `crossfade`, `slide-left`, `slide-right`, `cut`.
+</ParamField>
+<ParamField path="slide_ms" type="number" default="6500">
+  Auto-advance interval in milliseconds.
+</ParamField>
+<ParamField path="text_stagger" type="select" default="fast">
+  Text entrance speed. Options: `fast`, `medium`, `slow`.
+</ParamField>
+<ParamField path="parallax_intensity" type="select" default="subtle">
+  Background parallax on scroll. Options: `none`, `subtle`, `strong`.
+</ParamField>
+
+#### Plate label
+
+<ParamField path="plate_line" type="text" default="KHOR DUBAI · SUMMER MMXXVI">
+  Small text shown in the coordinates plate.
+</ParamField>
+<ParamField path="plate_coords" type="text" default="25.27°N 55.30°E">
+  Second line of the plate.
+</ParamField>
+
+### Blocks
+
+#### Slide (max 8)
+
+The hero accepts up to 8 slide blocks.
+
+<ParamField path="enabled" type="checkbox" default="true">
+  Per-slide toggle. Lets a merchant temporarily hide a slide without deleting it.
+</ParamField>
+<ParamField path="eyebrow" type="text" default="Edition I · MMXXVI">
+  Small uppercase line above the heading.
+</ParamField>
+<ParamField path="headline_script" type="text" default="Summer">
+  The script half of the heading (the calligraphic accent word).
+</ParamField>
+<ParamField path="headline_sans" type="text" default="Twenty Twenty-Six.">
+  The sans-serif half of the heading.
+</ParamField>
+<ParamField path="body_text" type="textarea">
+  Optional body paragraph below the heading.
+</ParamField>
+<ParamField path="poster" type="image_picker">
+  Poster image for the slide. If video is also set, this is the LCP candidate that paints first.
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text">
+  Unsplash photo ID used if poster is blank — for demo / preview purposes.
+</ParamField>
+<ParamField path="video_url" type="url">
+  External video URL. If blank, slides 1–N fall back to bundled `hero.webm` / `herov2.webm` / `hero-N.webm` assets.
+</ParamField>
+<ParamField path="cta_label" type="text" default="Shop the collection">
+  Primary CTA button text.
+</ParamField>
+<ParamField path="cta_url" type="url">
+  Primary CTA destination.
+</ParamField>
+<ParamField path="cta2_label" type="text">
+  Optional secondary CTA text.
+</ParamField>
+<ParamField path="cta2_url" type="url">
+  Optional secondary CTA destination.
+</ParamField>
+<ParamField path="align_override" type="select" default="inherit">
+  Override the section-level text alignment for this slide. Options: `inherit`, `left`, `center`, `right`.
+</ParamField>
+
+### Default preset
+
+Ships with 3 slide blocks pre-populated. The first slide is the LCP candidate — its poster loads eagerly with `fetchpriority="high"`; later slides are lazy.
+
+### When to use
+
+The home hero is opinionated for the editorial-luxury home page treatment. Use it when:
+
+- You have **video assets** (or are using the bundled fashion video) and want cinematic motion at the top of the home page.
+- You want a coordinates plate, scroll cue, and numbered progress dots — features that mark the home page as the "destination" page.
+
+Use [Image banner](#image-banner--sectionsimage-banner-liquid) instead on collection landings and content pages, where a single editorial still is enough. Use [Slideshow](#slideshow--sectionsslideshow-liquid) when you have multiple campaign images but no video.
+
+---
+
+## Image banner — `sections/image-banner.liquid`
+
+Full-bleed image with overlaid eyebrow, heading, body, and CTA blocks. Editorial vocabulary: large script heading optional, restrained body, magnetic CTAs. Built for collection page tops, blog index, or content pages where the home hero isn't appropriate.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Image
+
+<ParamField path="image" type="image_picker">
+  Desktop image. The hero of the section.
+</ParamField>
+<ParamField path="image_mobile" type="image_picker">
+  Optional mobile crop. Falls back to the desktop image if not set.
+</ParamField>
+<ParamField path="focal_x" type="range" default="50">
+  Horizontal focal point 0–100%. Used to shift the visible center under different crops.
+</ParamField>
+<ParamField path="focal_y" type="range" default="50">
+  Vertical focal point 0–100%.
+</ParamField>
+<ParamField path="overlay_opacity" type="range" default="30">
+  Image overlay opacity 0–80%. Higher values darken the image for better text legibility.
+</ParamField>
+
+#### Layout
+
+<ParamField path="height" type="select" default="medium">
+  Section height. Options: `small`, `medium`, `large`, `full` (viewport).
+</ParamField>
+<ParamField path="text_alignment" type="select" default="center">
+  Text alignment. Options: `left`, `center`, `right`.
+</ParamField>
+
+### Blocks
+
+#### Eyebrow (limit 1)
+
+<ParamField path="text" type="text" default="Voyage">
+  Eyebrow text.
+</ParamField>
+
+#### Heading (limit 1)
+
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the main heading (e.g., "The Voyage").
+</ParamField>
+<ParamField path="text" type="text" default="Image banner">
+  The serif heading.
+</ParamField>
+
+#### Body (limit 1)
+
+<ParamField path="text" type="richtext" default="<p>Tell your house's story in one line.</p>">
+  Body paragraph (rich text).
+</ParamField>
+
+#### Button (limit 2)
+
+Up to two button blocks can be added.
+
+<ParamField path="label" type="text" default="Shop now">
+  Button text.
+</ParamField>
+<ParamField path="link" type="url">
+  Button destination.
+</ParamField>
+<ParamField path="style" type="select" default="solid">
+  Button style. Options: `solid`, `ghost` (outlined).
+</ParamField>
+
+### Default preset
+
+Ships with 4 blocks: eyebrow, heading (`script_prefix: "The Voyage"`, `text: "Summer 2026"`), body, button.
+
+### When to use
+
+Reach for image banner when you need a full-bleed top-of-page treatment but don't need video or multiple slides. Typical placements:
+
+- Collection landing pages (with the collection's featured image as the banner).
+- Blog index — a single editorial still introducing the journal.
+- Long content pages where a quiet hero anchors the rest of the layout.
+
+Use [Slideshow](#slideshow--sectionsslideshow-liquid) when you have 2–6 images to rotate. Use [Home · Hero](#home--hero--sectionshome-hero-liquid) on the home page itself.
+
+---
+
+## Slideshow — `sections/slideshow.liquid`
+
+Full-bleed image carousel with overlaid copy and CTAs per slide. Native scroll-snap carousel with dot indicators; auto-advances on a configurable timer. Each slide is a block — add, remove, and reorder as needed.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Layout
+
+<ParamField path="height" type="select" default="medium">
+  Section height. Options: `small`, `medium`, `large`, `full` (viewport).
+</ParamField>
+
+#### Autoplay
+
+<ParamField path="autoplay" type="checkbox" default="true">
+  Auto-advance slides. Pauses on mouse-enter and respects `prefers-reduced-motion`.
+</ParamField>
+<ParamField path="autoplay_interval" type="range" default="6">
+  Seconds between auto-advances. Range 3–12.
+</ParamField>
+
+### Blocks
+
+#### Slide (no max)
+
+Each slide is one full-bleed image with overlaid copy and an optional button.
+
+<ParamField path="image" type="image_picker">
+  Desktop image.
+</ParamField>
+<ParamField path="image_mobile" type="image_picker">
+  Optional mobile crop.
+</ParamField>
+<ParamField path="focal_x" type="range" default="50">
+  Horizontal focal point 0–100%.
+</ParamField>
+<ParamField path="focal_y" type="range" default="50">
+  Vertical focal point 0–100%.
+</ParamField>
+<ParamField path="overlay_opacity" type="range" default="30">
+  Image overlay opacity 0–80%.
+</ParamField>
+<ParamField path="eyebrow" type="text">
+  Small uppercase line above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Slide heading">
+  The serif heading.
+</ParamField>
+<ParamField path="body" type="richtext">
+  Body paragraph.
+</ParamField>
+<ParamField path="button_label" type="text">
+  CTA text. The CTA renders only when both label and link are set.
+</ParamField>
+<ParamField path="button_link" type="url">
+  CTA destination.
+</ParamField>
+<ParamField path="button_style" type="select" default="solid">
+  Button style. Options: `solid`, `ghost`.
+</ParamField>
+<ParamField path="alignment" type="select" default="center">
+  Text alignment for this slide. Options: `left`, `center`, `right`.
+</ParamField>
+
+### Default preset
+
+Ships with 2 blank slide blocks for the merchant to configure.
+
+### When to use
+
+Slideshow is the middle ground between image banner (single still) and home hero (video-led). Use it when:
+
+- You have **multiple campaign images** to rotate — a seasonal capsule plus a press feature, say.
+- You don't want or need video.
+- You want autoplay without the production overhead of the home hero.
+
+For a single still, use [Image banner](#image-banner--sectionsimage-banner-liquid). For the home page, use [Home · Hero](#home--hero--sectionshome-hero-liquid).
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Editorial sections" href="/sections-reference/editorial-sections">
+    Image-with-text, chapters, multicolumn — content patterns that sit below a hero.
+  </Card>
+  <Card title="Templates · Homepage" href="/templates/homepage">
+    See how `home-hero` is placed by default in the home template.
+  </Card>
+</CardGroup>

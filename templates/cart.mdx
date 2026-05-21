@@ -1,0 +1,137 @@
+---
+title: "Cart"
+description: "The cart page — line items, accelerated checkout, notes, selling plans, drawer parity."
+---
+
+The cart template (`templates/cart.json`) is intentionally simple: a single `main-cart` section that renders the entire cart experience. It exists as a fallback to the cart drawer — for customers who arrive at `/cart` directly, who prefer a full-page review, or who have JavaScript disabled.
+
+## Template structure
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-cart", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+## Anatomy
+
+| Element | What it renders |
+|---|---|
+| **Header** | Eyebrow + heading (defaults: "The Bag" + "Your bag"). |
+| **Empty state** | Single line of copy + a "Continue shopping" button when the cart is empty. |
+| **Line items table** | One row per cart item — image, title, options, selling plan, unit price, line-level discounts, quantity stepper, remove link, line total. |
+| **Order summary aside** | Cart-level discount applications, subtotal, tax note, optional cart note, checkout button, accelerated-checkout buttons. |
+
+## Empty state
+
+When `cart.item_count == 0`, the section renders a quiet two-line empty state instead of the full table. The copy is editable.
+
+<ParamField path="empty_text" type="textarea" default="Your bag is quiet." />
+<ParamField path="empty_link_label" type="text" default="Begin with the collection" />
+<ParamField path="empty_link_url" type="url">
+  The continue-shopping link. Typically `/collections/all`.
+</ParamField>
+
+## Line items
+
+Each item renders a complete record:
+
+- **Thumbnail** — 160×200 image, lazy-loaded, links to the product page.
+- **Title** — linked to the product.
+- **Variant options** — joined with middle dots (only shown when the product has multiple variants).
+- **Selling plan** — the plan name, when the item is a subscription or pre-order.
+- **Unit price** — when applicable (`/100ml`, `/kg`, etc.).
+- **Line-level discount applications** — itemized, each on its own row with the discount amount.
+- **Quantity stepper** — minus / number input / plus, all submit-buttons so the form submits without JS.
+- **Remove link** — uses `item.url_to_remove` to remove with a single click.
+- **Line total** — original price (struck through) + final price when discounted, single price otherwise.
+
+## Order summary
+
+The right-hand aside is the conversion machine.
+
+### Cart-level discounts
+
+Automatic discount codes (from Shopify Discounts) render at the top of the summary with their title and the amount allocated.
+
+### Subtotal
+
+`cart.total_price`, formatted via `money`. Updates automatically when the customer changes a quantity (server-side via the form submit, drawer parity client-side via fetch).
+
+### Tax note
+
+When `cart.taxes_included` is true, a "Taxes included" line is appended. The "Shipping calculated at checkout" line always renders.
+
+### Cart notes
+
+Optional note-to-merchant field. Useful for gift messages, delivery instructions, or made-to-measure measurements.
+
+<ParamField path="show_note" type="checkbox" default="true" />
+<ParamField path="note_label" type="text" default="Note (optional)" />
+<ParamField path="note_placeholder" type="text" default="Add a note for the studio" />
+
+### Checkout button
+
+The primary call to action.
+
+<ParamField path="checkout_label" type="text" default="Proceed to checkout" />
+
+### Accelerated checkout
+
+Shopify renders Shop Pay, Apple Pay, Google Pay, PayPal — whichever the merchant has enabled — via `{{ content_for_additional_checkout_buttons }}`. The buttons retain their branded colors and cannot be restyled (Shopify Theme Store policy).
+
+## Header
+
+<ParamField path="eyebrow" type="text" default="The Bag" />
+<ParamField path="heading" type="text" default="Your bag" />
+
+## Drawer vs page parity
+
+The cart drawer (`snippets/cart-drawer.liquid`, rendered via the Section Rendering API at `/?sections=cart-drawer`) and the cart page render the same data with slightly different layouts:
+
+| Element | Drawer | Page |
+|---|---|---|
+| Line items | Compact rows — thumbnail, title, options, qty stepper, line total | Full rows with larger thumbnails + remove link |
+| Cart note field | Optional, expandable | Optional, expandable |
+| Discount code field | Not shown in drawer | Auto-displays if a code is applied |
+| Subtotal | Live total | Live total |
+| Accelerated checkout | Shop Pay, Apple Pay, Google Pay, PayPal | Same buttons |
+| Checkout button | Primary navy button | Primary navy button |
+| Empty state | "Your bag is quiet." + "Begin with the collection" | Same |
+
+The drawer is the default experience (cart_type: `drawer` in theme settings). The page is the fallback — customers reach it by clicking the cart icon when the drawer is disabled, by navigating to `/cart` directly, or as a no-JS fallback.
+
+## Selling plans
+
+Line items that ship with a selling plan display the plan name beneath the title:
+
+```
+Mina Camp-Collar Shirt
+linen, navy · M
+Deliver every 60 days
+```
+
+The plan persists through checkout and is honored at fulfillment.
+
+## Discount codes
+
+Discount codes entered at checkout (or applied via cart-level automatic discounts) display in two places:
+
+- **Line-level allocations** — appear under the individual line item, with the discount title and amount.
+- **Cart-level applications** — appear at the top of the order summary aside.
+
+Both use Shopify's `discount_application` API.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Cart drawer" href="/interactive-features/cart-drawer">
+    The slide-in cart and its live refresh behavior.
+  </Card>
+  <Card title="Cart settings" href="/theme-setup/cart">
+    Theme-level settings — drawer vs page vs notification, show discount codes, show notes.
+  </Card>
+</CardGroup>

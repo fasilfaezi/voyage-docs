@@ -1,0 +1,138 @@
+---
+title: "Performance and accessibility"
+description: "What's built into Voyage, what merchants control, and how to keep both healthy after going live."
+---
+
+Voyage ships with a considered baseline for performance and accessibility. Most of the heavy lifting is invisible — it happens at the markup and asset-loading layer. The merchant's job is to not undo it.
+
+## What's built in
+
+The Voyage codebase is opinionated about how to be fast and accessible.
+
+### Performance
+
+| Pattern | Where |
+|---|---|
+| **Lazy-loaded images** | Every `<img>` below the fold uses `loading="lazy"`. Above-the-fold images use `fetchpriority="high"`. |
+| **Metadata-only video preload** | Hero slides 2+ preload metadata only, not the full file. Only slide 1 loads its video on initial paint. |
+| **LCP preload hints** | The hero poster image is preloaded via `<link rel="preload">` so the LCP element renders in the first paint cycle. |
+| **Deferred non-critical assets** | `theme.js`, `pdp.js`, and section-specific scripts are deferred. The above-the-fold CSS is inlined; the rest is loaded async. |
+| **Section Rendering API** | Cart updates re-render only the cart drawer section, not the whole page. The same applies to filter changes on the collection page. |
+| **Image CDN sizing** | Voyage's image helpers emit `srcset` with three widths per image, so the browser picks the smallest viable file for the viewport. |
+| **No build step** | No bundler, no `node_modules`. Liquid renders directly. The HTTP request count is low, the bundle is intentionally small. |
+
+### Accessibility
+
+| Pattern | Where |
+|---|---|
+| **Focus-visible system** | Every interactive element has a visible focus ring on keyboard navigation. The ring uses the primary ink color at 2 px. |
+| **Skip link** | A "Skip to content" link appears at the top of the keyboard tab order, jumping past the header. |
+| **24×24 touch targets** | Every clickable element on mobile is at least 24×24 px — most are 44×44. |
+| **Semantic markup** | `<main>`, `<nav>`, `<header>`, `<footer>`, `<article>` are used correctly. Heading levels follow document order. |
+| **WCAG-AA contrast** | The default color schemes all pass 4.5:1 contrast for body text and 3:1 for large text. |
+| **ARIA on interactive widgets** | The cart drawer, the offer popup, the search panel, the quick-view modal, and the variant picker all expose correct `aria-*` attributes. |
+| **Reduced-motion respect** | Magnetic cursor effects, scroll reveals, blur-to-clear, and the page-transition curtain all defer to the OS-level `prefers-reduced-motion: reduce` query. |
+| **Alt text on images** | Voyage uses each image's Shopify alt attribute. Empty alt is used for purely decorative images (logo lockups, hero overlays). |
+
+## What merchants control
+
+The merchant decides four things that drive most performance scores.
+
+### Image weight
+
+Voyage's image helpers serve the right size — but only from the source you uploaded. A 5 MB hero JPG can't become a 200 KB one through CDN magic.
+
+| Asset | Target |
+|---|---|
+| Hero poster | 1400–1800 px, JPG q85, under 400 KB |
+| Hero video | MP4 (H.264 / AAC) or WebM, 1080p, under 4 MB |
+| Category tile | 1200×1600, JPG q85, under 300 KB |
+| Product card image | 1500–2000 px on longest edge, under 300 KB |
+| Background images | Under 500 KB regardless of dimensions |
+
+Re-export from your image source with q85 (not q100) and the LCP usually drops by 30–50%.
+
+### Video format
+
+MP4 is universally supported. WebM is smaller for equivalent quality but isn't supported on older iOS. For hero use, MP4 is the safest choice.
+
+Voyage doesn't transcode video — what you upload is what gets served. If your video is 12 MB, that's the file every mobile visitor downloads.
+
+### Color choices
+
+The default schemes pass contrast. Custom palettes might not.
+
+After picking custom colors:
+
+1. Visit the homepage, product page, collection page, and footer.
+2. Run Lighthouse → **Accessibility** → look for "Contrast" violations.
+3. If any fail, adjust either the foreground or the background until the ratio passes.
+
+The Chrome DevTools color picker shows the contrast ratio inline when you hover a color. Aim for at least 4.5:1 for body text.
+
+### App weight
+
+Every app embed loads JavaScript. Most apps lazy-load reasonably; some don't.
+
+After installing a new app:
+
+1. Run Lighthouse before and after.
+2. If the score drops more than 5 points, audit the app's network requests in the **Network** panel.
+3. Either accept the cost (some apps are worth it), defer the app embed (often configurable in the app), or remove the app.
+
+A common pattern: chat widgets, AB testing tools, and full-page personalization tools each cost 10–20 Lighthouse points. Stack three of them and you've halved your score.
+
+## How to run Lighthouse
+
+<Steps>
+  <Step title="Open the storefront in Chrome">
+    Use an incognito window — extensions and signed-in state both pollute the score.
+  </Step>
+  <Step title="Open DevTools">
+    Cmd-Opt-I (Mac) or F12 (Windows). Click the **Lighthouse** tab.
+  </Step>
+  <Step title="Pick the right profile">
+    Mode: **Navigation**. Device: **Mobile** (mobile scores are stricter — pass mobile, desktop follows). Categories: **Performance** and **Accessibility** at minimum.
+  </Step>
+  <Step title="Analyze">
+    Click **Analyze page load**. The audit runs for 30–60 seconds.
+  </Step>
+  <Step title="Read the report">
+    The score is on the top left. Click any failing audit to see the specific files or elements involved.
+  </Step>
+</Steps>
+
+## Interpreting scores
+
+Lighthouse scores aren't pass/fail — they're targets.
+
+| Score | Meaning |
+|---|---|
+| 90–100 | Excellent. No urgent action. |
+| 75–89 | Good. One or two optimizations could push you to excellent. |
+| 60–74 | Acceptable. Probably one heavy asset or one heavy app. |
+| Below 60 | Investigate. Usually a single large file (hero video, app bundle) is the cause. |
+
+Voyage's reference home page scores **65–80 on mobile performance** and **95–100 on accessibility** under default content. After replacing demo assets with merchant-supplied content, scores typically stay in that range — or improve, if the merchant ships smaller assets than the demo.
+
+## Target scores
+
+| Surface | Target performance | Target accessibility |
+|---|---|---|
+| Homepage | ≥ 60 mobile / ≥ 85 desktop | ≥ 90 |
+| Product page | ≥ 65 mobile / ≥ 85 desktop | ≥ 90 |
+| Collection page | ≥ 70 mobile / ≥ 85 desktop | ≥ 90 |
+| Cart page | ≥ 80 mobile / ≥ 90 desktop | ≥ 90 |
+
+If you're below these targets, the first three things to check are: hero video size, third-party app weight, and image weight (in that order).
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Common issues" href="/troubleshooting/common-issues">
+    If a specific symptom is bothering you.
+  </Card>
+  <Card title="Internationalization" href="/troubleshooting/internationalization">
+    Multi-currency, multi-language, RTL.
+  </Card>
+</CardGroup>

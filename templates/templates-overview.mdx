@@ -1,0 +1,115 @@
+---
+title: "Templates overview"
+description: "Every Voyage template at a glance — JSON, Liquid, default sections, and how alternate templates are assigned."
+---
+
+Voyage is fully **Online Store 2.0**. Almost every page is a JSON template that composes sections — meaning a merchant can reorder, add, remove, or restyle any block in the Theme Editor without touching code. Two templates remain Liquid by necessity: the gift card (which renders outside the standard `theme.liquid` shell) and the predictive search endpoint (which returns JSON to the storefront's predictive-search island).
+
+## JSON vs Liquid
+
+| Format | When Voyage uses it | What you can do in the Editor |
+|---|---|---|
+| **JSON template** | Every storefront page — home, product, collection, cart, blog, customer pages. | Reorder sections, add or remove any section from the library, edit every block setting, change section visibility. |
+| **Liquid template** | Gift card (`gift_card.liquid`), predictive search endpoint (`search.json.liquid`). | Edit only by editing the file in the code editor. These are intentionally fixed — they ship with a complete, standalone document. |
+
+## The 24 templates
+
+Voyage ships with twenty-four template files spanning storefront, customer, system, and alternate-page routes.
+
+<CardGroup cols={2}>
+  <Card title="Homepage" href="/templates/homepage" icon="house">
+    `templates/index.json` — six sections: hero, new arrivals, archive, bundle, chapters, club.
+  </Card>
+  <Card title="Product page" href="/templates/product-page" icon="tag">
+    `templates/product.json` — block-based main section with fifteen draggable blocks.
+  </Card>
+  <Card title="Collection page" href="/templates/collection-page" icon="grid-2">
+    `templates/collection.json` — chip nav, filter sidebar, view-mode picker, product grid.
+  </Card>
+  <Card title="Cart" href="/templates/cart" icon="bag-shopping">
+    `templates/cart.json` — drawer and page parity, accelerated checkout, notes.
+  </Card>
+  <Card title="Blog and article" href="/templates/blog-and-article" icon="newspaper">
+    `templates/blog.json` and `templates/article.json` — editorial journal layout.
+  </Card>
+  <Card title="Customer pages" href="/templates/customer-pages" icon="user">
+    Seven editorial templates — login, register, account, order, addresses, reset, activate.
+  </Card>
+  <Card title="Gift card" href="/templates/gift-card" icon="gift">
+    `templates/gift_card.liquid` — standalone passport with QR and Apple Wallet.
+  </Card>
+  <Card title="Search and 404" href="/templates/search-and-404" icon="magnifying-glass">
+    `templates/search.json`, `templates/404.json`, `templates/search.json.liquid`.
+  </Card>
+  <Card title="Alternate templates" href="/templates/alternate-templates" icon="pen-ruler">
+    `page.about`, `page.lookbook`, `page.contact` — three editorial page variants.
+  </Card>
+</CardGroup>
+
+### Complete file list
+
+| # | Template | Format | Renders |
+|---|---|---|---|
+| 1 | `index.json` | JSON | Homepage |
+| 2 | `product.json` | JSON | Default product page |
+| 3 | `collection.json` | JSON | Default collection page |
+| 4 | `cart.json` | JSON | Cart page |
+| 5 | `blog.json` | JSON | Blog index |
+| 6 | `article.json` | JSON | Article detail |
+| 7 | `page.json` | JSON | Generic page |
+| 8 | `page.about.json` | JSON | Alternate page — About / Heritage |
+| 9 | `page.lookbook.json` | JSON | Alternate page — Lookbook |
+| 10 | `page.contact.json` | JSON | Alternate page — Contact |
+| 11 | `list-collections.json` | JSON | `/collections` index |
+| 12 | `password.json` | JSON | Pre-launch password page |
+| 13 | `search.json` | JSON | Search results page |
+| 14 | `search.json.liquid` | Liquid | Predictive-search JSON endpoint |
+| 15 | `404.json` | JSON | Not-found page |
+| 16 | `gift_card.liquid` | Liquid | Issued gift card |
+| 17 | `customers/login.json` | JSON | Customer sign-in |
+| 18 | `customers/register.json` | JSON | New account |
+| 19 | `customers/account.json` | JSON | Account dashboard |
+| 20 | `customers/order.json` | JSON | Order detail |
+| 21 | `customers/addresses.json` | JSON | Address book |
+| 22 | `customers/reset_password.json` | JSON | Password reset |
+| 23 | `customers/activate_account.json` | JSON | Account activation |
+| 24 | `gift_card.liquid` (note: also counted above) | — | — |
+
+Strictly twenty-three discrete files; the gift card is counted once. Shopify also auto-resolves a few additional endpoints (the cart drawer fragment, section refresh routes) that do not need a template file.
+
+## Assigning alternate templates
+
+Voyage ships three alternate `page.*` templates designed for specific editorial layouts — an About / Heritage page, a Lookbook gallery, and a Contact form. To use them, the merchant assigns the template on a per-page basis in admin.
+
+<Steps>
+  <Step title="Create the page in admin">
+    **Online Store → Pages → Add page.** Give it a title (for example "Heritage" or "Lookbook").
+  </Step>
+  <Step title="Pick the template in the sidebar">
+    On the right side of the page editor, find the **Theme template** dropdown. Voyage's alternate templates appear there: `page.about`, `page.lookbook`, `page.contact`.
+  </Step>
+  <Step title="Save, then customize in the Theme Editor">
+    Once saved, open the page in the Theme Editor. The sections defined in `page.about.json`, `page.lookbook.json`, or `page.contact.json` are now editable for that one page.
+  </Step>
+</Steps>
+
+The default `page.json` template stays in place for every other page — terms of service, privacy, FAQ — and renders the standard `main-page` section.
+
+## A note on customer accounts
+
+Shopify offers two customer-account modes: **Classic** and **New customer accounts**. Voyage ships seven editorial templates for the Classic experience. If the merchant switches to New customer accounts in admin, Shopify takes over rendering and Voyage's templates no longer appear. The trade-off is covered in detail on the [Customer pages](/templates/customer-pages) page.
+
+<Note>
+  Voyage's templates ship pre-wired with sensible defaults — most merchants never need to edit JSON directly. Everything that lives in a JSON template can be reordered, toggled, or replaced from the Theme Editor.
+</Note>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Homepage in detail" href="/templates/homepage">
+    Tour the six default sections and learn how to rearrange them.
+  </Card>
+  <Card title="Product page blocks" href="/templates/product-page">
+    Every PDP block, what it renders, and which settings drive it.
+  </Card>
+</CardGroup>

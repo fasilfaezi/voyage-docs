@@ -1,0 +1,94 @@
+---
+title: "Cart drawer"
+description: "The slide-in cart — how it opens, refreshes, and renders accelerated checkout."
+---
+
+The Voyage cart is a drawer by default — it slides in from the right edge on any cart-icon click, on any add-to-bag submission, and on the empty cart-icon click. It coexists with the full cart page at `/cart`; both share the same data and Liquid logic.
+
+## Triggers
+
+The drawer opens in four situations:
+
+| Trigger | Behaviour |
+|---|---|
+| **Cart icon click** | Any element with `[data-cart-open]` — usually the bag icon in the header. |
+| **Add-to-bag submission** | When a `form[action*="/cart/add"]` submits successfully via AJAX, the drawer auto-opens on the new line item. |
+| **Post-add server fallback** | If AJAX is blocked (password-protected dev stores), the form submits natively, the page reloads with `?cart_added=1`, and the drawer auto-opens on next paint. |
+| **Programmatic** | Call `window.refreshCart()` from any custom script — it re-fetches the drawer's markup but doesn't auto-open. |
+
+The drawer closes on backdrop click, on the close (`×`) button, on **Continue shopping**, on `Escape`, and on **Proceed to Checkout** (which then routes to Shopify's hosted Checkout).
+
+## How the live refresh works
+
+The cart drawer is server-rendered from the Liquid `{{ cart }}` object. To keep the displayed item count, prices, and discounts honest after every add, Voyage uses Shopify's **Section Rendering API**:
+
+```js
+// inside theme.js
+async function refreshCart() {
+  const r = await fetch('/?sections=cart-drawer');
+  const json = await r.json();
+  const html = json['cart-drawer'];
+  // …parse and swap the drawer's innerHTML…
+}
+```
+
+The fetch is small (just the drawer markup, not the whole page) and runs after every successful add-to-bag. The result: line totals, the subtotal, and the item count chip in the header are always in sync without a full page reload.
+
+If you're writing a custom integration — a "Buy with us" button on a custom Liquid section, for example — call `window.refreshCart()` after your POST to `/cart/add.js` to keep the drawer fresh.
+
+## Accelerated checkout
+
+The drawer's checkout button is followed by the accelerated-checkout stack rendered by Shopify's standard `payment_button` filter:
+
+| Wallet | Renders when |
+|---|---|
+| **Shop Pay** | The customer has Shop Pay enabled (most do) |
+| **Apple Pay** | On Safari over HTTPS with a wallet configured |
+| **Google Pay** | On Chrome with a wallet configured |
+| **PayPal** | If you've enabled PayPal Express in your Payments settings |
+
+You don't configure these in the theme — they're a function of your Shopify Payments setup. The drawer just gives them room to render. If you don't have any third-party wallets enabled, only the primary **Proceed to Checkout** button appears.
+
+## Empty state
+
+When `cart.item_count == 0`, the drawer renders a quiet empty state — a script-style "Empty" wordmark, a one-line invitation, and a **Continue shopping** link to your `all` collection.
+
+```
+Empty
+Your bag is quiet. Begin with a shirt or a pair of trousers
+from the Summer collection.
+
+[Continue shopping]
+```
+
+You can edit the empty-state copy in `snippets/cart-drawer.liquid`. The copy is intentionally on-brand rather than a generic "Your cart is empty" — feel free to tune the language to your house voice.
+
+## Mobile vs desktop
+
+| Viewport | Behaviour |
+|---|---|
+| **Desktop (≥ 768 px)** | Drawer slides in from the right edge, occupies ~440 px width, leaves the rest of the page dimmed by the backdrop. |
+| **Mobile (< 768 px)** | Drawer covers the full viewport width. Backdrop is implicit (no dim layer needed). |
+
+On both, the body scroll is locked while the drawer is open (`document.body.style.overflow = 'hidden'`) so swipes inside the drawer scroll the line items, not the page beneath.
+
+## Cart settings
+
+A handful of theme-level cart settings affect the drawer's contents. Find them in **Theme settings → Cart**.
+
+| Setting | Default | Effect |
+|---|---|---|
+| **Cart type** | `Drawer` | Set to `Page` if you'd rather the cart icon link to `/cart` directly; set to `Notification` for a small popup instead of a full drawer. |
+| **Show order notes** | `true` | Renders an expandable "Add a note" field above the subtotal. |
+| **Show discount code field** | `true` | Displays applied discount codes (Shopify validates entry at Checkout — the field is read-only here). |
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Quick-view modal" href="/interactive-features/quick-view-modal">
+    The product modal that fires from any collection-card "Select Options" click.
+  </Card>
+  <Card title="Cart page" href="/templates/cart-page">
+    The full-page cart, for visitors who'd rather not work in a drawer.
+  </Card>
+</CardGroup>

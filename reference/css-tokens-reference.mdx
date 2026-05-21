@@ -1,0 +1,186 @@
+---
+title: "CSS tokens reference"
+description: "Every CSS custom property Voyage defines — brand palette, schemes, typography, layout, motion."
+---
+
+Voyage defines its design tokens as CSS custom properties on the `:root` selector. Two files publish them:
+
+1. **`layout/theme.liquid`** — emits tokens driven by `settings_schema.json`, so the merchant's Theme Editor choices become CSS variables at render time.
+2. **`assets/styles.css`** — emits the literal fallback tokens that ship with the theme, used when a setting hasn't been customized.
+
+Every section, snippet, and inline style consumes tokens via `var(--token)`. Editing a setting in the Theme Editor recompiles `theme.liquid` and updates the variable globally — no other file needs to change.
+
+## From `theme.liquid` (merchant-driven)
+
+These tokens are emitted dynamically based on the merchant's settings.
+
+### Brand palette
+
+| Token | Settings source | Default |
+|---|---|---|
+| `--color-primary` | `settings.color_primary` | `#002F5B` |
+| `--color-secondary` | `settings.color_secondary` | `#F6F4EF` |
+| `--color-accent` | `settings.color_accent` | `#C39738` |
+| `--color-muted` | `settings.color_muted` | `#6B7280` |
+
+### Color schemes
+
+| Token | Settings source | Default |
+|---|---|---|
+| `--scheme-1-bg` | `settings.scheme_1_bg` | `#F6F4EF` |
+| `--scheme-1-fg` | `settings.scheme_1_fg` | `#002F5B` |
+| `--scheme-2-bg` | `settings.scheme_2_bg` | `#002F5B` |
+| `--scheme-2-fg` | `settings.scheme_2_fg` | `#F6F4EF` |
+| `--scheme-3-bg` | `settings.scheme_3_bg` | `#EFE9DC` |
+| `--scheme-3-fg` | `settings.scheme_3_fg` | `#0A0F18` |
+| `--scheme-4-bg` | `settings.scheme_4_bg` | `#0A0F18` |
+| `--scheme-4-fg` | `settings.scheme_4_fg` | `#F6F4EF` |
+
+### Functional colors
+
+| Token | Settings source | Default |
+|---|---|---|
+| `--color-success` | `settings.color_success` | `#2E7D32` |
+| `--color-error` | `settings.color_error` | `#B00020` |
+| `--color-rule` | `settings.color_rule` | `#E5E2DA` |
+
+### Legacy aliases
+
+These are aliases retained so older component CSS continues to work while the codebase migrates to the new scheme system.
+
+| Token | Aliased to | Default |
+|---|---|---|
+| `--ink` | `settings.color_primary` | `#002F5B` |
+| `--paper` | `settings.color_secondary` | `#F6F4EF` |
+| `--navy` | `settings.color_primary` | `#002F5B` |
+| `--muted` | `settings.color_muted` | `#565E6B` |
+| `--surface` | `settings.scheme_1_bg` | `#F6F4EF` |
+| `--hairline-light` | `settings.color_rule` | `#E5E2DA` |
+
+### Typography
+
+| Token | Source | Default |
+|---|---|---|
+| `--f-sans` | Resolved body family + fallbacks | `Tajawal, Inter, system-ui, sans-serif` |
+| `--f-serif` | Resolved heading family + fallbacks | `Tajawal, Inter, system-ui, sans-serif` |
+| `--f-script` | Resolved accent family + fallbacks | `consideredno, cursive` |
+| `--font-body-scale` | `settings.font_body_scale / 100` | `1.0` |
+| `--font-heading-scale` | `settings.font_heading_scale / 100` | `1.1` |
+
+### Buttons
+
+| Token | Source | Default |
+|---|---|---|
+| `--btn-radius` | `settings.button_corner_radius` | `0px` |
+| `--btn-letterspacing` | `settings.button_letterspacing` | `0.22em` (`extra`) |
+
+### Layout
+
+| Token | Source | Default |
+|---|---|---|
+| `--container-w` | `settings.container_width` | `1280px` |
+| `--section-y` | `settings.section_spacing` | `80px` (`comfortable`) |
+| `--rule-w` | `settings.rule_style` | `1px` (`thin`) |
+
+---
+
+## From `styles.css` (literal fallback)
+
+These tokens are emitted unconditionally in the stylesheet. They serve as the floor — what every component falls back to when a settings-driven token is undefined.
+
+### Brand palette (legacy)
+
+| Token | Value |
+|---|---|
+| `--navy` | `#002F5B` |
+| `--navy-deep` | `#001E3C` |
+| `--navy-soft` | `#1B3F65` |
+| `--band` | `#002F5B` |
+| `--grey` | `#D9DAD9` |
+| `--grey-deep` | `#B6B8B7` |
+| `--paper` | `#F6F4EF` |
+| `--paper-warm` | `#EFEBE2` |
+| `--surface` | `#F6F4EF` |
+| `--surface-warm` | `#EFEBE2` |
+| `--ink` | `#002F5B` |
+| `--muted` | `#565E6B` |
+
+### Hairlines
+
+| Token | Value | Notes |
+|---|---|---|
+| `--hairline` | `rgba(0,47,91,0.18)` | Default divider — navy with 18% opacity |
+| `--hairline-light` | `rgba(0,47,91,0.09)` | Subtle divider — navy with 9% opacity |
+| `--hairline-dark` | `rgba(255,255,255,0.18)` | Inverse divider — for use on dark surfaces |
+
+### Layout (literal)
+
+| Token | Value |
+|---|---|
+| `--nav-h` | `70px` |
+| `--pad-x` | `clamp(28px, 4vw, 80px)` |
+| `--section-y` | `clamp(36px, 4.5vw, 72px)` |
+
+### Typography (literal)
+
+| Token | Value |
+|---|---|
+| `--f-script` | `"consideredno", cursive` |
+| `--f-sans` | `"Tajawal", "Inter", system-ui, sans-serif` |
+
+### Motion
+
+| Token | Value | Notes |
+|---|---|---|
+| `--ease` | `cubic-bezier(.2, .6, .2, 1)` | The single easing curve used across every transition |
+
+### Image-slot component
+
+The image-slot component (used for inline placeholders) defines its own token set:
+
+| Token | Value |
+|---|---|
+| `--is-bg` | `var(--grey)` |
+| `--is-color` | `var(--muted)` |
+| `--is-border` | `rgba(0,47,91,0.18)` |
+| `--is-font` | `var(--f-sans)` |
+
+### Grid utility
+
+| Token | Value | Notes |
+|---|---|---|
+| `--cols` | `2` (responsive override) | Set by the view-mode picker on the PLP grid |
+
+## Token resolution order
+
+When a component reads `var(--ink)`, the browser walks the cascade in this order:
+
+1. **Inline style** — any element with `style="--ink: ..."` overrides everything below.
+2. **`<style>` in `theme.liquid`** — `:root { --ink: {{ settings.color_primary | default: '#002F5B' }}; }` emitted on every request.
+3. **`assets/styles.css`** — `:root { --ink: #002F5B; }` shipped with the theme.
+
+This means a merchant changing `color_primary` in the Theme Editor instantly updates every component on the storefront, while `styles.css` keeps shipping a literal default for any token the schema doesn't bind.
+
+## Dark mode
+
+Voyage's dark mode is opt-in via the `data-theme="dark"` attribute on `<html>`. When set, the `--surface` and `--ink` tokens flip:
+
+| Token | Light mode | Dark mode |
+|---|---|---|
+| `--surface` | `#F6F4EF` (paper) | `#0A0F18` (charcoal) |
+| `--ink` | `#002F5B` (navy) | `#F6F4EF` (paper) |
+| `--paper` | `#F6F4EF` | `#F6F4EF` (always stays paper — used as a literal accent) |
+| `--band` | `#002F5B` | `#002F5B` (always stays navy — the dark-band aesthetic is invariant) |
+
+The dark-mode toggle is hidden by default in `theme.liquid`. Merchants can expose it by adding a toggle button to the header.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Theme settings" href="/reference/theme-settings-reference">
+    The merchant-facing settings that drive these tokens.
+  </Card>
+  <Card title="JavaScript API" href="/reference/javascript-api">
+    The data-attribute hooks and global functions.
+  </Card>
+</CardGroup>

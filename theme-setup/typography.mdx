@@ -1,0 +1,84 @@
+---
+title: "Typography"
+description: "Body, heading, and accent fonts — pairing them well, scaling them carefully."
+---
+
+Voyage's type system has three roles: a sans-serif body that carries product copy and UI, a serif heading that opens sections with editorial weight, and a script accent that adds the signature flourish to hero and product titles.
+
+All three controls live in **Theme settings → Typography**.
+
+## The three fonts
+
+| Setting | Default | Renders |
+|---|---|---|
+| **Body font** | `Assistant Regular` | Paragraphs, product descriptions, line-item meta, buttons, form fields, table cells |
+| **Heading font** | `Playfair Display Regular` | Section headings, product titles, the cart drawer header, page titles |
+| **Accent font (italic / script)** | `Playfair Display Italic` | Italic headings, the script overline on the hero, decorative pulls in the studio note |
+
+The defaults pair a humanist sans with an Italian-style serif and lean on Playfair's italic for the accent — a clean, two-family pairing that feels editorial without becoming costume.
+
+## Picking fonts
+
+Each setting is a Shopify `font_picker`, so you choose from Shopify's hosted font library (the same fonts available across all themes — no external loads, no FOUT).
+
+When you swap a font, Voyage automatically derives the bold and italic variants using Shopify's `font_modify` filter. You don't pick three weights per font — pick one, and Voyage stretches it across the whole storefront.
+
+<Tip>
+Keep the body font sober and the heading font expressive. The reverse — a decorative body and a plain heading — reads as design fatigue. Voyage's defaults follow this rule for a reason.
+</Tip>
+
+## Scale ranges
+
+Two scale controls let you tune size globally without touching individual sections.
+
+| Setting | Range | Default | Step |
+|---|---|---|---|
+| **Body size** | `90%` to `130%` | `100%` | `5%` |
+| **Heading size** | `90%` to `160%` | `110%` | `5%` |
+
+Both are percentage multipliers applied to Voyage's base type ramp (`14 px` body, fluid heading ramp from `28 px` to `96 px`). A `110%` heading scale means every heading on the storefront grows by 10% — the H1 in the hero, every section header, every product title.
+
+| When to scale up | When to scale down |
+|---|---|
+| Body type ≤ 14 px feels cramped — push to `105–115%` | Headlines feel oversized on mobile — drop heading scale to `95–100%` |
+| Heading register feels timid — push heading scale to `120–130%` | Long product titles wrap awkwardly — drop heading scale to `100%` |
+
+## Recommended pairings
+
+<AccordionGroup>
+  <Accordion title="Default — Assistant + Playfair">
+    Voyage's shipping pairing. Modern humanist sans with a classic transitional serif. Works on every product category. Italianno-style flourishes from the italic variant give the editorial accent without needing a third font.
+  </Accordion>
+  <Accordion title="Editorial — Inter + DM Serif Display">
+    Tighter and more contemporary. Inter at body, DM Serif Display at headings. Reads younger than the default — recommended for fashion brands targeting visitors under 30, beauty brands, and considered home goods.
+  </Accordion>
+  <Accordion title="Quiet — Söhne (or Inter) + Inter Display">
+    A monoline pairing where the heading is just a heavier weight of the body. Reads as restraint. Recommended for niche fragrance, sculpture, and brands where the imagery does the heavy lifting.
+  </Accordion>
+  <Accordion title="Maximal — Cormorant + Cormorant SC">
+    A single-family serif system using small caps for headings. Very Italian, very heritage. Recommended for tailoring, watches, and houses with a long history. The heading scale at `120–130%` reads correctly.
+  </Accordion>
+</AccordionGroup>
+
+## A note on script fonts
+
+The default accent uses **Playfair Display Italic**, which renders correctly across every Voyage surface — including the Shopify Checkout, if you mirror the typography in Checkout branding.
+
+If you replace the accent with a true script font (Italianno, Allura, Petit Formal Script), be aware of one caveat:
+
+<Warning>
+True script fonts are loaded as web fonts on your storefront, but **Shopify's hosted Checkout iframe doesn't share your theme's font loads**. If you reference an Italianno-style script in Checkout-rendered surfaces (order confirmation snippets, sometimes the Checkout headline), it will fall back to a system serif. Confine pure script fonts to storefront-only surfaces — the hero, section accents, the studio note — and don't rely on them for confirmation copy.
+</Warning>
+
+If you want the script flourish *without* the fallback risk, use the italic of your serif heading (Voyage's default) — it gives 80% of the editorial mood with 100% of the cross-surface reliability.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Layout & spacing" href="/theme-setup/layout-and-spacing">
+    Container width, section spacing, rule weight, card ratios.
+  </Card>
+  <Card title="Theme styles" href="/theme-setup/theme-styles">
+    Three named presets that ship with curated type + colour combinations.
+  </Card>
+</CardGroup>

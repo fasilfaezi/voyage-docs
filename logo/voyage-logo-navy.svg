@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2240 560" width="2240" height="560">
+  <!--
+    Voyage wordmark — navy on transparent.
+    Uses Italianno script font (loaded site-wide via Google Fonts in
+    layout/theme.liquid). Text element keeps the file ~1 KB instead of a
+    rasterized vector path while preserving the same hand-written feel as
+    the original Abbara wordmark this theme was forked from.
+  -->
+  <text
+    x="50%"
+    y="55%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="Italianno, 'Snell Roundhand', 'Apple Chancery', cursive"
+    font-size="460"
+    font-weight="400"
+    fill="#002F5B">Voyage</text>
+</svg>

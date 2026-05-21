@@ -1,0 +1,187 @@
+---
+title: "Frequently asked questions"
+description: "Thirty-plus answers to the questions Voyage merchants ask before they buy and after they install."
+---
+
+A long list, grouped loosely from general → specific. If you're looking for a fix for something visibly broken, see [common issues](/troubleshooting/common-issues) instead.
+
+<AccordionGroup>
+  <Accordion title="Can I use Voyage for non-fashion stores?">
+    Yes. Voyage's editorial restraint reads as luxury in any category — beauty, home goods, wellness, fragrance, jewelry, even artisanal food and drink. The product card supports any image ratio (portrait, square, landscape) and the section library covers most considered-DTC content patterns. The theme leans fashion in its default copy, but the structure is category-agnostic.
+  </Accordion>
+
+  <Accordion title="Does Voyage require a build step or npm?">
+    No. Voyage is pure Liquid, CSS, and vanilla JavaScript. There is no `package.json`, no `node_modules`, no compile step. You can edit any file directly in the Shopify code editor and see the result on save.
+  </Accordion>
+
+  <Accordion title="Will the hero video autoplay on mobile?">
+    Yes. Mobile browsers require three conditions to autoplay — `muted`, `playsinline`, and `loop` — all of which Voyage sets by default. As long as your MP4 has no embedded audio (or is silent) and is under 4 MB, it will autoplay on iOS Safari, Android Chrome, and every modern desktop browser.
+  </Accordion>
+
+  <Accordion title="How big should product images be?">
+    1500–2000 px on the longest edge, JPG q85. Shopify's image CDN serves resized variants on demand, but it can only downscale — uploading at 800 px and asking the CDN for 1600 px gives you an upscaled blur. Aim larger on upload, and Voyage will serve the right size at every breakpoint.
+  </Accordion>
+
+  <Accordion title="Does Voyage support multi-currency and multi-language?">
+    Yes. Enable **Shopify Markets** in your admin → **Settings → Markets**. Voyage renders a currency picker and a language picker in the announcement bar and the header utilities. Prices format via Shopify's `money` filter, so currencies follow the shopper's chosen market.
+  </Accordion>
+
+  <Accordion title="Why does my announcement bar show 'Currently sailing'?">
+    Default placeholder copy. Open the Theme Editor → **Header group** → **Announcement bar** → edit each **Message** block. Voyage rotates messages in a marquee — replace all four defaults with your own.
+  </Accordion>
+
+  <Accordion title="Can I have more than one collection on the homepage?">
+    Yes. The New arrivals section is one collection grid; you can add as many **Featured collection** sections as you want. Drop one between sections from **Add section** in the homepage editor.
+  </Accordion>
+
+  <Accordion title="How do I show variant images on the PDP?">
+    In the Shopify admin, open the product → scroll to **Variants** → click each variant → upload or assign an image. Voyage's gallery swaps automatically when a variant is selected on the storefront.
+  </Accordion>
+
+  <Accordion title="How do I disable the cinematic page-transition curtain?">
+    Theme settings → **Animation** → **Editorial premium effects** → uncheck **Intro loader**. The curtain stops playing on every navigation. Reload to confirm.
+  </Accordion>
+
+  <Accordion title="My Lighthouse performance score dropped after adding apps. What do I do?">
+    Audit each app's impact in isolation. The fastest way: install one app, run Lighthouse, install the next, run again. The difference is the app's cost.
+
+    Most performance regressions come from apps that load synchronous JavaScript and large CSS bundles on every page. Look for apps that ship theme app extensions (lazy-loaded by default) over apps that ask you to paste `<script>` tags into your theme code.
+  </Accordion>
+
+  <Accordion title="Does Voyage support subscriptions?">
+    Yes. The PDP includes a **Selling plans** block that works with Shopify Subscriptions and most third-party subscription apps (Recharge, Bold). Shoppers see a one-time / subscription toggle on the product page; the subscription is honored in the cart and at checkout.
+  </Accordion>
+
+  <Accordion title="Can I use a custom domain for the docs site?">
+    Yes. Mintlify supports custom domains via CNAME — see the Mintlify deployment docs for the exact DNS records. This is unrelated to your Shopify domain; you can host docs at `docs.your-domain.com` while the storefront runs on `your-domain.com`.
+  </Accordion>
+
+  <Accordion title="How do I migrate from another theme?">
+    1. **Install Voyage as unpublished.** The current theme keeps serving while you customize Voyage.
+    2. **Audit content.** Walk the homepage and product page templates. Most content (logo, copy, product images) carries over automatically; section-specific settings need re-entering.
+    3. **Decide Classic vs New customer accounts.** Voyage's customer pages only render under Classic. Switch in **Settings → Customer accounts**.
+    4. **Re-brand the Checkout.** Match your Checkout colors to Voyage — see [checkout branding](/customization/checkout-branding).
+    5. **Test on staging.** Use the preview URL Shopify generates for unpublished themes. Walk a full purchase flow.
+    6. **Publish.** Themes → Voyage → Publish.
+  </Accordion>
+
+  <Accordion title="Will theme updates overwrite my customizations?">
+    Theme Editor settings (the JSON in `templates/*.json` and `config/settings_data.json`) are preserved across theme updates. Code edits (changes to `.liquid` files, custom CSS, modified JavaScript) are not — they'll be overwritten if you re-install Voyage.
+
+    If you've made code changes, fork the theme (duplicate it in your admin before applying updates) and merge changes manually.
+  </Accordion>
+
+  <Accordion title="Can customers leave reviews?">
+    Voyage doesn't include a native reviews engine — reviews are a category best handled by a dedicated app (Loox, Judge.me, Yotpo, Stamped). Install one, then add its app block on the PDP via **Add block** in the main-product section.
+  </Accordion>
+
+  <Accordion title="How do I add a size guide?">
+    Two options.
+
+    1. **Inline link.** Product template → **Variant picker** block → paste a URL in **Size guide link**. A small link appears alongside the size selector.
+    2. **Modal.** Use the Custom Liquid block on the PDP to inject a "Size guide" button that opens a modal. Most third-party size-finder apps also expose a block.
+
+    Voyage also has a native **size finder helper** — a brand cross-reference tool. Toggle it on in the Variant picker block.
+  </Accordion>
+
+  <Accordion title="Is Voyage RTL-compatible?">
+    Yes. The body font default falls back to Tajawal in production, which supports Arabic, Hebrew, and other RTL scripts. Set **Theme settings → Typography → Body font** to a face that supports your language. Shopify Markets handles the RTL direction switching automatically.
+  </Accordion>
+
+  <Accordion title="What font does Voyage use?">
+    Voyage's editorial production uses Tajawal for body, Italianno (or Playfair Display italic) for the script accent, and Playfair Display for headings. All three are picker-swappable in **Theme settings → Typography**.
+  </Accordion>
+
+  <Accordion title="Can I sell digital products?">
+    Yes. Create the product as usual, set its weight to zero, and disable shipping for the relevant shipping zones. Voyage renders the PDP the same way for physical and digital products. Pair with a digital delivery app (DigitalDownloads is Shopify's free first-party option) for the file delivery flow.
+  </Accordion>
+
+  <Accordion title="How do I add a press logo strip?">
+    Add a **Logo list** section to the homepage. **Add section → Logo list** → add a block per logo → upload each. Voyage renders them in a single row on desktop, two rows on tablet, scrolling carousel on mobile.
+  </Accordion>
+
+  <Accordion title="How do I add a testimonial section?">
+    **Add section → Testimonials**. Each testimonial is a block — add as many as you want, each with quote, attribution, and optional avatar.
+  </Accordion>
+
+  <Accordion title="Can I customize the loader?">
+    Yes, but it requires editing `assets/premium.css`. The intro loader is a CSS-only animation pinned to the viewport — color, duration, and exit easing are all CSS variables at the top of the file. Most merchants leave it alone; if you want to swap the wordmark inside the loader, replace the SVG referenced in `snippets/intro-loader.liquid`.
+  </Accordion>
+
+  <Accordion title="How do I add Made-to-Measure?">
+    Two paths.
+
+    1. **Quick.** Configure the **Bespoke CTA** block on the PDP (Product template → Bespoke CTA block) and point it at `/pages/made-to-measure`. Create that page in **Online Store → Pages** with your booking form (a Typeform, a Calendly, or a Custom Liquid block embedding your scheduler).
+    2. **Full.** Create a dedicated template — `templates/page.bespoke.liquid` — that renders a multi-step booking flow. This requires custom Liquid work.
+  </Accordion>
+
+  <Accordion title="Does Voyage have a wishlist?">
+    The heart icon on product cards saves favorites to `localStorage` by default — a per-browser, per-device list. For a persistent cross-device wishlist tied to a customer account, integrate a wishlist app (Wishlist Plus, Wishlist King). The hover button toggle in **Theme settings → Cards → Show wishlist hover button** controls the icon's visibility.
+  </Accordion>
+
+  <Accordion title="Can I A/B test sections?">
+    Yes, in two ways.
+
+    1. **Shopify Plus.** Plus stores can run multiple themes simultaneously via the Theme Library and serve them to different segments.
+    2. **App.** Tools like Intelligems, Visually, and Convert work across all Shopify plans and let you A/B test by section or by URL.
+
+    Voyage's section-based architecture makes A/B testing easy — variants typically differ by which sections are enabled, not by code changes.
+  </Accordion>
+
+  <Accordion title="Why is the cart drawer empty after I added a product?">
+    Open the browser console. If you see a JavaScript error from `theme.js` around the cart update, the AJAX response isn't being parsed.
+
+    Common cause: a third-party app has injected a script that intercepts the `add-to-cart` event. Disable suspect apps one at a time and retest.
+  </Accordion>
+
+  <Accordion title="How do I add app blocks to the homepage?">
+    Two options.
+
+    1. **App's native section.** Most modern apps ship their own section. **Add section** → scroll to the app section (under the divider).
+    2. **Custom Liquid section.** **Add section → Custom liquid** → paste the app's embed snippet.
+  </Accordion>
+
+  <Accordion title="Will the theme work on Shopify Basic plan?">
+    Yes. Every Voyage feature works on Basic. The only Shopify-side limitations: Plus-specific features (multiple themes, B2B catalog, Shopify Functions) aren't accessible, but Voyage doesn't depend on any of them.
+  </Accordion>
+
+  <Accordion title="How do I add a video to the homepage?">
+    Two patterns.
+
+    1. **Hero section** — full-bleed cinematic video with overlay copy. Use the first slide's video slot.
+    2. **Video section** — a standalone video within the homepage rhythm, with a caption underneath. **Add section → Video**.
+  </Accordion>
+
+  <Accordion title="Why does the offer popup appear every time?">
+    It's gated by `sessionStorage`. Closing the browser tab clears the gate, so on the next visit you see it again. This is intentional — most stores want returning visitors to see the offer once per session, not once ever.
+
+    If you want once-ever, edit `assets/popup.js` and change `sessionStorage` to `localStorage`. The popup will respect the dismissal indefinitely.
+  </Accordion>
+
+  <Accordion title="How do I disable the offer popup?">
+    Theme Editor → **Offer popup** section → uncheck **Enable**. The section stays in the template (so you can re-enable later) but doesn't render.
+  </Accordion>
+
+  <Accordion title="Can I customize email templates?">
+    Yes, but not in the theme. Shopify admin → **Settings → Notifications**. Each transactional email (order confirmation, shipping, abandoned cart, customer welcome) is its own template, editable in HTML. Voyage doesn't ship branded email templates — these are a separate project.
+  </Accordion>
+
+  <Accordion title="Does Voyage work with Shop Pay?">
+    Yes. Shop Pay is a Shopify Payments feature, not a theme feature — once enabled in **Settings → Payments**, Voyage renders the Shop Pay button in the buy buttons area and the Shop Pay Installments banner on the price block (toggleable in the Price block settings).
+  </Accordion>
+
+  <Accordion title="How do I get help if I'm stuck?">
+    See [support and changelog](/troubleshooting/support-and-changelog). Response time is 1–2 business days. In-scope topics: theme functionality, settings, customization help. Out of scope: Shopify platform issues (route those to Shopify Support) and third-party app conflicts (route those to the app's support).
+  </Accordion>
+</AccordionGroup>
+
+## Still didn't find your answer?
+
+<CardGroup cols={2}>
+  <Card title="Common issues" href="/troubleshooting/common-issues">
+    The bugs-and-fixes list.
+  </Card>
+  <Card title="Support and changelog" href="/troubleshooting/support-and-changelog">
+    Reach the studio.
+  </Card>
+</CardGroup>

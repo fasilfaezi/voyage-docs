@@ -1,0 +1,216 @@
+---
+title: "Sections overview"
+description: "All 47 sections in Voyage, grouped by purpose. Find a section, see its template availability, jump to its reference."
+---
+
+Every page in Voyage is a stack of sections. A section is one Liquid file (`sections/*.liquid`) with a JSON schema at the bottom — the schema is what the merchant configures in the Theme Editor. This page is the index. Each section lives in one of ten deep-dive pages, grouped by what it does.
+
+## The ten section groups
+
+<CardGroup cols={2}>
+  <Card title="Hero & banners" href="/sections-reference/hero-and-banners" icon="image">
+    Home hero, image banner, slideshow — full-bleed hero patterns.
+  </Card>
+  <Card title="Product sections" href="/sections-reference/product-sections" icon="shirt">
+    Main product (15 blocks), featured product, featured collection, new arrivals, related & complementary.
+  </Card>
+  <Card title="Editorial sections" href="/sections-reference/editorial-sections" icon="newspaper">
+    Chapters, club, image-with-text, multicolumn, rich text, testimonials.
+  </Card>
+  <Card title="Commerce sections" href="/sections-reference/commerce-sections" icon="cart-shopping">
+    Cart, collection (PLP), category archive, bundle.
+  </Card>
+  <Card title="Media sections" href="/sections-reference/media-sections" icon="film">
+    Video, logo list, map.
+  </Card>
+  <Card title="Engagement sections" href="/sections-reference/engagement-sections" icon="envelope">
+    Newsletter, contact form, blog posts, contact, blog index, article.
+  </Card>
+  <Card title="Custom & advanced" href="/sections-reference/custom-and-advanced" icon="code">
+    Custom Liquid and app blocks (`@app`).
+  </Card>
+  <Card title="Customer section templates" href="/sections-reference/customer-section-templates" icon="user">
+    Login, register, account, order, addresses, password reset, activation.
+  </Card>
+  <Card title="Header & footer" href="/sections-reference/header-and-footer" icon="window-maximize">
+    Header, footer, announcement bar, and the two section groups that bind them.
+  </Card>
+</CardGroup>
+
+## The full catalog
+
+47 sections in total, two section groups, and a handful of supporting partials (search, quick-view, password, 404). The table below is the master index.
+
+### Hero & banners
+
+| Section | File | Description |
+|---|---|---|
+| Home · Hero | `home-hero.liquid` | Cinematic carousel with video / image slides, overlaid copy, dual CTAs, coordinates plate. |
+| Image banner | `image-banner.liquid` | Full-bleed image with eyebrow / heading / body / two CTA blocks. |
+| Slideshow | `slideshow.liquid` | Full-bleed image carousel with per-slide copy, autoplay, scroll-snap. |
+
+### Product sections
+
+| Section | File | Description |
+|---|---|---|
+| Product | `main-product.liquid` | The PDP. 15 block types — eyebrow, title, price, variant picker, quantity, buy buttons, pickup, description, perks, provenance, bespoke CTA, share, accordion, custom Liquid, app blocks. |
+| Featured product | `featured-product.liquid` | One merchant-chosen product showcased with image + buy column. |
+| Featured collection | `featured-collection.liquid` | Heading + product grid drawn from one collection. |
+| Home · New arrivals | `home-new-arrivals.liquid` | Script-headed product grid from a chosen collection. |
+| Related products | `related-products.liquid` | ML-driven product recommendations on the PDP. |
+| Complementary products | `complementary-products.liquid` | "Pair with" recommendations on the PDP (Search & Discovery rules). |
+
+### Editorial sections
+
+| Section | File | Description |
+|---|---|---|
+| Home · Chapters | `home-chapters.liquid` | Two-up editorial tiles (Men's Wardrobe / Women's Wardrobe pattern). |
+| Home · Club | `home-club.liquid` | Full-bleed membership CTA over editorial image. |
+| Image with text | `image-with-text.liquid` | Paired image + copy column, side-toggleable. |
+| Multicolumn | `multicolumn.liquid` | 2–4 column grid of icon/image + heading + body. |
+| Rich text | `rich-text.liquid` | Eyebrow + heading + body + button stack, width-constrained. |
+| Testimonials | `testimonials.liquid` | Press / customer / editor quote grid with optional star ratings. |
+
+### Commerce sections
+
+| Section | File | Description |
+|---|---|---|
+| Cart | `main-cart.liquid` | Full-page cart with line items, note, accelerated checkout. |
+| Collection | `main-collection.liquid` | The PLP. Sticky bar, chip nav, filter sidebar, view-mode picker, sort dropdown, paginated grid. |
+| Home · Category archive | `home-category-archive.liquid` | Dark navy band with collection tiles. |
+| Home · Bundle | `home-bundle.liquid` | Hotspot-driven "complete the look" picker on a stage image. |
+
+### Media sections
+
+| Section | File | Description |
+|---|---|---|
+| Video | `video.liquid` | Shopify-hosted or YouTube/Vimeo embed with optional heading + caption. |
+| Logo list | `logo-list.liquid` | Row of partner / press / stockist marks. |
+| Map | `map.liquid` | Google Maps embed by address or paste-in URL. |
+
+### Engagement sections
+
+| Section | File | Description |
+|---|---|---|
+| Newsletter | `newsletter.liquid` | Standalone signup. Posts to Shopify Customer Newsletter form. |
+| Contact form | `contact-form.liquid` | Drop-in contact form, addable to any page. |
+| Blog posts | `blog-posts.liquid` | Featured articles grid from a chosen blog. |
+| Contact form (page) | `main-contact.liquid` | The contact page section — uses the same form fields with a page-tailored layout. |
+| Blog (article list) | `main-blog.liquid` | The blog index section. Paginated grid of articles. |
+| Article | `main-article.liquid` | The article detail section. Comments, tags, share links, JSON-LD. |
+
+### Custom & advanced
+
+| Section | File | Description |
+|---|---|---|
+| Custom Liquid | `custom-liquid.liquid` | Insertable Liquid / HTML / CSS / JS block on any template. |
+| `@app` block type | — | App embed slot inside `main-product` and `featured-product`. Renders any Shopify app block. |
+
+### Customer sections
+
+These render only when **Classic Customer Accounts** is enabled in Shopify admin. Under New Customer Accounts, Shopify renders its own UI and these sections are bypassed.
+
+| Section | File | Description |
+|---|---|---|
+| Customer login | `main-customer-login.liquid` | Sign-in form + inline password recovery. |
+| Customer register | `main-customer-register.liquid` | Create-account form. |
+| Customer account | `main-customer-account.liquid` | Dashboard — orders table + default address. |
+| Customer order | `main-customer-order.liquid` | Passport-style order detail with line items, totals, addresses. |
+| Customer addresses | `main-customer-addresses.liquid` | Address book with add / edit / delete. |
+| Customer reset password | `main-customer-reset-password.liquid` | Reset flow completion. |
+| Customer activate account | `main-customer-activate-account.liquid` | Activation flow for invited customers. |
+
+### Header & footer
+
+| Section | File | Description |
+|---|---|---|
+| Header | `header.liquid` | Centered wordmark, primary nav (3 levels of nesting), utilities (search, account, cart). |
+| Footer | `footer.liquid` | Block-based — link lists, rich text, newsletter, image, social, payment icons, studio. |
+| Announcement bar | `announcement-bar.liquid` | Slim horizontal bar above header with marquee or static messages. |
+| Header group | `header-group.json` | The section group that binds announcement bar + header. |
+| Footer group | `footer-group.json` | The section group that holds the footer. |
+
+### Supporting sections
+
+A few sections aren't documented in the ten group pages because they render fixed UI rather than configurable layout. They're listed here for completeness.
+
+| Section | File | Description |
+|---|---|---|
+| 404 | `main-404.liquid` | The not-found page body. |
+| Search | `main-search.liquid` | Search results template. |
+| Page | `main-page.liquid` | Generic CMS page section. |
+| Page · About | `main-page-about.liquid` | Heritage / about page section. |
+| Page · Lookbook | `main-page-lookbook.liquid` | Lookbook page section. |
+| List collections | `main-list-collections.liquid` | The `/collections` index. |
+| Collection list | `collection-list.liquid` | Reusable list of collection tiles, addable to any page. |
+| Password | `main-password.liquid` | Password-protected storefront landing. |
+| Quick view | `quick-view.liquid` | The quick-view modal contents (rendered via Section Rendering API). |
+
+## Template availability
+
+Most sections can be added to any template, but several are pinned to a specific template by Shopify's `enabled_on` schema field — usually the matching `main-*` section, plus product recommendation sections that only make sense on the PDP. The table below lists those constraints.
+
+| Section | Available on |
+|---|---|
+| Home · Hero | All templates (intended for the home page) |
+| Home · New arrivals | All templates (intended for the home page) |
+| Home · Chapters | All templates |
+| Home · Club | All templates |
+| Home · Category archive | All templates |
+| Home · Bundle | All templates |
+| Image banner | All templates |
+| Slideshow | All templates |
+| Image with text | All templates |
+| Multicolumn | All templates |
+| Rich text | All templates |
+| Testimonials | All templates |
+| Featured product | All templates |
+| Featured collection | All templates |
+| Newsletter | All templates |
+| Contact form | All templates |
+| Blog posts | All templates |
+| Video | All templates |
+| Logo list | All templates |
+| Map | All templates |
+| Custom Liquid | All templates |
+| Product | Product template (pinned) |
+| Related products | Product template (pinned via `enabled_on`) |
+| Complementary products | Product template (pinned via `enabled_on`) |
+| Collection | Collection template |
+| Cart | Cart template |
+| Blog (article list) | Blog template |
+| Article | Article template |
+| Contact form (page) | Page template (intended for the contact page) |
+| Customer sections | Customer-specific templates only |
+| Header & Footer | Layout-level (section groups, every page) |
+| Announcement bar | Layout-level (every page, with per-template visibility toggles) |
+
+## How section docs are organized
+
+Each section reference page covers:
+
+1. **Purpose** — one-line summary of what the section does and when to use it.
+2. **Template availability** — where the section can live.
+3. **Section settings** — every schema setting, with its id, type, default, and what it controls.
+4. **Block types** — every block this section accepts, with its own settings.
+5. **Max blocks** — Shopify's hard cap if one is set.
+6. **When to use** — practical guidance on which section to choose when several could fit.
+
+Settings are documented using Mintlify's `<ParamField>` component so each row is consistently typed and the defaults are explicit. Block types are listed with their limits where the schema sets a `"limit"`.
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="Hero & banners" href="/sections-reference/hero-and-banners">
+    Start with the hero patterns — the loudest sections on the storefront.
+  </Card>
+  <Card title="Product sections" href="/sections-reference/product-sections">
+    The longest page — `main-product` has 15 block types.
+  </Card>
+  <Card title="Header & footer" href="/sections-reference/header-and-footer">
+    Every storefront has these. Configure them once and they're everywhere.
+  </Card>
+  <Card title="Section schema tables" href="/reference/section-schema-tables">
+    A reference-style compendium of every section's settings in one place.
+  </Card>
+</CardGroup>

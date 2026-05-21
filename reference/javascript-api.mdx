@@ -1,0 +1,203 @@
+---
+title: "JavaScript API"
+description: "Voyage's public JavaScript surface — global functions, custom events, and data-attribute hooks."
+---
+
+Voyage ships a small public JavaScript API designed for advanced merchants and app developers. Every entry point is either a global function on `window`, a custom event dispatched on a known element, or a `data-*` attribute that triggers behavior when added to any element.
+
+The theme is deliberately framework-free — vanilla JS, no build step — so you can call into it from any inline script, any Shopify app, or any custom snippet you add via the **Custom Liquid** block.
+
+## Global functions
+
+### `window.voyageToast(message, type?)`
+
+Display a toast notification at the bottom of the viewport for ~2.2 seconds.
+
+```js
+window.voyageToast('Added to bag');
+```
+
+- **`message`** — the string to display. Required.
+- **`type`** — optional. Reserved for future variants (success / error styling). Currently any value falls back to the default visual treatment.
+
+A toast element is lazily created on first call and reused for subsequent calls. Calls within the 2.2s display window reset the timer rather than queuing — only the most recent message is shown.
+
+Defined in: `assets/theme.js`.
+
+### `window.refreshCart()`
+
+Re-fetch the cart drawer and update the item count badge. Returns a promise that resolves once the DOM has been updated.
+
+```js
+await window.refreshCart();
+```
+
+The function uses Shopify's **Section Rendering API** (`/?sections=cart-drawer`) to fetch fresh server-rendered markup for the drawer, then replaces the drawer's contents. It also fetches `/cart.js` and updates every `[data-cart-count]` element on the page, animating any badge whose count increased.
+
+Call this whenever you've mutated the cart from custom JavaScript — adding a line item, applying a discount, removing an item via the AJAX API.
+
+Defined in: `assets/theme.js`.
+
+## Custom events
+
+Voyage's JavaScript is bound primarily through DOM event delegation rather than CustomEvent dispatch — most behavior is keyed off click events on elements with specific `data-*` attributes. The one notable dispatched event:
+
+| Event | Where | Purpose |
+|---|---|---|
+| `input` | Quick-view qty input (`bubbles: true`) | Triggers the variant picker to recompute total when qty changes |
+
+For most custom integrations, the better pattern is to call `window.refreshCart()` after a cart mutation rather than listening for a dispatched event.
+
+## Data-attribute hooks
+
+Voyage uses `data-*` attributes extensively to bind behavior to markup. Adding any of these attributes to your own markup (in a Custom Liquid block, in a section template, or via an app) wires the element into Voyage's JavaScript automatically.
+
+### Cart drawer
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-cart-open` | Any clickable element (link, button) | Opens the cart drawer on click |
+| `data-cart-close` | Any clickable element | Closes the cart drawer on click |
+| `data-cart-drawer` | The drawer container itself | Marks the element as the drawer target for `refreshCart` |
+| `data-cart-backdrop` | The drawer's backdrop overlay | Closes the drawer when clicked |
+| `data-cart-count` | A `<span>` element | Live cart item count — updated automatically by `refreshCart` |
+
+### Quick-view modal
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-quickview` | The modal container | Marks the modal target |
+| `data-quickview-trigger` | A button on a product card | Opens the quick-view for that product |
+| `data-quickview-close` | A button inside the modal | Closes the modal |
+| `data-quickview-form` | The form inside the modal | Submits to add-to-cart |
+| `data-quickview-variant-id` | A hidden input | Stores the selected variant ID |
+| `data-quickview-price` | A `<span>` | Updated as variants change |
+| `data-quickview-qty` | A number input | Quantity stepper input |
+| `data-quickview-qty-up` | A button | Increments the qty |
+| `data-quickview-qty-down` | A button | Decrements the qty |
+
+### Magnetic buttons
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-magnetic` | A wrapping `<span>` around a button | Applies the magnetic cursor-follow effect. Value is the strength multiplier (e.g. `0.18`). |
+| Class `magnetic` | (Equivalent shorthand) | Same as `data-magnetic` with default strength |
+
+### Custom cursor
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-cursor="hover"` | Any interactive element | Cursor enlarges and dot inverts on hover |
+| `data-cursor="image"` | A gallery thumbnail or product image | Cursor renders an image-preview lens |
+| `data-cursor="text"` | A text input or contenteditable element | Cursor renders as a text beam |
+
+### Scroll reveals
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| Class `reveal` | Any element | Animates from 16px below into place on scroll-in |
+| Class `reveal-img` | An image | Animates with the blur-to-clear transition |
+| `data-reveal` | Any element | Same as `reveal` class — for use when classes are reserved |
+| `--reveal-delay` (CSS var) | Inline style | Stagger delay in ms — useful in loops |
+
+### Filters and grid
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-filters-toggle` | A button | Opens the filter sidebar drawer |
+| `data-filters-close` | A button | Closes the filter sidebar |
+| `data-sort-form` | The sort `<form>` | Marks the form for the dropdown behavior |
+| `data-sort-toggle` | A button | Opens the sort menu |
+| `data-sort-option` | A button inside the menu | Carries the sort value |
+| `data-view="2|3|4|list"` | A button in the view picker | Sets the grid column count or list view; persisted in localStorage |
+
+### Chip nav
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-chips-scroll` | The chip nav wrapper | Marks it for the horizontal scroll JS |
+| `data-at-start`, `data-at-end` | Same wrapper | Toggled true/false to fade the leading/trailing edge |
+
+### Predictive search
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-search-input` | The search `<input>` | Debounced fetch to `/search?view=json` on input |
+| `data-search-results` | A `<div>` | Receives the rendered predictive results |
+| `data-search-panel` | The dropdown panel | Marks the visibility target |
+
+### PDP
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-pdp-form` | The product form | Marks the form for the variant picker JS |
+| `data-pdp-variant-id` | A hidden input | Stores the selected variant ID |
+| `data-pdp-option` | A radio input | Marks the input as a variant option, with the option index as the value |
+| `data-pdp-price` | A `<span>` | Updated as variants change |
+| `data-pdp-price-compare` | A `<span>` | Updated with compare-at price when applicable |
+| `data-pdp-atc` | The add-to-cart button | Disabled when the variant is sold out |
+| `data-pdp-atc-total` | A `<span>` in the button label | Live cart-total preview |
+| `data-pdp-gallery` | The gallery container | Marks it for the cursor-follow zoom JS |
+| `data-pdp-gallery-thumb` | A thumbnail button | Clicking switches the lead image |
+| `data-pdp-gallery-main-img` | The `<img>` element | Receives the new src |
+| `data-pdp-color-label` | A `<span>` near the title | Updated with the selected color value |
+| `data-zoom-img` | The hover-zoom container | The 2400px-wide zoom image URL |
+| `--zx`, `--zy` (CSS vars) | Same container | The current zoom focus point in percent |
+| `data-sf-toggle` | A button | Opens the size finder panel |
+| `data-sf-panel` | A `<div>` | The size finder panel |
+| `data-sf-brand`, `data-sf-size` | `<select>` elements | Inputs for the size cross-reference |
+| `data-sf-rec` | A `<strong>` | The recommended size output |
+| `data-sf-use` | A button | Applies the recommended size to the product form |
+
+### Quantity steppers
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-qty-down` | A `<button>` | Decrements the sibling `[data-qty-input]` |
+| `data-qty-up` | A `<button>` | Increments the sibling `[data-qty-input]` |
+| `data-qty-input` | A `<input type="number">` | The quantity input |
+
+### Nav and theme toggles
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-nav-toggle` | A burger button | Opens the mobile nav drawer |
+| `data-nav-drawer` | The drawer container | Marks the drawer target |
+| `data-nav-group` | A submenu wrapper | Marks a collapsible nav group |
+| `data-nav-group-toggle` | A button | Toggles the group |
+| `data-theme-toggle` | A button | Toggles `data-theme="dark"` on `<html>` |
+| `data-sound-toggle` | A button | Toggles click sounds; updates icons |
+| `data-currency-switcher` | A `<div>` | Marks a currency switcher |
+| `data-lang-switch` | A `<div>` | Marks a language switcher |
+
+### Misc
+
+| Attribute | Where to put it | Behavior |
+|---|---|---|
+| `data-scroll-marquee` | A wrapper | Applies a horizontal-scroll marquee transform |
+| `data-click-sound="soft"` | Any clickable | Plays the soft click variant on click |
+| `data-pcard-video` | A `<video>` in a product card | Plays/pauses on enter/exit viewport |
+| `data-section-id` | A section root | Carries the Shopify section ID for the section-rendering API |
+
+## Files
+
+The full implementation lives in two files:
+
+| File | What's in it |
+|---|---|
+| `assets/theme.js` | The main orchestrator — reveals, magnetic, cursor, sounds, scroll, nav, cart drawer, quick view, predictive search, page transitions, PLP toolbar, scroll marquee, theme toggle, toast |
+| `assets/pdp.js` | Product page islands — variant picker, gallery, zoom, size finder, share, accordion |
+| `assets/bundle.js` | Bundle section — hotspot selection, "add bundle to cart" flow |
+| `assets/hero-carousel.js` | Hero slideshow auto-advance and slide transitions |
+| `assets/image-slot.js` | Inline image-slot placeholder component |
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="CSS tokens" href="/reference/css-tokens-reference">
+    The design tokens consumed by every component.
+  </Card>
+  <Card title="Customization recipes" href="/customization/recipes-overview">
+    Examples of using these hooks in custom integrations.
+  </Card>
+</CardGroup>

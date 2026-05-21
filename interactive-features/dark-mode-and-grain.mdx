@@ -1,0 +1,115 @@
+---
+title: "Dark mode & film grain"
+description: "Two surface treatments that lift Voyage from clean to cinematic — both purely CSS, both free at runtime."
+---
+
+Dark mode and the film-grain overlay are the two surface treatments that give Voyage its premium feel. Neither requires JavaScript at the render layer — both are pure CSS, both flip with a single attribute on `<html>`, and both stay out of the critical-path cost.
+
+## Dark mode
+
+Voyage ships with a fully wired dark mode. A moon icon in the header acts as the toggle. Click it and the entire token system inverts: paper backgrounds become navy, navy ink becomes paper-cream, surface-warm becomes a deep variant, and the film grain switches blend modes.
+
+### How the toggle works
+
+The toggle is a button with `data-theme-toggle` in the header. On click:
+
+1. JS reads the current `data-theme` attribute on `<html>` (default: `light`)
+2. Flips it (`light` → `dark` or vice versa)
+3. Writes the new value to `localStorage` under `voyage-theme`
+
+On every subsequent page load, an inline pre-paint script reads `voyage-theme` from `localStorage` and sets `data-theme` on `<html>` *before* the first paint — so dark-mode visitors never see a white flash on navigation.
+
+```js
+// Simplified — actual code in theme.js
+const setTheme = (t) => {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('voyage-theme', t);
+};
+setTheme(localStorage.getItem('voyage-theme') || 'light');
+```
+
+### What flips
+
+The dark-mode block in `assets/premium.css` overrides token values when `:root[data-theme="dark"]` matches. The flips:
+
+| Token | Light | Dark |
+|---|---|---|
+| `--paper` | `#F6F4EF` | `#0A0F18` |
+| `--ink` | `#002F5B` | `#F6F4EF` |
+| `--surface` | `#F6F4EF` | `#10182A` |
+| `--surface-warm` | `#EFE9DC` | `#0E1626` |
+| `--hairline` | `#E5E2DA` | `rgba(246,244,239,0.12)` |
+
+Specific surfaces also get small targeted overrides — the announcement bar, buttons, cart drawer footer, product cards, the bundle section background, the cloth-cut diagram, the passport-style order detail, toasts — each gets the right contrast pairing in dark mode without relying on token inheritance.
+
+### Persistence
+
+The visitor's choice persists via `localStorage` (`voyage-theme`). On page navigation, hard reload, or new tab open from a same-origin link, the preference holds. Across browser sessions, it holds. Across devices, it doesn't — Voyage doesn't sync the preference to a Shopify customer account.
+
+To support OS-level "prefer dark mode" auto-detection, you can extend the pre-paint coordinator to read `matchMedia('(prefers-color-scheme: dark)').matches` if no `localStorage` value is set. By default, Voyage starts every fresh visitor in light mode.
+
+### Removing dark mode
+
+There's no theme setting to disable dark mode entirely. To remove it:
+
+- Delete the moon-icon button from `sections/header.liquid`
+- Optionally, remove the `:root[data-theme="dark"]` rules from `assets/premium.css` (not strictly necessary — they're inert without the toggle, but they add ~3 KB)
+
+## Film grain overlay
+
+A subtle texture across the entire viewport — slightly visible noise that gives flat backgrounds a tactile, film-photograph quality. The effect is what makes solid colours feel printed rather than digital.
+
+### Implementation
+
+A single fixed-position `<div class="grain">` covers the viewport at `z-index: 200`. It's filled with an inline SVG noise texture:
+
+```css
+.grain {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' …<feTurbulence type='fractalNoise' baseFrequency='0.9' …/>…</svg>");
+}
+```
+
+The SVG generates the noise procedurally — no image file to load. The whole effect is ~600 bytes inline.
+
+`pointer-events: none` ensures the overlay doesn't intercept clicks. `mix-blend-mode: multiply` lets the noise darken light backgrounds slightly without affecting dark ones.
+
+### Dark-mode flip
+
+When dark mode is active, the grain switches blend modes:
+
+```css
+:root[data-theme="dark"] .grain {
+  mix-blend-mode: screen;
+  opacity: 0.12;
+}
+```
+
+`screen` lifts the dark surfaces slightly with the noise (the inverse of `multiply` on light), so the effect reads consistently in both themes — adding "texture" rather than "darkening" or "lightening" depending on the surface.
+
+The opacity also drops from `0.16` to `0.12` in dark mode because the noise is more visible on near-black backgrounds.
+
+### Toggle
+
+The grain is gated on a theme setting: **Theme settings → Animation → Film grain overlay**. Default `true`. When disabled, the grain `<div>` isn't rendered at all (the Liquid wraps it in an `{% if settings.show_grain %}` check), so there's nothing for the GPU to composite.
+
+### Performance
+
+Both dark mode and the grain are zero-JS-overhead at runtime — they're CSS-only after the initial pre-paint coordinator sets the right `data-theme` attribute. The grain's SVG is inline data and never hits the network. The `mix-blend-mode` composite is GPU-accelerated on every modern browser.
+
+The combined render cost of dark mode + grain is below any measurable threshold in our internal performance testing. There's no reason to disable either for performance — disable them only if you don't want the visual effect.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Page transitions" href="/interactive-features/page-transitions">
+    The third pillar of Voyage's premium feel — the navy curtain.
+  </Card>
+  <Card title="Colors" href="/theme-setup/colors">
+    The brand palette and four schemes — which both modes flip across.
+  </Card>
+</CardGroup>

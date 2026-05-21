@@ -1,0 +1,81 @@
+---
+title: "Installation"
+description: "Install Voyage from the Shopify Theme Store and prepare it for customization."
+---
+
+Voyage is distributed through the Shopify Theme Store. Once purchased, it appears in your store admin as a draft theme — published only when you're ready.
+
+## Install from the Theme Store
+
+<Steps>
+  <Step title="Buy Voyage">
+    Visit the [Shopify Theme Store](https://themes.shopify.com), search for **Voyage**, and click **Buy theme**. The purchase is tied to one store; if you buy for `voyage-store.myshopify.com`, Voyage is yours on that store forever, including all updates.
+  </Step>
+  <Step title="Open the theme">
+    In your store admin, go to **Online Store → Themes**. Voyage now appears in the **Theme library** section as a draft.
+  </Step>
+  <Step title="Try the theme before publishing">
+    Click **Customize** next to Voyage. The Theme Editor opens with a live preview of your storefront. Nothing visitors see has changed yet — you're previewing, not publishing.
+  </Step>
+  <Step title="Publish when ready">
+    To make Voyage your live theme, click the **⋯** menu next to the Voyage draft and select **Publish**. Visitors immediately see the new theme on their next page load.
+  </Step>
+</Steps>
+
+<Tip>
+Always work in a duplicate copy. Duplicate Voyage (**⋯ → Duplicate**) before making major changes — that way, your draft customizations can't break your live storefront, and you can revert if needed.
+</Tip>
+
+## What you get on install
+
+After buying Voyage, the theme files include:
+
+| Folder | Contents |
+|---|---|
+| `templates/` | 22 OS 2.0 JSON templates + 2 standalone Liquid templates (`gift_card.liquid`, `search.json.liquid`) |
+| `sections/` | 47 Liquid sections that compose every template |
+| `snippets/` | Reusable Liquid fragments (product card, cart drawer, search panel, offer popup, etc.) |
+| `assets/` | 5 CSS files, 5 JS files, theme logos, hero video, fonts |
+| `config/` | `settings_schema.json` (theme-level settings) + `settings_data.json` (3 named theme styles) |
+| `layout/` | `theme.liquid` (the global page wrapper) + `password.liquid` (pre-launch holding page) |
+| `locales/` | Translation strings (English default; add other languages as needed) |
+
+You don't need to edit any of these files directly to use Voyage — every important setting is exposed in the Theme Editor.
+
+## System requirements
+
+Voyage works on every Shopify plan, including Basic Shopify. It uses no third-party build tools, no npm dependencies, and no external services beyond Shopify itself.
+
+| Requirement | Why |
+|---|---|
+| Modern browser (Chrome, Safari, Firefox, Edge) | For the Theme Editor and the storefront. Voyage targets the latest 2 versions of each. |
+| HTTPS storefront | Required by Shopify; nothing for you to do — it's automatic. |
+| At least 1 product, 1 collection | For meaningful previews. Demo content can fill the gap during initial setup. |
+
+## Before you publish
+
+If you're moving from another theme to Voyage:
+
+1. **Run a content audit** — Voyage uses metafields on products for accordion content (details, care, shipping). Either set up metafields in Settings → Custom data → Products, or use the Voyage section settings to enter content directly.
+2. **Set up Customer Accounts mode** — Voyage ships 7 editorial customer page templates that only render when **Classic customer accounts** are enabled. See [Customer pages](/templates/customer-pages) for the trade-off between Classic and New accounts.
+3. **Configure Checkout branding** — Shopify's checkout is hosted separately from the theme. See [Checkout branding](/customization/checkout-branding) for color codes and logo specs.
+4. **Test on mobile** — half your visitors are on mobile. Open the Theme Editor in mobile preview before publishing.
+
+## Updating Voyage
+
+When the Voyage team releases a theme update, you'll see an **Update available** banner on the Voyage card in your Theme library.
+
+<Warning>
+Theme updates **replace** the theme files, including any code edits you made directly. Theme Editor settings (logo, colors, section content) are preserved. If you've customized theme files via the code editor, save those changes elsewhere before updating.
+</Warning>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Quick start (10 minutes)" href="/getting-started/quick-start">
+    The fastest path from install to a brand-correct storefront.
+  </Card>
+  <Card title="Page anatomy" href="/getting-started/anatomy">
+    Learn the name of every element on the home, product, and cart pages.
+  </Card>
+</CardGroup>

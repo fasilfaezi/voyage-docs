@@ -1,0 +1,315 @@
+---
+title: "Commerce sections"
+description: "Cart, collection (PLP), category archive, and the home-page bundle picker."
+---
+
+Four sections handle the commerce surfaces outside the PDP. The cart and collection sections render the cart page and PLP respectively. The category archive and bundle sections are home-page patterns — the first surfaces collection tiles, the second is a hotspot-driven "complete the look" picker.
+
+| Section | Where it lives |
+|---|---|
+| **Cart** (`main-cart`) | The cart template. |
+| **Collection** (`main-collection`) | The collection template — the PLP. |
+| **Home · Category archive** | Any template. Designed for the home page. |
+| **Home · Bundle** | Any template. Designed for the home page. |
+
+---
+
+## Cart — `sections/main-cart.liquid`
+
+The full-page cart. Renders line items with thumbnails, variant options, selling plans, unit pricing, line-level discounts, quantity steppers, cart-level discount applications, an optional note field, accelerated checkout buttons, and the primary checkout CTA. Empty-state shown when `cart.item_count == 0`.
+
+**Available on:** Cart template.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text" default="The Bag">
+  Eyebrow above the page heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Your bag">
+  Page heading. Falls back to the `cart.general.title` translation if blank.
+</ParamField>
+
+#### Empty state
+
+<ParamField path="empty_text" type="textarea" default="Your bag is quiet.">
+  Message shown when the cart is empty. Falls back to the `cart.general.empty` translation.
+</ParamField>
+<ParamField path="empty_link_label" type="text" default="Begin with the collection">
+  Continue-shopping button label in the empty state.
+</ParamField>
+<ParamField path="empty_link_url" type="url">
+  Continue-shopping destination.
+</ParamField>
+
+#### Cart note
+
+<ParamField path="show_note" type="checkbox" default="true">
+  Show the "note to merchant" textarea in the order summary sidebar.
+</ParamField>
+<ParamField path="note_label" type="text" default="Note (optional)">
+  Label above the note field.
+</ParamField>
+<ParamField path="note_placeholder" type="text" default="Add a note for the studio">
+  Placeholder inside the note field.
+</ParamField>
+
+#### Checkout
+
+<ParamField path="checkout_label" type="text" default="Proceed to checkout">
+  Primary checkout button label. Falls back to the `cart.general.checkout` translation.
+</ParamField>
+
+### Blocks
+
+None — the cart section's layout is fixed.
+
+### What renders automatically
+
+The section pulls in several Shopify cart features without configuration:
+
+- **Selling plans** — `item.selling_plan_allocation.selling_plan.name` is rendered under the line item title.
+- **Unit pricing** — `item.unit_price_measurement` renders as `{price}/{reference_unit}`.
+- **Line-level discounts** — Each `item.line_level_discount_allocations` entry is shown as a strike-through saving.
+- **Cart-level discounts** — `cart.cart_level_discount_applications` render as their own row in the order summary.
+- **Tax indicator** — `cart.taxes_included` shows the "Taxes included" line under the subtotal.
+- **Accelerated checkout** — `content_for_additional_checkout_buttons` is rendered for Shop Pay, Apple Pay, Google Pay, PayPal, etc.
+
+### When to use
+
+There's one cart section per theme — this is it. The cart drawer (rendered separately as a snippet) shares the same data; configure both so they match in tone. For checkout-page branding (logo, colors), see [Customization · Checkout branding](/customization/checkout-branding).
+
+---
+
+## Collection — `sections/main-collection.liquid`
+
+The collection / PLP template. Two-column body: filter sidebar on the left, paginated product grid on the right. Above the grid sits a sticky toolbar with chip nav, filter toggle, count, view-mode picker (2/3/4/list), and sort dropdown. Optional collection-image banner at the top, optional editorial studio-note module at the bottom.
+
+**Available on:** Collection template.
+
+### Section settings
+
+#### Header
+
+<ParamField path="show_banner" type="checkbox" default="false">
+  Show the collection's featured image (from admin) as a full-width banner with overlaid title + description.
+</ParamField>
+<ParamField path="show_title_only" type="checkbox" default="false">
+  Show the title + description without a banner image. Quieter than the banner option.
+</ParamField>
+
+#### Navigation
+
+<ParamField path="show_chip_nav" type="checkbox" default="true">
+  Show the horizontal scrolling category chips above the filter toolbar.
+</ParamField>
+<ParamField path="chip_labels" type="text" default="All Pieces,Shirts,Trousers,Shorts,Knitwear,Outerwear,Accessories">
+  Comma-separated chip labels. First entry is the "All" / catch-all label. Each chip links to `/collections/all?type={label}`.
+</ParamField>
+<ParamField path="show_filter_sidebar" type="checkbox" default="true">
+  Show the filter sidebar. Filters come from Online Store → Navigation → Filters in admin.
+</ParamField>
+
+#### Grid
+
+<ParamField path="default_columns" type="select" default="4">
+  Default columns. Options: `2`, `3`, `4`. The visitor's view-mode picker choice persists in localStorage and overrides this.
+</ParamField>
+<ParamField path="products_per_page" type="range" default="24">
+  Products per pagination page. Range 12–48, step 4.
+</ParamField>
+<ParamField path="empty_text" type="text" default="No products in this collection yet.">
+  Message shown when a collection has no products.
+</ParamField>
+
+#### Editorial note
+
+<ParamField path="show_editorial" type="checkbox" default="true">
+  Show the editorial studio-note module below the product grid.
+</ParamField>
+<ParamField path="editorial_eyebrow" type="text" default="Studio note · 03">
+  Eyebrow above the studio note.
+</ParamField>
+<ParamField path="editorial_location" type="text" default="Home Port · 44.40°N 8.94°E">
+  Coordinate / location line shown on the right of the eyebrow row.
+</ParamField>
+<ParamField path="editorial_quote" type="textarea" default="We design for the long voyage — not the runway. Every piece is meant to be packed, washed, mended, and worn for years. This is the considered way.">
+  The studio quote body.
+</ParamField>
+<ParamField path="editorial_signature" type="text" default="— Marco Visconti, Head Cutter">
+  Attribution line below the quote.
+</ParamField>
+
+### Blocks
+
+None — the PLP layout is fixed.
+
+### What renders automatically
+
+- **Filter sidebar** — Auto-renders `collection.filters` (`list`, `price_range`). Color filters render as swatches keyed off the handleized value. Size filters render as chip buttons. Other list filters render as checkbox lists with counts.
+- **Sort dropdown** — Renders `collection.sort_options` as a popover listbox.
+- **Pagination** — `default_pagination` is used.
+- **Structured data** — Emits `CollectionPage` and `BreadcrumbList` JSON-LD.
+
+### When to use
+
+There's one collection section per theme — this is it. Tune `chip_labels` to match your catalog vocabulary, decide whether to show the banner or the quiet title-only treatment, and enable the studio-note module if the collection benefits from an editorial frame.
+
+---
+
+## Home · Category archive — `sections/home-category-archive.liquid`
+
+Dark navy band with a grid of category tiles. Each tile is one Shopify collection — the collection's title, image, and product count are pulled in automatically, with merchant-controlled fallbacks for collections that don't have an image set yet.
+
+**Available on:** All templates. Designed for the home page.
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Categories">
+  The script-font section heading rendered at the top of the band.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+<ParamField path="script" type="text" default="Six chapters,">
+  Reserved for a longer heading treatment (not rendered in the current default layout — kept in schema for backwards compatibility).
+</ParamField>
+<ParamField path="sans" type="text" default="one quiet considered palette.">
+  Reserved for the sans companion to `script` (same status — schema retains it).
+</ParamField>
+<ParamField path="body" type="textarea" default="Each season we cut a complete wardrobe — shirts, trousers, knits, outerwear, swim and accessories — designed to be worn together.">
+  Body paragraph (currently not rendered in the default layout).
+</ParamField>
+<ParamField path="subtitle" type="text" default="Summer 2026">
+  Card subtitle (used by older variants — not rendered in current default).
+</ParamField>
+<ParamField path="footer_left" type="text" default="Edition I · MMXXVI">
+  Footer text (used by older variants — not rendered in current default).
+</ParamField>
+
+<Note>
+  Five of the section-level fields above (`script`, `sans`, `body`, `subtitle`, `footer_left`) are retained in the schema for backwards compatibility with earlier layouts. The current layout renders only the `eyebrow` heading. The fields remain editable so older installs don't lose data on upgrade.
+</Note>
+
+### Blocks
+
+#### Category (max 8)
+
+Each block is one category tile. The default preset ships with 6.
+
+<ParamField path="collection" type="collection">
+  The Shopify collection behind this tile. Provides the title, image, URL, and product count automatically.
+</ParamField>
+<ParamField path="image" type="image_picker">
+  Optional override image. Used when the collection's own image is not what you want for this tile.
+</ParamField>
+<ParamField path="fallback_title" type="text">
+  Title used if no collection is selected. For preview / setup.
+</ParamField>
+<ParamField path="fallback_count" type="text">
+  Piece count used if no collection is selected.
+</ParamField>
+<ParamField path="fallback_url" type="url">
+  URL used if no collection is selected.
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text">
+  Unsplash photo ID used as the last-resort image when no collection or override image is set.
+</ParamField>
+
+### Default preset
+
+Six category blocks, blank-defaulted for the merchant to point at their own collections.
+
+### When to use
+
+Category archive is the home-page index of the whole catalog. Use it when you want to surface 6–8 collections as visual tiles — typical for fashion houses with seasonal wardrobes (Shirts / Trousers / Knits / Outerwear / Swim / Accessories) or multi-vertical brands.
+
+For two large hero tiles, use [Home · Chapters](/sections-reference/editorial-sections#home--chapters--sectionshome-chapters-liquid). For a quieter list of collections on a content page, use the standalone `collection-list.liquid` (see [Sections overview](/sections-reference/sections-overview)).
+
+---
+
+## Home · Bundle — `sections/home-bundle.liquid`
+
+"Complete the look" — a hotspot-driven product picker on a stage image. Merchants place dots at x/y positions on the image; each dot is one Shopify product. Clicking a dot reveals a small product card with add-to-bundle controls. The total updates as items are selected, with an optional list-price multiplier to show a saving versus à-la-carte.
+
+**Available on:** All templates. Designed for the home page.
+
+### Section settings
+
+<ParamField path="script" type="text" default="Worn Together">
+  The script-font heading.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+<ParamField path="image" type="image_picker">
+  The stage image — typically a styled flat-lay or model shot showing all the products together.
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text">
+  Unsplash photo ID used if no stage image is set.
+</ParamField>
+<ParamField path="list_multiplier" type="number" default="112">
+  List-price multiplier × 100. `112` means the strike-through "list" price is 12% above the bundle total — i.e. the bundle is positioned as a 12% saving. Set to `100` to remove the saving line.
+</ParamField>
+
+### Blocks
+
+#### Hotspot (max 8)
+
+Each hotspot is one product placed at a coordinate on the stage image.
+
+<ParamField path="product" type="product">
+  The Shopify product behind this hotspot. The block uses `product.selected_or_first_available_variant` to get the variant ID and current price.
+</ParamField>
+<ParamField path="x" type="range" default="50">
+  Horizontal position 0–100% of the stage image width.
+</ParamField>
+<ParamField path="y" type="range" default="50">
+  Vertical position 0–100% of the stage image height.
+</ParamField>
+<ParamField path="side" type="select" default="right">
+  Which side of the dot the product card opens. Options: `right`, `left`.
+</ParamField>
+<ParamField path="default" type="checkbox" default="false">
+  Selected by default. Lets the merchant pre-select 1–2 items so the bundle has a starting total on first paint.
+</ParamField>
+<ParamField path="fallback_name" type="text">
+  Display name if no product is selected. For preview / demo.
+</ParamField>
+<ParamField path="fallback_price" type="text">
+  Display price (number, no currency) used if no product is selected.
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text">
+  Unsplash photo ID used if no product is selected.
+</ParamField>
+
+### Default preset
+
+Four hotspot blocks, blank-defaulted.
+
+### When to use
+
+Bundle is the home page's interactive moment — visitors can click around the stage image, build a kit, and add it all to the bag with one button. Use it for:
+
+- Capsule wardrobes ("the four-piece summer kit").
+- Outfit-of-the-week features.
+- Gift sets where the bundle is itself the product story.
+
+The hotspot UI doesn't replace having a dedicated bundle / kit collection — it's a discovery surface. Pair it with a [Featured collection](/sections-reference/product-sections#featured-collection--sectionsfeatured-collection-liquid) below for the full grid view.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Product sections" href="/sections-reference/product-sections">
+    Main product, featured product, featured collection, related, complementary.
+  </Card>
+  <Card title="Interactive features · Cart drawer" href="/interactive-features/cart-drawer">
+    The cart drawer that mirrors `main-cart`.
+  </Card>
+  <Card title="Templates · Collection page" href="/templates/collection-page">
+    The collection template and how `main-collection` is configured by default.
+  </Card>
+</CardGroup>

@@ -1,0 +1,135 @@
+---
+title: "Page anatomy"
+description: "The name of every component on Voyage's home, product, and cart pages."
+---
+
+Knowing the name of each element makes customization vastly faster. Once you can say "I want to edit the chip nav on the collection page," you can find that setting in seconds.
+
+## Global layout (every page)
+
+Every page in Voyage sits inside a global layout (`theme.liquid`) that includes:
+
+| Element | Description |
+|---|---|
+| **Announcement bar** | Slim horizontal strip above the header. Editable message, optional currency switcher, dismissible on click. Hides on scroll. |
+| **Header** | Centered wordmark, primary menu on left, utilities on right (search, account, cart). Transparent on home, solid on every other page. |
+| **Cart drawer** | Slides in from the right when the cart icon is clicked. Live item count refreshes via the Section Rendering API. |
+| **Search panel** | Slides down from below the nav when the magnifying-glass icon is clicked. Predictive product results + popular searches. |
+| **Quick-view modal** | Opens over the page when "Select Options" or the eye icon on a product card is clicked. |
+| **Page-transition curtain** | Navy overlay that rises from the bottom on every navigation, then falls to reveal the next page. Cinematic rhythm. |
+| **Film grain overlay** | Subtle texture across the entire viewport. Toggleable in Theme settings. |
+| **Footer** | Block-based with trust strip, newsletter, link lists, social, payment icons, studio block. |
+| **Offer popup** | 3-stage email/SMS capture modal. Fires once per session on the home page only. Dismissible. |
+
+## Homepage
+
+The homepage is composed of 6 default sections, top to bottom. Each can be reordered or hidden in the Theme Editor.
+
+| # | Section | What it shows |
+|---|---|---|
+| 1 | **Hero** | Full-bleed video / poster carousel with overlay copy + dual CTAs. Up to 8 slides. |
+| 2 | **New arrivals** | Script-headed product grid pulled from a chosen collection (e.g. "new"). |
+| 3 | **Category archive** | Dark navy band with 6 collection tiles. Each tile = one category. |
+| 4 | **Bundle** | "Complete the look" — hotspot-driven product picker on a stage image. |
+| 5 | **Chapters** | Two-up full-width editorial tiles (e.g., "Men's wardrobe" / "Women's wardrobe"). |
+| 6 | **Club** | Membership / community CTA over a full-bleed editorial image. |
+
+You can add any of the standalone sections (Image banner, Multicolumn, Rich text, Testimonials, Video, etc.) to the home page from the Theme Editor's **Add section** button.
+
+## Product detail page (PDP)
+
+The PDP is **block-based** — the main product section is composed of draggable blocks. Default block order:
+
+| Position | Block | What it shows |
+|---|---|---|
+| Above title | **Eyebrow** | Small uppercase label (e.g., "Summer 2026") |
+| Title | **Title** | Product name + selected color in script |
+| Below title | **Price** | Price + compare-at + Shop Pay Installments banner |
+| Variant area | **Variant picker** | Color swatches + size selector + optional size finder |
+| Below variants | **Quantity selector** | Stepper input |
+| Below quantity | **Buy buttons** | Add to bag + accelerated checkout (Shop Pay, Apple Pay, Google Pay) + wishlist heart |
+| Below buy | **Pickup availability** | In-store pickup status (auto-detected) |
+| Below pickup | **Description** | Short product description |
+| Below description | **Perks** | 3 bullet points (shipping, returns, repair) |
+| Below perks | **Provenance** | Definition list (Cloth, Cut and sewn, Finished) |
+| Below provenance | **Bespoke CTA** | Made-to-measure call-to-action card |
+| Below bespoke | **Share** | Social share buttons + Follow on Shop button |
+| Bottom of column | **Accordion** | Collapsible sections — Details, Care, Shipping, Payment |
+
+Each block has its own settings, all reorderable. The right column also includes:
+
+- **Gallery** (left, sticky) — main image + cursor-follow zoom + thumb strip
+- **Breadcrumb** — top of page
+- **Selling plans block** — subscription option, if applicable
+- **App blocks** — any Shopify apps you've installed that render on the product page
+
+Below the main product section:
+
+- **Complementary products** — AI recommendations (4–12 cards)
+- **Related products** — ML recommendations (4–12 cards)
+
+## Collection page (PLP)
+
+The PLP has a sticky top toolbar and a 2-column body (filter sidebar + product grid).
+
+| Element | What it does |
+|---|---|
+| **Banner** (optional) | Collection's featured image as a full-width banner |
+| **Title + description** | Collection name + description from admin |
+| **Chip nav** | Horizontal scrolling category chips for quick navigation between collections |
+| **Filter sidebar** | Storefront API filters — color swatches, size chips, price range, availability |
+| **Sort dropdown** | Featured / price asc / price desc / newest / best selling |
+| **View-mode picker** | 2-col / 3-col / 4-col / list view. Persists in localStorage. |
+| **Product grid** | Product cards with hover-reveal second image, swatch row, "Select Options" button |
+| **Pagination** | Page numbers or "Load more" depending on setting |
+| **Editorial studio note** | Optional script + quote block at bottom |
+
+## Cart page (and drawer)
+
+Cart drawer and cart page share the same data; they're stylistic variants.
+
+| Element | Cart drawer | Cart page |
+|---|---|---|
+| Line items | Compact rows with thumbnail, title, options, qty stepper, line total | Full rows with larger thumbnails + remove link |
+| Cart note field | Optional, expandable | Optional, expandable |
+| Discount code | Not shown in drawer | Auto-displays if applied |
+| Subtotal | Live total | Live total |
+| Accelerated checkout | Shop Pay, Apple Pay, Google Pay, PayPal | Same buttons |
+| Checkout button | Primary navy button | Primary navy button |
+| Empty state | "Your bag is quiet." + "Begin with the collection" link | Same |
+
+## Header anatomy
+
+```
+[announcement bar - currency switcher right]
+[search icon] [primary menu]         [logo]         [language] [account] [cart]
+```
+
+On the home page: header is transparent over the hero, becomes solid white-with-hairline on scroll.
+On every other page: header is solid white-with-hairline by default.
+
+## Footer anatomy
+
+```
+[trust strip — 4 lines: shipping, returns, repair, made in-studio]
+
+[newsletter form — floats above]
+
+[link list]   [link list]   [link list]   [link list]
+[rich text]   [studio]      [social]      [payment icons]
+
+[copyright]                                              [footer menu]
+```
+
+The blocks within the footer are merchant-customizable — add, remove, or reorder up to 8 blocks.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Theme setup" href="/theme-setup/logo-and-favicon">
+    Configure logo, colors, typography, layout.
+  </Card>
+  <Card title="Templates overview" href="/templates/templates-overview">
+    Every template explained.
+  </Card>
+</CardGroup>

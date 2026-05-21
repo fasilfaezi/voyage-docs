@@ -1,0 +1,112 @@
+---
+title: "Size finder"
+description: "A cross-brand size mapping that helps customers pick the right Voyage size based on what they wear elsewhere."
+---
+
+The size finder is a small, considered helper on the product detail page. A visitor who knows they wear a Medium at Brioni can ask Voyage "what's that in your sizes?" and get an answer — Small, in Brioni's case, because the house runs generous. It's a tiny touch that converts size anxiety into confidence at the buy moment.
+
+## Where it appears
+
+The size finder lives inside the variant picker block on the PDP. Below the size chip row, a small "Find my size →" toggle reveals an inline panel:
+
+```
+[Size]
+   XS    S    M    L    XL    XXL
+
+       Find my size →
+```
+
+Click "Find my size →" and the panel expands:
+
+```
+What size do you wear at another house?
+
+[Brand: Brioni ▾]   [Size: M ▾]
+
+Recommended: S
+
+[Use S →]
+```
+
+Pick a brand and a size, and Voyage maps it to the equivalent Voyage size. Click **Use S →** and the size chip is automatically selected on the variant picker.
+
+## Brand mapping
+
+Voyage ships with cross-references for eight houses. The mapping is conservative — when in doubt, it suggests the smaller Voyage size, because tailored garments forgive being slightly loose more easily than slightly tight.
+
+| Brand | XS | S | M | L | XL | XXL |
+|---|---|---|---|---|---|---|
+| **Loro Piana** | XS | S | M | L | XL | XXL |
+| **Brunello Cucinelli** | XS | S | M | L | XL | XXL |
+| **Zegna** | XS | S | M | L | XL | XXL |
+| **Brioni** | XS | XS | S | M | L | XL |
+| **Kiton** | XS | XS | S | M | L | XL |
+| **Drake's** | XS | XS | S | M | L | XL |
+| **Massimo Dutti** | S | S | M | L | XL | XXL |
+| **Uniqlo** | XS | XS | S | M | L | XL |
+
+The rationale:
+
+- **Loro Piana / Brunello Cucinelli / Zegna** — house sizing close to Voyage's own. 1:1 mapping.
+- **Brioni / Kiton / Drake's** — generous house cut. A "Medium" at these brands typically sits between Voyage's S and M, but we recommend S because a slightly close fit reads more refined.
+- **Massimo Dutti** — runs slightly small. An XS at Massimo Dutti corresponds to Voyage S.
+- **Uniqlo** — runs slightly large on the body. Same offset as Brioni / Kiton.
+
+If a (brand, size) pair isn't found in the matrix, the recommendation falls back to `M` — a safe middle ground.
+
+## Extending the mapping
+
+To add a new brand, open `assets/pdp.js` and find the `sizeMap` object:
+
+```js
+const sizeMap = {
+  'Loro Piana':         { XS: 'XS', S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
+  'Brunello Cucinelli': { XS: 'XS', S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
+  // …
+  'Massimo Dutti':      { XS: 'S',  S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
+};
+```
+
+Add a new key with the brand name as it should appear in the dropdown, mapped to the Voyage size for each of the visitor's likely sizes:
+
+```js
+const sizeMap = {
+  // existing entries…
+  'Boglioli': { XS: 'XS', S: 'XS', M: 'S', L: 'M', XL: 'L', XXL: 'XL' },
+  'A.P.C.':   { XS: 'XS', S: 'S',  M: 'M', L: 'L', XL: 'XL', XXL: 'XXL' },
+};
+```
+
+The brand also needs to be added to the `<select data-sf-brand>` element in the variant-picker block — open the PDP main section and add a matching `<option>` value.
+
+## When the recommendation is missing
+
+If the visitor picks a brand or size combination Voyage doesn't know, the recommendation defaults to `M`. That's deliberate — a fallback is more useful than an empty state, and the merchant can extend the matrix at any time.
+
+## Apply the recommendation
+
+The **Use [size] →** button below the recommendation sets the matching Voyage size radio button as checked and dispatches a `change` event. The variant picker reacts to the change exactly as if the visitor had clicked the size chip themselves — price updates, variant id updates, the add-to-bag button targets the correct variant.
+
+After applying, the panel collapses and the "Find my size →" toggle reappears, ready to be used again if the visitor wants to compare with another brand.
+
+## What if my brand isn't in apparel?
+
+The size finder is wired to any variant option named `Size` (case-sensitive — Voyage uses Shopify's standard `Size` option label). If your products are sized in a different system — shoe sizes (EU 41 / US 8), or ring sizes — the brand-cross-reference logic doesn't fit directly. You have two options:
+
+1. **Rename your sizes** to the XS–XXL convention so the matrix applies (works for apparel-adjacent categories like belts and accessories).
+2. **Replace the matrix** with a sizing logic that fits your category — for shoes, you'd map EU to UK to US; for rings, mm circumference to standard US/UK/EU sizes. The same pattern applies — replace `sizeMap` with your own object and update the dropdown options.
+
+## Disabling
+
+There's no theme setting for this — the size finder renders when the variant picker block's "Show size finder" toggle is on. To hide it on a product, the merchant disables the toggle on the block. To remove it sitewide, set the default to `false` in `sections/main-product.liquid`'s variant-picker block schema.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Product page" href="/templates/product-page">
+    The PDP that hosts the size finder block.
+  </Card>
+  <Card title="Quick view" href="/interactive-features/quick-view-modal">
+    The compact buy surface — note: size finder is PDP-only, not modal.
+  </Card>
+</CardGroup>

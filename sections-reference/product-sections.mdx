@@ -1,0 +1,503 @@
+---
+title: "Product sections"
+description: "Main product (15 blocks), featured product, featured collection, new arrivals, related, and complementary."
+---
+
+Six sections handle product rendering across the storefront. The largest, `main-product`, is the PDP — fifteen block types compose its buy column. The others surface products elsewhere: as a featured showcase, a curated grid, the home-page "new arrivals" rail, or as recommendations below the PDP.
+
+| Section | Where it lives |
+|---|---|
+| **Product** (`main-product`) | The PDP. Pinned to the product template. |
+| **Featured product** | Any template. One merchant-chosen product. |
+| **Featured collection** | Any template. A grid drawn from one collection. |
+| **Home · New arrivals** | Any template. Designed for the home page. |
+| **Related products** | Pinned to the product template. ML-driven. |
+| **Complementary products** | Pinned to the product template. Search & Discovery rules. |
+
+---
+
+## Product — `sections/main-product.liquid`
+
+The PDP. A two-column layout: sticky gallery on the left, block-driven buy column on the right. Below the hero, an optional long description and accordion stack. Renders Shopify rich product media (image, video, 3D model, external video), accelerated checkout, Shop Pay Installments, selling plans, unit pricing, pickup availability, Follow on Shop, app blocks, and custom Liquid.
+
+**Available on:** Product template (pinned).
+
+### Section settings
+
+#### Layout
+
+<ParamField path="show_breadcrumb" type="checkbox" default="true">
+  Show the "Back to {collection}" link and the Home › Collection › Product crumb trail above the gallery.
+</ParamField>
+<ParamField path="thumbnail_count" type="range" default="4">
+  How many gallery thumbnails to render (3–6).
+</ParamField>
+
+#### Details section
+
+<ParamField path="show_long_description" type="checkbox" default="true">
+  Show the full product description below the gallery. Useful when the `description` block in the buy column shows only a short summary.
+</ParamField>
+<ParamField path="fallback_description" type="textarea" default="Cut from fine cloth in studio. Finished by hand and sent to sea for the voyage.">
+  Used only when a product has no description in Shopify admin.
+</ParamField>
+
+### Blocks (15 types)
+
+All blocks below render inside the buy column form. The default preset assembles a sensible order — you can reorder, hide, and duplicate as needed.
+
+#### Eyebrow text (limit 1)
+
+<ParamField path="text" type="text" default="Summer 2026">
+  Small uppercase line shown above the product title. Falls back to `product.type` if blank.
+</ParamField>
+
+#### Title (limit 1)
+
+<ParamField path="show_color_script" type="checkbox" default="true">
+  Append the currently selected color value in the script flourish font, live-updated by the variant picker.
+</ParamField>
+
+#### Price (limit 1)
+
+<ParamField path="show_tax_note" type="checkbox" default="true">
+  Show a tax / VAT note next to the price.
+</ParamField>
+<ParamField path="tax_note" type="text" default="Inclusive of VAT">
+  Tax note text. Falls back to the `products.product.tax_included` translation if blank.
+</ParamField>
+<ParamField path="show_installments" type="checkbox" default="true">
+  Show the Shop Pay Installments banner via `form | payment_terms`. Renders when the merchant has Shop Pay Installments enabled and the product qualifies.
+</ParamField>
+
+The block also renders the unit price (`variant.unit_price_measurement`) and compare-at price automatically — these are not configurable via settings.
+
+#### Variant picker (limit 1)
+
+<ParamField path="show_size_finder" type="checkbox" default="true">
+  Show the in-line "size finder" helper that recommends a size based on the customer's size in other houses (Loro Piana, Brunello Cucinelli, Zegna, Brioni, Kiton, Drake's, Massimo Dutti, Uniqlo).
+</ParamField>
+<ParamField path="size_guide_url" type="url">
+  Optional link to a full size guide page.
+</ParamField>
+
+The picker auto-detects color options (renders as swatches keyed off the handleized value name) and size options (renders as chip buttons). Other option names render as chip buttons.
+
+#### Subscription plans (limit 1) — `selling_plans`
+
+<ParamField path="label" type="text" default="Purchase options">
+  Section label for the selling-plans group. Falls back to the `products.product.purchase_options` translation.
+</ParamField>
+
+Renders only when the product has selling plan groups. A "One-time purchase" option is appended automatically as the default selection.
+
+#### Quantity selector (limit 1)
+
+<ParamField path="label" type="text" default="Quantity">
+  Label shown above the stepper.
+</ParamField>
+
+If no `quantity_selector` block is present, an inline stepper is rendered inside the buy buttons row so the form always submits a quantity.
+
+#### Buy buttons (limit 1)
+
+<ParamField path="atc_label" type="text" default="Add to bag">
+  Add-to-cart button label.
+</ParamField>
+<ParamField path="sold_out_label" type="text" default="Sold out">
+  Label when the selected variant is unavailable.
+</ParamField>
+<ParamField path="show_wishlist" type="checkbox" default="true">
+  Show the heart-icon wishlist button next to the ATC button.
+</ParamField>
+<ParamField path="show_dynamic_checkout" type="checkbox" default="true">
+  Render accelerated checkout buttons (Shop Pay, Apple Pay, Google Pay, PayPal) via `form | payment_button`.
+</ParamField>
+
+#### Pickup availability (limit 1)
+
+No settings. Renders `current_variant.store_availabilities` when at least one location is configured. Shows a green dot for "Available" and a muted state for "Not available."
+
+#### Buy column description (limit 1) — `description`
+
+No settings. Renders `product.description` as-is inside the buy column. Pair with `show_long_description: false` if you want the description to appear here and not below.
+
+#### Perks list (limit 1) — `perks`
+
+A bulleted list of 3 perks (shipping, returns, repair).
+
+<ParamField path="perk_1" type="text" default="Complimentary worldwide shipping">
+  First perk.
+</ParamField>
+<ParamField path="perk_2" type="text" default="30-day returns, free worldwide">
+  Second perk.
+</ParamField>
+<ParamField path="perk_3" type="text" default="Lifetime repair on every garment">
+  Third perk.
+</ParamField>
+
+#### Provenance list (limit 1) — `provenance`
+
+A definition list of three term/description pairs (cloth, cut, finish).
+
+<ParamField path="term_1" type="text" default="Cloth">
+  First term.
+</ParamField>
+<ParamField path="desc_1" type="text" default="linen, 220 gsm">
+  First description.
+</ParamField>
+<ParamField path="term_2" type="text" default="Cut and sewn">
+  Second term.
+</ParamField>
+<ParamField path="desc_2" type="text" default="The Studio">
+  Second description.
+</ParamField>
+<ParamField path="term_3" type="text" default="Finished">
+  Third term.
+</ParamField>
+<ParamField path="desc_3" type="text" default="by hand at The Studio">
+  Third description.
+</ParamField>
+
+#### Made-to-measure CTA (limit 1) — `bespoke_cta`
+
+A small call-out card with eyebrow + body + ghost-style link button.
+
+<ParamField path="eyebrow" type="text" default="Su Misura · Bespoke">
+  Eyebrow above the body line.
+</ParamField>
+<ParamField path="text" type="textarea" default="Have this cut to your measurements in the cloth of your choice.">
+  Body copy.
+</ParamField>
+<ParamField path="link_label" type="text" default="Begin a fitting">
+  CTA label.
+</ParamField>
+<ParamField path="link_url" type="url">
+  CTA destination — typically a bespoke / made-to-measure page.
+</ParamField>
+
+#### Share (limit 1)
+
+<ParamField path="share_label" type="text" default="Share">
+  Label on the share button.
+</ParamField>
+<ParamField path="show_follow_on_shop" type="checkbox" default="true">
+  Render Shopify's `shop-follow-button` web component, which appears only when the shopper has the Shop app installed and is signed in.
+</ParamField>
+
+#### Accordion section (no limit) — `accordion`
+
+Multiple accordion blocks can be added. Each renders as a `<details>` element in the section below the gallery.
+
+<ParamField path="heading" type="text" default="Section">
+  Summary text shown when the accordion is collapsed.
+</ParamField>
+<ParamField path="content" type="richtext">
+  Body content.
+</ParamField>
+<ParamField path="metafield_source" type="text">
+  Metafield key under `custom.*`. If filled, the value of `product.metafields.custom.{key}` takes precedence over the `content` field. Lets you write per-product details once in admin and reuse across the storefront.
+</ParamField>
+<ParamField path="open_by_default" type="checkbox" default="false">
+  Render the accordion open on first paint.
+</ParamField>
+
+#### Custom liquid (no limit)
+
+<ParamField path="custom_liquid" type="liquid">
+  Arbitrary Liquid / HTML / CSS / JS rendered as-is. Useful for app snippets that don't have a dedicated app block.
+</ParamField>
+
+#### App blocks — `@app`
+
+The `@app` block type lets merchants add any Shopify app block that targets the product page. Each block renders in the order it's placed in the buy column. See [Custom & advanced](/sections-reference/custom-and-advanced) for the full pattern.
+
+### Default preset (block order)
+
+1. Eyebrow text
+2. Title
+3. Price
+4. Variant picker
+5. Buy buttons
+6. Pickup availability
+7. Perks list
+8. Provenance list
+9. Made-to-measure CTA
+10. Accordion · Details (`metafield_source: details`)
+11. Accordion · Composition & Care (`metafield_source: composition_care`)
+12. Accordion · Shipping & Returns
+13. Accordion · Payment Methods
+
+### Structured data
+
+The section emits two JSON-LD blocks: `Product` (with name, image, description, brand, SKU, offer / price / availability) and `BreadcrumbList` (three levels if the visitor arrived through a collection, two levels otherwise).
+
+### When to use
+
+There's one product section per theme — this is it. Configure block order to match your priorities: subscription brands should pin `selling_plans` above `buy_buttons`; brands with rich storytelling should add `description` to the buy column and disable `show_long_description`. For apps that target the PDP, use the `@app` block. For one-off code, use the `custom_liquid` block.
+
+---
+
+## Featured product — `sections/featured-product.liquid`
+
+Single-product showcase: image on one side, buy column on the other. Block-based — uses the same content vocabulary as the PDP (eyebrow, title, price, variant picker, description, buy buttons, share, custom Liquid, app blocks) but in a flatter form.
+
+**Available on:** All templates.
+
+### Section settings
+
+<ParamField path="product" type="product">
+  The product to feature. If blank, falls back to the first product in `collections.all`.
+</ParamField>
+<ParamField path="image_side" type="select" default="left">
+  Image position on desktop. Options: `left`, `right`. Mobile always stacks image-then-text.
+</ParamField>
+
+### Blocks
+
+#### Eyebrow text (limit 1) — `text`
+
+<ParamField path="text" type="text" default="Featured piece">
+  Small uppercase line above the title.
+</ParamField>
+
+#### Title (limit 1)
+
+No settings. Renders `product.title`.
+
+#### Price (limit 1)
+
+No settings. Renders price + optional compare-at price, live-updated by the variant picker.
+
+#### Variant picker (limit 1)
+
+No settings. Renders one row per option with chip-style values.
+
+#### Description (limit 1)
+
+<ParamField path="word_limit" type="range" default="50">
+  Truncate the description at this many words. Range 10–200, step 10.
+</ParamField>
+<ParamField path="show_view_more" type="checkbox" default="true">
+  Append a "Read more" link to the full product page.
+</ParamField>
+
+#### Buy buttons (limit 1)
+
+<ParamField path="atc_label" type="text" default="Add to bag">
+  ATC label.
+</ParamField>
+<ParamField path="sold_out_label" type="text" default="Sold out">
+  Sold-out label.
+</ParamField>
+<ParamField path="show_dynamic_checkout" type="checkbox" default="true">
+  Render Shop Pay / Apple Pay / Google Pay / PayPal buttons.
+</ParamField>
+
+#### View product link (limit 1) — `share`
+
+<ParamField path="link_label" type="text" default="See full details">
+  Link to the product detail page.
+</ParamField>
+
+#### Custom liquid (no limit)
+
+<ParamField path="custom_liquid" type="liquid">
+  Arbitrary Liquid.
+</ParamField>
+
+#### App blocks — `@app`
+
+Same `@app` pattern as `main-product`.
+
+### Default preset (block order)
+
+Eyebrow → title → price → variant picker → description → buy buttons → share.
+
+### When to use
+
+Featured product is for moments where one product needs to lead — a hero product on the home page, a "look of the week" callout on a content page, or a product spotlight inside a press article. For grids of multiple products, use [Featured collection](#featured-collection--sectionsfeatured-collection-liquid).
+
+---
+
+## Featured collection — `sections/featured-collection.liquid`
+
+Heading + product grid drawn from one merchant-chosen collection. Reuses the global product-card snippet for visual consistency with the PLP.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Heading
+
+<ParamField path="eyebrow" type="text" default="Now in store">
+  Small uppercase line above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Featured collection">
+  Serif heading.
+</ParamField>
+
+#### Content
+
+<ParamField path="collection" type="collection">
+  The source collection.
+</ParamField>
+<ParamField path="products_to_show" type="range" default="8">
+  How many products to display. Range 4–24.
+</ParamField>
+<ParamField path="columns" type="select" default="4">
+  Grid columns. Options: `2`, `3`, `4`, `5`.
+</ParamField>
+
+#### View all
+
+<ParamField path="show_view_all" type="checkbox" default="true">
+  Render a "View all" link in the header that goes to the collection page.
+</ParamField>
+<ParamField path="view_all_label" type="text" default="View all">
+  View-all link label.
+</ParamField>
+
+### Blocks
+
+None — the section has no block types. Products come from the chosen collection.
+
+### When to use
+
+Featured collection is the workhorse for any "shop the look" / "best of the season" / "shop this story" treatment that needs to render real products. Pick a collection, set a count, done. For a heading-led home rail with a script-font treatment, use [Home · New arrivals](#home--new-arrivals--sectionshome-new-arrivals-liquid).
+
+---
+
+## Home · New arrivals — `sections/home-new-arrivals.liquid`
+
+Script-headed product grid drawn from a chosen collection. Renders 4–16 products with reveal animations and a "View all" magnetic CTA. Visually distinct from `featured-collection` — a single, very large script heading on the cream surface background.
+
+**Available on:** All templates. Designed for the home page.
+
+### Section settings
+
+<ParamField path="script" type="text" default="New Arrivals">
+  The script-font heading. Rendered as a single phrase in the calligraphic accent font.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading from 60% to 140%.
+</ParamField>
+<ParamField path="collection" type="collection">
+  Source collection. Falls back to `collections.all` if not set or empty.
+</ParamField>
+<ParamField path="product_limit" type="range" default="4">
+  Products to show. Range 4–16, step 4. (Default in the home preset is 4; the slider exposes higher values.)
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Use new arrivals as a home-page rail when you want the heading itself to do the work — a single calligraphic phrase ("New Arrivals", "The Edit", "Just In") above a grid of 4–8 products. For a more traditional eyebrow + heading + grid pattern, use [Featured collection](#featured-collection--sectionsfeatured-collection-liquid).
+
+---
+
+## Related products — `sections/related-products.liquid`
+
+ML-driven product recommendations on the PDP, sourced from Shopify's `/recommendations/products.json?intent=related` API. Lazy-loaded — the section ships with empty markup and `theme.js` fetches recommendations after first paint. Falls back to `product.collections.first` if no recommendations are returned.
+
+**Available on:** Product template (`enabled_on` pinned).
+
+### Section settings
+
+<ParamField path="show_section" type="checkbox" default="true">
+  Master toggle.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+<ParamField path="eyebrow" type="text" default="Worn together">
+  Eyebrow line.
+</ParamField>
+<ParamField path="heading_script" type="text" default="The Coordinates">
+  Optional script heading shown above the main heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Pieces designed to live alongside this one.">
+  Main heading.
+</ParamField>
+<ParamField path="limit" type="range" default="4">
+  Number of products. Range 2–10.
+</ParamField>
+<ParamField path="columns" type="select" default="4">
+  Grid columns. Options: `2`, `3`, `4`.
+</ParamField>
+<ParamField path="show_view_all" type="checkbox" default="true">
+  Render a "View all" link in the header.
+</ParamField>
+<ParamField path="view_all_label" type="text" default="View all">
+  Link label.
+</ParamField>
+<ParamField path="view_all_url" type="url">
+  Link destination. Falls back to `/collections/all`.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Related products is the default cross-sell band below the PDP. It's powered by Shopify's recommendation engine, so you don't pick the products — Shopify does, based on customer behavior. For curated cross-sells, use [Featured collection](#featured-collection--sectionsfeatured-collection-liquid) on the product template. For Search & Discovery-driven "pair with" suggestions, use [Complementary products](#complementary-products--sectionscomplementary-products-liquid).
+
+---
+
+## Complementary products — `sections/complementary-products.liquid`
+
+"Pair with" recommendations on the PDP, sourced from Shopify's `/recommendations/products.json?intent=complementary` API. Requires the **Search & Discovery** app installed and complementary product rules defined in admin. The section renders empty (no heading, no markup) when no rules return matches.
+
+**Available on:** Product template (`enabled_on` pinned).
+
+### Section settings
+
+<ParamField path="show_section" type="checkbox" default="true">
+  Master toggle. Requires Search & Discovery + rules.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+<ParamField path="eyebrow" type="text" default="Pair with">
+  Eyebrow line.
+</ParamField>
+<ParamField path="heading" type="text" default="Wears with this">
+  Main heading.
+</ParamField>
+<ParamField path="limit" type="range" default="3">
+  Number of products. Range 2–6.
+</ParamField>
+<ParamField path="columns" type="select" default="3">
+  Grid columns. Options: `2`, `3`, `4`.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Complementary is the merchant-curated counterpart to related. Use it for **explicit pairing rules** — "buy this shirt, pair with these trousers." It requires more setup (rules in Search & Discovery), but the results are deterministic. Pair it with [Related products](#related-products--sectionsrelated-products-liquid) on the PDP: complementary above for "pair with," related below for "you may also like."
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Templates · Product page" href="/templates/product-page">
+    See how `main-product`, `related-products`, and `complementary-products` are wired in the product template.
+  </Card>
+  <Card title="Commerce sections" href="/sections-reference/commerce-sections">
+    Cart, collection (PLP), and bundle — the rest of the commerce surface.
+  </Card>
+  <Card title="Custom & advanced" href="/sections-reference/custom-and-advanced">
+    Custom Liquid block + the `@app` block type used inside `main-product` and `featured-product`.
+  </Card>
+</CardGroup>

@@ -1,0 +1,91 @@
+---
+title: "Logo & favicon"
+description: "Upload your wordmark, set its width, and brand the browser tab."
+---
+
+Voyage gives you four logo-related controls — a default logo, a light variant for dark backgrounds, a desktop width, and a favicon. Together they cover every surface where your brand mark appears: the header, the page-transition curtain, the intro loader, and the browser tab.
+
+All four live in **Theme settings → Logo**.
+
+## The two logo slots
+
+Voyage uses two logo files instead of one, because the header sits over different backgrounds across the storefront.
+
+| Slot | Where it appears | What to upload |
+|---|---|---|
+| **Logo (default / navy variant)** | Header on every page after the hero, footer, page-transition curtain logo when present | Your dark-ink logo — navy, black, or whatever your primary brand color is |
+| **Logo (light variant for dark backgrounds)** | Header overlaid on the home-page hero (transparent nav state), dark-background sections, the intro loader on dark theme | A white or paper-cream version of the same wordmark |
+
+On the home page, Voyage starts with a transparent navigation that reveals the hero behind it — the light variant displays here. Once you scroll past the hero, the header turns solid and the navy variant takes over. On every other template, the navy variant displays from the first frame.
+
+<Tip>
+If you only have one logo file, upload it to both slots to keep the storefront functional. The navy variant will display on the hero (where it will appear darker against the imagery) until you produce a true light variant.
+</Tip>
+
+## Logo width
+
+**Logo width (desktop)** is a range slider from `60 px` to `320 px` in `10 px` steps. Default is `140 px`.
+
+The width applies to the desktop header. On mobile, the logo scales down proportionally to fit the centred wordmark slot. There is no separate mobile-width control — Voyage scales the desktop value so your proportions stay consistent.
+
+| Width | Best for |
+|---|---|
+| `100 px` | Long wordmarks (multi-syllable names with serif letterforms) |
+| `140 px` (default) | Short-to-medium wordmarks, the standard editorial proportion |
+| `200 px` | Custom monograms or stacked marks that need more breathing room |
+| `280–320 px` | Maison-style cresting wordmarks designed to anchor the page |
+
+## File formats
+
+<Tabs>
+  <Tab title="SVG (recommended)">
+    Use SVG when your logo is type-based or a clean vector mark. SVG renders crisp at any size, scales perfectly on retina displays, and weighs a few kilobytes.
+
+    - Export with text converted to outlines (paths)
+    - Use `currentColor` if your file is single-colour and you want it to inherit the surrounding text colour
+    - Strip embedded metadata (Illustrator, Figma export options)
+  </Tab>
+  <Tab title="PNG">
+    Use PNG when your logo has photography, gradients, or fine detail SVG can't reproduce.
+
+    - Export at `2×` the rendered size — for a `140 px` logo, supply a `280 px`-wide PNG
+    - Transparent background
+    - 24-bit (PNG-24) with alpha, not 8-bit indexed
+    - Compress with TinyPNG or similar before upload to keep the file under 60 KB
+  </Tab>
+</Tabs>
+
+## Recommended dimensions
+
+| Asset | Format | Ideal upload size |
+|---|---|---|
+| Default / navy logo | SVG | Native (any size) |
+| Default / navy logo | PNG | `480 × 120` (or 2× your max desktop width) |
+| Light variant | SVG | Native (any size) |
+| Light variant | PNG | `480 × 120` |
+| Favicon | SVG | `32 × 32` square |
+| Favicon | PNG | `32 × 32` or `64 × 64` square |
+
+## Favicon
+
+Upload a square image to **Favicon**. Voyage crops it to a `32 × 32` square for the browser tab — anything non-square will be centre-cropped, so design accordingly.
+
+For best results, supply either:
+
+- A monogram or single-letter mark of your brand (works at small sizes where full wordmarks turn to mush), or
+- An icon-only version of your logo with generous padding inside the square
+
+<Warning>
+Shopify caches favicons aggressively. After uploading a new one, you may need to hard-refresh (`Cmd+Shift+R` / `Ctrl+Shift+R`) or open the storefront in an incognito window to see the change.
+</Warning>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Colors" href="/theme-setup/colors">
+    Brand palette, the four schemes, and dark-mode behaviour.
+  </Card>
+  <Card title="Typography" href="/theme-setup/typography">
+    Body, heading, and accent fonts — and the script-fallback caveat.
+  </Card>
+</CardGroup>

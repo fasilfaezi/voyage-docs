@@ -1,0 +1,113 @@
+---
+title: "Search panel"
+description: "A live, full-width search dropdown with recent terms, popular searches, and a four-product preview grid."
+---
+
+When the visitor clicks the search icon in the header, Voyage slides a full-width panel down from below the navigation. The panel splits into a left aside (recent searches, popular searches, services) and a right grid (live product results, default to four featured products on first open). Type into the input and the right side replaces itself with matched products as you type.
+
+## Triggers
+
+| Action | Behaviour |
+|---|---|
+| Click search icon (`[data-search-open]`) | Slides the panel down, focuses the input after a `60 ms` delay (prevents iOS scroll-jump) |
+| Click the search icon again | Toggles the panel closed |
+| Click **Close** button or scrim | Closes the panel |
+| Press `Escape` | Closes the panel |
+
+The icon's `aria-expanded` attribute mirrors the panel's open state, so screen readers announce the change correctly.
+
+## Layout
+
+| Region | Width | Contents |
+|---|---|---|
+| **Left aside** | ~22% | Recent Searches, Popular Searches, Services |
+| **Right results** | ~78% | Either the default four featured products, or live-matched results, or a "no pieces match" message |
+
+The bar at the top contains the search input and a Close button.
+
+### Recent searches
+
+Hidden by default. The first time a visitor performs a successful search, Voyage saves the term to `localStorage` under `voyage-recent-searches` (cap of 5, most-recent-first). The Recent Searches block reveals itself the next time the panel opens.
+
+Clicking a recent term repopulates the input and triggers a new search.
+
+### Popular searches
+
+Six static links to common categories, defined in `snippets/search-panel.liquid`. The defaults reference common product types:
+
+- New Arrivals → `/collections/new`
+- Summer 2026 → `/collections/summer-2026`
+- Shirts / Knitwear / Outerwear / Trousers → `/collections/all?type=…`
+
+Edit the list directly in the snippet for your house's vocabulary.
+
+### Services
+
+A single link by default ("Contact"). Edit `snippets/search-panel.liquid` to add support / repair / FAQ links — anything outside the catalogue you'd want a searching visitor to find.
+
+## Live results
+
+Typing into the input fires a debounced fetch. After the visitor stops typing for a moment, Voyage hits a custom JSON endpoint:
+
+```js
+fetch(`/search?q=${encodeURIComponent(q)}&type=product&view=json`)
+```
+
+The endpoint is implemented in `templates/search.json.liquid` and returns:
+
+```json
+{ "count": 47, "products": [/* top 4 */] }
+```
+
+In a single round-trip you get both the preview grid (4 products) and the true total count (used in the "View all 47 results →" footer link). The link routes to the styled `/search?q=…` page (`templates/search.liquid`).
+
+## Race-condition handling
+
+The fetch is debounced so we don't fire on every keystroke. But debouncing alone isn't enough — if the visitor types "cot", then quickly "cotton", a slow response for "cot" could arrive after the response for "cotton" and stale-overwrite the grid.
+
+Voyage handles this with an `AbortController`:
+
+1. Each new keystroke aborts the previous in-flight fetch
+2. Each response is double-checked against the current input value before being rendered
+
+The net effect: results always match the current input, even on slow connections.
+
+## Empty state
+
+If the visitor's query returns zero products, the right pane shows:
+
+```
+No pieces match — try a different term.
+```
+
+The "View all results →" footer link stays hidden in this state — it would lead to a similarly empty page.
+
+When the input is cleared, the right pane snapshots back to its default state (the four featured products that loaded on first open).
+
+## Default products
+
+The four products in the default state come from your `all` collection (`collections.all.products limit: 4`). They're the most recent four added to the storefront — useful as "new arrivals" hints when the panel first opens.
+
+To customize which four show, edit the loop in `snippets/search-panel.liquid` and reference a specific collection instead — for example, `collections.featured.products limit: 4`.
+
+## Predictive search settings
+
+A few related controls in **Theme settings → Search**:
+
+| Setting | Default | Effect |
+|---|---|---|
+| **Show predictive search dropdown** | `true` | Master switch. When `false`, the panel still opens but only the static columns render. |
+| **Include collections in predictive results** | `true` | Reserved for predictive endpoints (the JSON view returns products only by default). |
+| **Include articles in predictive results** | `false` | Surface blog articles when set to `true`. |
+| **Include pages in predictive results** | `false` | Surface pages when set to `true`. |
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Cart drawer" href="/interactive-features/cart-drawer">
+    The other slide-in surface — both share the same data-open pattern.
+  </Card>
+  <Card title="Search template" href="/templates/search-template">
+    The full /search page that the panel links to.
+  </Card>
+</CardGroup>

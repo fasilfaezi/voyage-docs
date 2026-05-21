@@ -1,0 +1,164 @@
+---
+title: "Homepage recipes"
+description: "Add, hide, reorder, and configure every section that makes up the Voyage homepage."
+---
+
+The homepage in Voyage is built from six default sections, each independently configurable. You can add more, remove any, and reorder freely.
+
+## Add or hide a homepage section
+
+<Steps>
+  <Step title="Open the home template in the Theme Editor">
+    Top bar → **Home page** (the dropdown next to the storefront preview).
+  </Step>
+  <Step title="To hide a section">
+    Click the section in the left rail → click the **eye icon** at the top of the settings panel. Hidden sections stay in the template — toggle the eye again to bring them back.
+  </Step>
+  <Step title="To remove a section permanently">
+    Click the section → click the **trash icon**. The section is removed from the template, but its settings are forgotten — don't do this if you might add it back later.
+  </Step>
+  <Step title="To add a section">
+    Scroll the left rail to **Add section**. Pick from Hero, Featured collection, Image banner, Multicolumn, Rich text, Testimonials, Video, Logo list, Image with text, Blog posts, Newsletter, Collection list, Custom liquid, Slideshow, and more.
+  </Step>
+</Steps>
+
+## Reorder sections
+
+In the left rail, grab a section by its handle (six dots on the left of the row) and drag. Voyage uses standard Shopify section ordering — order matters, top is what visitors see first.
+
+<Tip>
+Watch the cinematic flow. The default order (hero → new arrivals → category archive → bundle → chapters → club) alternates light cream and deep navy bands so the eye keeps moving. If you reorder, try to preserve that contrast rhythm.
+</Tip>
+
+## Add a hero slide with video
+
+The hero is a carousel — each slide is a block.
+
+<Steps>
+  <Step title="Open the Hero section">
+    Click **Hero** in the left rail (or click the hero on the preview).
+  </Step>
+  <Step title="Add a slide">
+    Scroll to the bottom of the section's settings → **Add block** → **Slide**. The new slide appears at the bottom of the carousel.
+  </Step>
+  <Step title="Upload a poster image">
+    **Poster image** — 1400×900 minimum, JPG q85. This appears while the video loads and on devices with slow connections.
+  </Step>
+  <Step title="Upload the video">
+    **Video** — MP4 or WebM, 1080p, under 4 MB. Voyage only autoplays the first slide; subsequent slides preload metadata only, so file size matters less for slides 2+.
+  </Step>
+  <Step title="Write the copy">
+    **Headline (script)** for the eyebrow line, **Headline (serif)** for the main heading, **Body** for one-line subtext.
+  </Step>
+  <Step title="Set the CTAs">
+    **Button 1** and **Button 2** each take a label and a URL. Button 1 is filled; Button 2 is outlined.
+  </Step>
+  <Step title="Reorder slides">
+    Drag the slide block in the left rail. The first enabled slide is the one that autoplays its video on load.
+  </Step>
+</Steps>
+
+<Warning>
+Mobile autoplay only works when the video is **muted** and **playsinline** — both default-set by Voyage. If you re-encode an MP4 without these attributes upstream, autoplay will silently fail on iOS.
+</Warning>
+
+## Change the new-arrivals collection
+
+<Steps>
+  <Step title="Click the New arrivals section">
+    In the left rail.
+  </Step>
+  <Step title="Pick a collection">
+    **Collection** dropdown → choose the collection you want surfaced. If yours isn't listed, create it first in **Products → Collections** in the Shopify admin.
+  </Step>
+  <Step title="Tune the count">
+    **Products to show** controls how many cards render (typically 4, 6, 8, or 12).
+  </Step>
+  <Step title="Rename the eyebrow">
+    The default is "new arrivals" in script. Edit **Eyebrow** to match your season or drop.
+  </Step>
+</Steps>
+
+## Customize the category archive (6 tiles)
+
+The category archive is a dark navy band with six collection tiles, each linking to a collection.
+
+<Steps>
+  <Step title="Open the Category archive section">
+    In the left rail.
+  </Step>
+  <Step title="Edit each tile">
+    Click a tile block → set **Image**, **Label**, and **Link** (a collection or page URL). Six tiles is the standard; you can add up to eight or remove down to four.
+  </Step>
+  <Step title="Adjust the band heading">
+    **Section heading** and **Eyebrow** sit above the grid. Default reads as "the archive" in script with "Explore by category" beneath.
+  </Step>
+</Steps>
+
+## Wire up the bundle hotspots
+
+The Bundle section shows a "Complete the look" stage image with clickable hotspots — each hotspot opens a product picker.
+
+<Steps>
+  <Step title="Open the Bundle section">
+    In the left rail.
+  </Step>
+  <Step title="Upload the stage image">
+    A flat-lay or styled image with clear space around each product. 1600×1200 works well.
+  </Step>
+  <Step title="Position each hotspot">
+    Each **Hotspot** block has **X (%)** and **Y (%)** coordinates — 0 is top/left, 100 is bottom/right. Pick a product for each hotspot.
+  </Step>
+  <Step title="Preview on mobile">
+    Hotspots render as numbered chips on mobile. If they overlap, nudge the coordinates by 5–10%.
+  </Step>
+</Steps>
+
+## Edit the Club CTA
+
+The Club section is a full-bleed editorial image with a membership / community call-to-action overlaid.
+
+<Steps>
+  <Step title="Click the Club section">
+    In the left rail.
+  </Step>
+  <Step title="Upload the background image">
+    1600×900 minimum. Voyage darkens it with a CSS overlay so any photograph reads at the chosen text color.
+  </Step>
+  <Step title="Write the copy">
+    **Eyebrow** (script), **Heading**, **Body** (one paragraph), **Button label**, **Button URL**.
+  </Step>
+  <Step title="Adjust the overlay strength">
+    **Overlay opacity** — push higher if your photograph has bright midtones that fight with the text.
+  </Step>
+</Steps>
+
+## Add a Featured Collection / Image Banner / Multicolumn
+
+These are general-purpose sections you can drop anywhere on the homepage.
+
+| Section | When to use it |
+|---|---|
+| **Featured collection** | A second or third product grid — a separate drop, a sale collection, a curated edit |
+| **Image banner** | A wide editorial photograph with a single CTA — typically used between product sections |
+| **Multicolumn** | 2–4 vertical column cards — features, value props, a "house philosophy" row |
+| **Logo list** | A press strip, "as seen in," or stockists row |
+| **Testimonials** | Customer quotes with avatars |
+| **Video** | A standalone video section, not full-bleed like the hero |
+| **Rich text** | A long-form editorial paragraph, centered |
+| **Image with text** | A 50/50 image-plus-copy block |
+| **Newsletter** | An inline email signup, separate from the footer one |
+| **Blog posts** | The 2 or 3 latest articles from a chosen blog |
+
+To add any of them: **Add section** at the bottom of the left rail, then drag into position.
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="PDP recipes" href="/customization/pdp-recipes">
+    The product page is block-based — and there's more to configure.
+  </Card>
+  <Card title="Sections reference" href="/sections-reference/sections-overview">
+    Every section, every setting.
+  </Card>
+</CardGroup>

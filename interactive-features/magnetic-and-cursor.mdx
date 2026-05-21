@@ -1,0 +1,91 @@
+---
+title: "Magnetic CTAs & custom cursor"
+description: "The two cursor-aware micro-interactions that give Voyage its tactile feel."
+---
+
+Two small effects — a magnetic pull on call-to-action elements and a minimal custom cursor — make the storefront feel responsive in a way that's hard to articulate but easy to perceive. Both are toggleable, both are pointer-aware, and both gracefully disable on touch devices where they wouldn't make sense.
+
+## Magnetic CTAs
+
+A magnetic button slightly tracks the cursor as it approaches — when the visitor moves their pointer near a primary CTA, the button drifts toward the cursor by a fraction of the offset. Move away and the button springs back to its rest position.
+
+### Marking an element magnetic
+
+Add the `magnetic` class or a `data-magnetic` attribute:
+
+```liquid
+<a class="btn magnetic" href="/collections/all">Discover</a>
+<a class="btn" href="/about" data-magnetic="0.2">About</a>
+```
+
+The numeric value of `data-magnetic` controls strength — the fraction of the cursor's offset the button moves by.
+
+| Strength | Feel |
+|---|---|
+| `0.1` | Barely perceptible — a whisper of motion |
+| `0.2` | Subtle, recommended for body CTAs |
+| `0.3` (default if only `.magnetic` class is used) | Pronounced, recommended for hero buttons |
+| `0.5+` | Theatrical — best reserved for full-bleed editorial moments |
+
+### Where Voyage applies it
+
+The default magnetic targets in Voyage:
+
+- The two hero CTAs (`Discover the collection` / `Read the studio note`)
+- The "Reveal my 15% code →" button in the offer popup
+- The bespoke / made-to-measure CTA on the PDP
+
+You can add `data-magnetic` to any element in your own custom Liquid sections.
+
+### Disabling
+
+There's no theme setting to disable the effect globally — to remove it from a specific element, drop the `.magnetic` class or remove the `data-magnetic` attribute. To disable globally, remove the magnetic IIFE from `assets/theme.js`. The effect respects `prefers-reduced-motion` only via the cursor block below — it does not automatically disable on reduced-motion preference. If your audience leans accessibility-first, consider gating the IIFE on a `matchMedia` check.
+
+## Custom cursor
+
+On hover-capable devices, Voyage replaces the system cursor with a small dot and a subtle ring that follows your pointer with a slight lag. The lag gives the cursor a physical-feeling weight; the ring grows on hover targets and shrinks on the body.
+
+### Anatomy
+
+| Element | Default size | Behaviour |
+|---|---|---|
+| **`cursor-dot`** | `10 × 10 px` solid disc, navy ink colour | Tracks the cursor with a `0.35` lerp ease — fast response, light lag |
+| **`cursor-ring`** | `0 × 0 px` (hidden by default), `1 px` navy border | Tracks with a `0.15` lerp ease — slower response, more visible lag |
+
+The cursor flips with dark mode — on a dark theme, the dot and ring switch from navy to paper-cream automatically.
+
+### State changes via `data-cursor`
+
+Hover-target elements can change the cursor state by exposing a `data-cursor` attribute. Voyage uses two states:
+
+| State | Dot | Ring | Where applied |
+|---|---|---|---|
+| `data-cursor="hover"` | Shrinks to `6 × 6 px` | Grows to `40 × 40 px`, opacity `1` | Buttons, links, the cart icon, the search icon — anything you'd want the cursor to acknowledge |
+| `data-cursor="image"` | Shrinks to `4 × 4 px` | Grows to `56 × 56 px`, opacity `1` | The PDP gallery (signals "click to zoom"), large hero imagery |
+
+If a `data-cursor` attribute is set to anything else (or unset), the cursor returns to its rest state.
+
+### Touch & coarse-pointer behaviour
+
+On any device matching `(hover: none)` or `(pointer: coarse)` — phones, most tablets, touch-screen laptops — Voyage skips the cursor entirely. The standard system cursor is used, and the magnetic targets still work via touch (the elements just don't visibly track since there's no hovering pointer).
+
+### Disabling
+
+The custom cursor is toggleable in **Theme settings → Animation → Custom cursor (data-cursor attribute)**. Default is `true`. When disabled, the dot and ring elements are not created, and the system cursor is used everywhere.
+
+You can also disable it per-page by setting `data-cursor="off"` on the `<html>` element — useful for, say, a future minimal-layout template that wants the system cursor back.
+
+## A note on combining the two
+
+Magnetic CTAs and the custom cursor work together: the cursor's ring grows over a hover target while the target itself drifts toward the cursor. The combined effect is what gives Voyage its tactile feel. Disabling one but not the other still works — the cursor recognises any `data-cursor` target, magnetic or not.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Page transitions" href="/interactive-features/page-transitions">
+    The other signature motion effect — the navy curtain between pages.
+  </Card>
+  <Card title="Dark mode & grain" href="/interactive-features/dark-mode-and-grain">
+    The visual surface treatment that completes the premium feel.
+  </Card>
+</CardGroup>

@@ -1,0 +1,194 @@
+---
+title: "Common issues"
+description: "Twenty-plus fixes for the questions Voyage merchants run into most often."
+---
+
+If something isn't behaving the way you expect, scan the list below. Each accordion is a self-contained answer — open the one closest to your symptom.
+
+<AccordionGroup>
+  <Accordion title="My logo doesn't show in the header">
+    Two possible causes.
+
+    1. **The logo wasn't uploaded.** Theme settings → **Logo** → check both **Logo (default / navy variant)** and **Logo (light variant for dark backgrounds)**. If both are empty, Voyage falls back to the shop name in Playfair Display.
+
+    2. **Only the light variant is uploaded.** The default variant is what shows on the cream page background and on most pages. The light variant only shows on the navy hero overlay. If you've uploaded one but not the other, the missing variant falls back to the wordmark.
+
+    Upload both files. They should be the same wordmark, recolored — dark ink for the default, white for the light variant.
+  </Accordion>
+
+  <Accordion title="Hero video isn't playing on mobile">
+    Mobile autoplay only works under three conditions, all of which Voyage sets by default. If one is broken upstream, autoplay fails silently.
+
+    1. **Muted.** Voyage adds `muted` to every hero video. If you re-encode the MP4 with embedded audio and then strip the attribute, autoplay breaks. Keep the file silent or muted.
+    2. **Playsinline.** Voyage adds `playsinline` so iOS doesn't fullscreen the video. Don't remove this attribute.
+    3. **Supported format.** MP4 (H.264 / AAC) and WebM are universally supported. AVI, MOV, and HEVC are not.
+
+    File size matters too. Voyage caps hero videos at 4 MB before warning the merchant. Over that, mobile data connections may stall the load and skip autoplay entirely.
+  </Accordion>
+
+  <Accordion title="Cart drawer won't open">
+    The cart drawer relies on the Shopify Section Rendering API. Test in a browser console.
+
+    1. Open the cart drawer manually — click the cart icon in the header.
+    2. If nothing happens, open browser DevTools → **Network**. Click the cart icon again.
+    3. Look for a request to `/?sections=cart-drawer`. If it returns 4xx or 5xx, your store is rate-limited or the section doesn't exist.
+
+    Fix: check that **`sections/cart-drawer.liquid`** (or the section referenced in `theme.js`) is present in your theme. If you've deleted it, re-add from the Voyage source. If the request is being blocked by a security app, allowlist the path.
+  </Accordion>
+
+  <Accordion title="Customer pages look like generic Shopify pages">
+    You're on **New customer accounts**, which renders Shopify-hosted pages instead of your theme's templates. Voyage's `customers/*.liquid` templates only render under **Classic customer accounts**.
+
+    Switch in **Settings → Customer accounts** → **Accounts version**. Classic is the version that uses your theme.
+  </Accordion>
+
+  <Accordion title="Search returns no results">
+    1. **Search & Discovery app.** Make sure the free Shopify Search & Discovery app is installed. Most predictive search features depend on it.
+    2. **Index status.** New stores take a few minutes for the search index to populate. Wait 15 minutes after adding products.
+    3. **Filter conflicts.** If you've added strict filters in the app (e.g., only published products of a specific type), they apply to search too. Loosen them to debug.
+  </Accordion>
+
+  <Accordion title="Theme styles dropdown only shows Default">
+    A `settings_data.json` issue. The three named theme styles (Editorial Navy / Warm Cream / Minimal Monochrome) are encoded as presets. If only one shows, your `settings_data.json` is missing the `presets` key.
+
+    Fix: re-upload `config/settings_data.json` from the Voyage source. The file is overwritten safely — your other settings are stored separately.
+  </Accordion>
+
+  <Accordion title="Magnetic CTAs not working">
+    The magnetic effect — buttons that follow the cursor on hover — is wired in `assets/theme.js`. If buttons aren't reacting:
+
+    1. **Asset URL.** Confirm `assets/theme.js` is being loaded by checking `layout/theme.liquid` for `{{ 'theme.js' | asset_url | script_tag }}`.
+    2. **Prefers reduced motion.** macOS and iOS both expose this OS-level preference. Voyage respects it — magnetic CTAs are disabled for visitors who have reduced motion turned on.
+    3. **Touch devices.** Magnetic only fires on cursor-based devices. Phones and tablets get a tap state instead.
+  </Accordion>
+
+  <Accordion title="Page-transition curtain stuck on screen">
+    The navy curtain that rises on every navigation uses `sessionStorage` to avoid replaying on back-button returns. If it stays stuck, the cleanup didn't fire.
+
+    Quick fix: clear sessionStorage for your domain (DevTools → **Application** → **Session Storage** → right-click → Clear). The curtain resets.
+
+    If it happens repeatedly, an extension or aggressive cache is blocking the cleanup script. Test in incognito.
+  </Accordion>
+
+  <Accordion title="Lighthouse perf below 60">
+    Image weight is the usual culprit.
+
+    1. Run Lighthouse on the homepage and the product page in Chrome DevTools.
+    2. Open the **Network** panel, filter to **Img**, and sort by size.
+    3. Anything over 200 KB on first load is suspect. Hero posters can run 300–500 KB; everything else should be lighter.
+
+    Fix: re-export from your image source at JPG q85, max 1800 px on the longest edge. Voyage uses `image_url` with explicit width hints so Shopify can serve smaller sources to smaller viewports — but only if the upload itself isn't oversized.
+  </Accordion>
+
+  <Accordion title="Color contrast fails in dark mode">
+    The most common cause: a muted-text token that read fine on cream becomes illegible on charcoal. Voyage uses `color_muted` (default `#565E6B`) across both light and dark modes — the same hex.
+
+    Fix: pick a muted color with a contrast ratio of at least 4.5:1 against both your light and dark backgrounds. `#6B7280` (Tailwind gray-500) is a safe middle ground.
+  </Accordion>
+
+  <Accordion title="Italianno font not rendering on Checkout">
+    Expected. Shopify Checkout only loads fonts from its own hosted library — not the full Google Fonts catalog. Italianno is not in that library. Pick the closest available alternative in the Checkout font picker — Pinyon Script, Allura, or Sacramento are the closest matches.
+
+    The mismatch only affects Checkout. Your storefront keeps using Italianno.
+  </Accordion>
+
+  <Accordion title="Filter sidebar shows duplicate sizes">
+    Usually caused by inconsistent option values across products — "S", "Small", and "S " (with trailing space) become three filters instead of one.
+
+    Fix: open **Products** → bulk-edit by tag → standardize option values. The Search & Discovery filter index updates within a few minutes.
+  </Accordion>
+
+  <Accordion title="Predictive search slow">
+    The first query of a session hits Shopify's storefront API and primes the CDN cache. Subsequent queries return from cache and feel instant.
+
+    If first-query latency is consistently bad: check that you're not running on a region without a nearby Shopify edge. Most stores serve from the same edge as their primary market — if you've recently changed currency markets, the cache may need a few hours to warm.
+  </Accordion>
+
+  <Accordion title="Hero MP4 loads twice">
+    A duplicate slide block. Open the Hero section in the Theme Editor and look for two slides with the same video file. Delete or hide one.
+
+    Also check: a Custom Liquid block somewhere on the homepage that embeds the same video. Use the **Network** panel filtered to **Media** to identify which request is the duplicate.
+  </Accordion>
+
+  <Accordion title="Apple Wallet pass not showing on gift card">
+    Apple Wallet passes for Shopify gift cards require **Shopify POS** to be set up for the store. They're generated server-side at purchase and aren't a theme feature. Check **Settings → Apps and sales channels → Point of Sale**.
+  </Accordion>
+
+  <Accordion title="Liquid syntax error after editing">
+    The Shopify code editor lints as you type, but it doesn't block you from saving syntactically valid Liquid that references undefined variables.
+
+    Fix: re-read the error. The message tells you the line number and the missing variable. Common cases:
+
+    - `undefined variable settings.X` — you renamed a setting in `settings_schema.json` but the section still references the old ID
+    - `undefined variable section.settings.X` — same, at the section level
+    - `unexpected token` — usually a missing `endif` or `endfor`
+
+    If you can't find it, revert the file and re-apply your change in smaller increments.
+  </Accordion>
+
+  <Accordion title="Translation missing: en.X">
+    A locale key referenced in Liquid that doesn't exist in `locales/en.default.json`. The Theme Editor surfaces this as a yellow warning; the storefront renders the key path verbatim.
+
+    Fix: open `locales/en.default.json`, find the parent object, add the missing key. Save. The warning clears on next reload.
+  </Accordion>
+
+  <Accordion title="PDP variant images not swapping">
+    Voyage swaps gallery images when a variant is selected — but only if each variant has at least one image assigned in **Products → [product] → Variants**.
+
+    Fix: open the product in the admin → scroll to the **Variants** table → click each variant → upload or pick an image. The gallery now swaps on the storefront.
+  </Accordion>
+
+  <Accordion title="Newsletter form not submitting">
+    Voyage's newsletter form posts to Shopify's customer-creation endpoint with a `marketing_opt_in` flag. If submissions silently fail:
+
+    1. **Customer notifications.** Check **Settings → Notifications** → confirm "Customer welcome" and "Customer account invite" are enabled.
+    2. **Spam filter.** Test with a clean email address.
+    3. **reCAPTCHA.** If you've enabled Shopify's bot protection, very fast submissions may be blocked. Try filling the form slowly.
+  </Accordion>
+
+  <Accordion title="404 page not found">
+    If visiting `/404` returns a generic Shopify 404 instead of Voyage's branded one, you're missing the template.
+
+    Fix: confirm `templates/404.json` and `sections/main-404.liquid` both exist. The JSON template references the section; if either is missing, Shopify falls back to the platform default.
+  </Accordion>
+
+  <Accordion title="Offer popup keeps appearing every visit">
+    The offer popup is gated by `sessionStorage`. Closing the browser tab — not just navigating away — resets the gate.
+
+    If it appears on every page load within the same tab, the storage key is being cleared by an extension or by aggressive privacy mode. Test in normal browsing.
+
+    To disable the popup entirely: Theme Editor → **Offer popup** section → uncheck **Enable**.
+  </Accordion>
+
+  <Accordion title="Variant prices don't update in cart drawer">
+    The cart drawer renders via Section Rendering API on every cart change. If prices stay stale:
+
+    1. Check the **Network** tab — is `/cart/change.js` returning the updated line items?
+    2. Check that the section ID in the AJAX call matches `sections/cart-drawer.liquid`. If you've renamed the file, update the reference in `assets/theme.js`.
+  </Accordion>
+
+  <Accordion title="Buttons render with no corner radius even though I picked Pill">
+    The button corner radius is a global CSS variable. Some sections — typically the hero and the bespoke CTA card — override it for visual contrast. This is intentional.
+
+    If a specific button outside those sections isn't honoring the global radius, check that it's using the `.btn` class (or one of its modifiers) rather than a hand-rolled `<a>` styled inline.
+  </Accordion>
+
+  <Accordion title="Cart icon shows zero items but cart has items">
+    The header cart count reads from `cart.item_count` in Liquid and refreshes via the Section Rendering API after every add. If it's stuck at zero:
+
+    1. **Reload the page** — confirms whether the count is wrong client-side or server-side.
+    2. **Check the JS console** for errors from `theme.js` — a thrown exception can short-circuit the count refresh.
+    3. **Cookies blocked?** Shopify's cart cookie is required. If a privacy extension is stripping it, the cart resets on every request.
+  </Accordion>
+</AccordionGroup>
+
+## Still stuck?
+
+<CardGroup cols={2}>
+  <Card title="Support and changelog" href="/troubleshooting/support-and-changelog">
+    Reach the studio. Response in 1–2 business days.
+  </Card>
+  <Card title="FAQ" href="/troubleshooting/faq">
+    The longer list of questions, including ones that aren't strictly bugs.
+  </Card>
+</CardGroup>

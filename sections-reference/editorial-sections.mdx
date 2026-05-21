@@ -1,0 +1,436 @@
+---
+title: "Editorial sections"
+description: "Six content patterns for storytelling: chapters, club, image-with-text, multicolumn, rich text, testimonials."
+---
+
+These are the sections that carry copy, photography, and brand story. They sit between the hero and the product surfaces — quietly framing the catalog rather than competing with it.
+
+| Section | Pattern |
+|---|---|
+| **Home · Chapters** | Two-up editorial tiles with a single SHOP NOW button per tile. |
+| **Home · Club** | Full-bleed membership / community CTA over an image. |
+| **Image with text** | Paired image + copy column, side-toggleable. |
+| **Multicolumn** | 2–4 column grid of icons or images + copy. |
+| **Rich text** | Eyebrow + heading + body + button stack, width-constrained for readability. |
+| **Testimonials** | Press / customer / editor quote grid with optional stars. |
+
+---
+
+## Home · Chapters — `sections/home-chapters.liquid`
+
+Two-up "Shop Now" tiles. Each tile is a calm image with a centered uppercase label and a small SHOP NOW button. Photography leads — the heading sits above the grid, the tiles themselves are quiet.
+
+**Available on:** All templates. Designed to sit just above the footer on the home page.
+
+### Section settings
+
+<ParamField path="heading" type="text" default="Men's Wardrobe">
+  The script-font section heading.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+
+### Blocks
+
+#### Chapter tile (max 2)
+
+The schema caps the section at exactly two tiles.
+
+<ParamField path="script" type="text" default="Top Wear">
+  Uppercase label rendered on the tile center.
+</ParamField>
+<ParamField path="cta" type="text" default="Shop now">
+  Button text under the label.
+</ParamField>
+<ParamField path="image" type="image_picker">
+  Tile image. Renders responsive `srcset` (400 / 800 / 1400 widths).
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text">
+  Unsplash photo ID used if no image is set — for preview / demo only.
+</ParamField>
+<ParamField path="link" type="url">
+  Destination when the tile is clicked.
+</ParamField>
+
+### Default preset
+
+Two tiles: "Top Wear" and "Bottom Wear."
+
+### When to use
+
+Chapters is the home page's quiet payoff — a two-up "menswear / womenswear" or "ready-to-wear / accessories" split, just before the footer. For a more conceptual two-up split, use the same section with a different heading and image treatment. For three or more tiles, use [Home · Category archive](/sections-reference/commerce-sections#home--category-archive--sectionshome-category-archive-liquid) instead.
+
+---
+
+## Home · Club — `sections/home-club.liquid`
+
+Full-bleed editorial image with a centered script heading, short body, and a prominent button. The whole tile is a single link to the join URL; the image gently zooms on hover. Modeled on the membership-pitch pattern.
+
+**Available on:** All templates. Designed to sit just above the footer on the home page.
+
+### Section settings
+
+<ParamField path="title" type="text" default="Join Voyage Club">
+  Script heading.
+</ParamField>
+<ParamField path="heading_size" type="range" default="100">
+  Scales the heading 60–140%.
+</ParamField>
+<ParamField path="copy" type="textarea" default="Early access to each season's edition, private invitations to the studio in studio, and the house's quarterly letter — sent only to members.">
+  Body copy below the heading.
+</ParamField>
+<ParamField path="cta_label" type="text" default="Become a member">
+  Button text.
+</ParamField>
+<ParamField path="cta_url" type="url">
+  Link destination. Falls back to `/account/register`.
+</ParamField>
+<ParamField path="image" type="image_picker">
+  Full-bleed background image.
+</ParamField>
+<ParamField path="fallback_unsplash_id" type="text" default="1469854523086-cc02fe5d8800">
+  Unsplash photo ID used if no image is set.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Club is for membership, loyalty, or community-CTA moments — anything where the merchant wants a single bold ask just before the footer. The default CTA URL points at the register page, so it doubles as a soft account-creation prompt for visitors who haven't signed up. For a smaller, multi-block content treatment, use [Rich text](#rich-text--sectionsrich-text-liquid) instead.
+
+---
+
+## Image with text — `sections/image-with-text.liquid`
+
+Paired column section: image on one side, copy block on the other. The image-side toggle (left / right) flips desktop layout; mobile always stacks image-then-text. The cloth-and-story pattern of fashion / lifestyle marketing.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Image
+
+<ParamField path="image" type="image_picker">
+  The image.
+</ParamField>
+<ParamField path="image_ratio" type="select" default="portrait">
+  Image aspect ratio. Options: `portrait` (4:5), `square` (1:1), `landscape` (4:3).
+</ParamField>
+<ParamField path="focal_x" type="range" default="50">
+  Horizontal focal point 0–100%.
+</ParamField>
+<ParamField path="focal_y" type="range" default="50">
+  Vertical focal point 0–100%.
+</ParamField>
+
+#### Layout
+
+<ParamField path="image_side" type="select" default="left">
+  Image position on desktop. Options: `left`, `right`.
+</ParamField>
+<ParamField path="vertical_alignment" type="select" default="center">
+  Vertical alignment of the text column. Options: `top`, `center`, `bottom`.
+</ParamField>
+
+### Blocks
+
+#### Eyebrow (limit 1)
+
+<ParamField path="text" type="text" default="The cloth">
+  Eyebrow text.
+</ParamField>
+
+#### Heading (limit 1)
+
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="text" type="text" default="Tell the story behind the piece">
+  Serif heading.
+</ParamField>
+
+#### Body (limit 1)
+
+<ParamField path="text" type="richtext" default="<p>Cut from fine cloth in studio. Finished by hand and sent to sea for the voyage.</p>">
+  Body paragraph (rich text).
+</ParamField>
+
+#### Bulleted list (limit 1)
+
+<ParamField path="item_1" type="text" default="Made by hand">
+  List item 1.
+</ParamField>
+<ParamField path="item_2" type="text" default="Cut and sewn in studio">
+  List item 2.
+</ParamField>
+<ParamField path="item_3" type="text" default="Finished by hand">
+  List item 3.
+</ParamField>
+<ParamField path="item_4" type="text">
+  Optional list item 4.
+</ParamField>
+
+#### Button (limit 2)
+
+<ParamField path="label" type="text" default="Read more">
+  Button text.
+</ParamField>
+<ParamField path="link" type="url">
+  Button destination.
+</ParamField>
+<ParamField path="style" type="select" default="ghost">
+  Button style. Options: `solid`, `ghost` (outlined).
+</ParamField>
+
+### Default preset
+
+Eyebrow → heading → body → button.
+
+### When to use
+
+Image-with-text is the most-used editorial pattern in fashion storefronts. Use it for:
+
+- "About the cloth" — the story behind a particular fabric or process.
+- "Meet the cutter" — a craftsperson profile.
+- Capsule narratives — one image + one paragraph that frames a small drop.
+
+For three or more columns of value props, use [Multicolumn](#multicolumn--sectionsmulticolumn-liquid). For text-only, use [Rich text](#rich-text--sectionsrich-text-liquid).
+
+---
+
+## Multicolumn — `sections/multicolumn.liquid`
+
+A 2–4 column grid of icon/image + heading + body. Used for shipping/returns/repair perk rows, value-proposition bands, three-step walkthroughs.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header (optional)
+
+<ParamField path="eyebrow" type="text">
+  Optional eyebrow above the heading.
+</ParamField>
+<ParamField path="heading" type="text">
+  Section heading. Renders only when set.
+</ParamField>
+<ParamField path="subheading" type="richtext">
+  Subheading body (rich text).
+</ParamField>
+
+#### Layout
+
+<ParamField path="columns" type="select" default="3">
+  Number of columns on desktop. Options: `2`, `3`, `4`.
+</ParamField>
+<ParamField path="text_alignment" type="select" default="center">
+  Text alignment within each column. Options: `left`, `center`.
+</ParamField>
+<ParamField path="image_shape" type="select" default="circle">
+  Shape of the column image. Options: `circle`, `square`, `portrait`.
+</ParamField>
+
+#### Color
+
+<ParamField path="bg_color" type="color">
+  Section background color. Optional.
+</ParamField>
+
+### Blocks
+
+#### Column (no max)
+
+<ParamField path="image" type="image_picker">
+  Column image. Optional — if blank, the `icon` setting is used instead.
+</ParamField>
+<ParamField path="icon" type="select" default="none">
+  Icon to render when no image is set. Options: `none`, `anchor`, `compass`, `heart`, `shield`, `leaf`, `globe`, `truck`, `lock`.
+</ParamField>
+<ParamField path="heading" type="text" default="Column heading">
+  Column heading.
+</ParamField>
+<ParamField path="body" type="richtext" default="<p>One sentence about this value proposition.</p>">
+  Column body.
+</ParamField>
+<ParamField path="link_label" type="text">
+  Optional column link label.
+</ParamField>
+<ParamField path="link_url" type="url">
+  Optional column link destination.
+</ParamField>
+
+### Default preset
+
+Three columns: "Made by hand," "Lifetime repair," "Complimentary shipping."
+
+### When to use
+
+Multicolumn is the workhorse for perk strips and value-prop bands. Use it for:
+
+- Shipping / returns / repair perks on the home page or PDP.
+- A three-step walkthrough ("Choose your cloth → Be measured → Receive in studio").
+- Editor's picks with avatars + names + roles.
+
+For a single image + text pair, use [Image with text](#image-with-text--sectionsimage-with-text-liquid). For testimonial-style quotes with attribution, use [Testimonials](#testimonials--sectionstestimonials-liquid).
+
+---
+
+## Rich text — `sections/rich-text.liquid`
+
+Eyebrow + heading + body + button stack. Width-constrained for editorial readability. Used for manifesto / about / chapter-divider purposes anywhere on the site.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Layout
+
+<ParamField path="alignment" type="select" default="center">
+  Text alignment. Options: `left`, `center`.
+</ParamField>
+<ParamField path="width" type="select" default="medium">
+  Max content width. Options: `narrow`, `medium`, `wide`.
+</ParamField>
+<ParamField path="top_padding" type="range" default="80">
+  Top padding in pixels. Range 0–200, step 8.
+</ParamField>
+<ParamField path="bottom_padding" type="range" default="80">
+  Bottom padding in pixels.
+</ParamField>
+
+#### Color
+
+<ParamField path="bg_color" type="color">
+  Section background color.
+</ParamField>
+<ParamField path="text_color" type="color">
+  Section text color.
+</ParamField>
+
+### Blocks
+
+#### Eyebrow (limit 1)
+
+<ParamField path="text" type="text" default="Chapter">
+  Eyebrow text.
+</ParamField>
+
+#### Heading (limit 1)
+
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="text" type="text" default="Talk about your story">
+  Serif heading.
+</ParamField>
+
+#### Body (limit 1)
+
+<ParamField path="text" type="richtext" default="<p>Share a few lines about who you are, what you make, or why this collection matters.</p>">
+  Body paragraph (rich text).
+</ParamField>
+
+#### Divider rule (limit 2)
+
+No settings. Renders a hairline `<hr>`. Useful for breaking long copy into sections.
+
+#### Button (limit 2)
+
+<ParamField path="label" type="text" default="Read more">
+  Button text.
+</ParamField>
+<ParamField path="link" type="url">
+  Button destination.
+</ParamField>
+<ParamField path="style" type="select" default="solid">
+  Button style. Options: `solid`, `ghost`.
+</ParamField>
+
+### Default preset
+
+Eyebrow → heading → body → button.
+
+### When to use
+
+Rich text is the text-only counterpart to image-with-text. Use it for:
+
+- Manifestos and brand statements.
+- Section dividers between rich content blocks.
+- "About this collection" intros above a product grid.
+
+The width constraint keeps lines short for readability — important when the body copy is long. For richer treatments with an image, use [Image with text](#image-with-text--sectionsimage-with-text-liquid).
+
+---
+
+## Testimonials — `sections/testimonials.liquid`
+
+Press / customer / editor quote grid. Each block holds one quote, attribution name, attribution title (publication / role), optional avatar, and optional star rating. Carousel on mobile, grid on desktop.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text" default="In their words">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Press and editors">
+  Section heading.
+</ParamField>
+
+#### Layout
+
+<ParamField path="columns" type="select" default="3">
+  Columns on desktop. Options: `1`, `2`, `3`.
+</ParamField>
+
+### Blocks
+
+#### Testimonial (no max)
+
+<ParamField path="quote" type="richtext" default="<p>A short, considered line about your house or piece.</p>">
+  The quote body. Rich text — supports basic formatting.
+</ParamField>
+<ParamField path="name" type="text" default="Editor's name">
+  Attribution name.
+</ParamField>
+<ParamField path="title" type="text" default="Publication">
+  Attribution title or publication.
+</ParamField>
+<ParamField path="avatar" type="image_picker">
+  Optional avatar photo. Rendered as a small circular thumb next to the attribution.
+</ParamField>
+<ParamField path="rating" type="range" default="0">
+  Star rating 0–5. Zero hides the stars row entirely.
+</ParamField>
+
+### Default preset
+
+Three testimonial blocks, blank-defaulted for the merchant to fill in.
+
+### When to use
+
+Testimonials is for social proof — press quotes ("'considered fashion at its best.' — *Vogue*"), customer reviews, or editor picks. The star rating field makes it usable for product reviews too. For a more conversational format (single quote with image), use [Image with text](#image-with-text--sectionsimage-with-text-liquid) and put the quote in the body block.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Hero & banners" href="/sections-reference/hero-and-banners">
+    The visual loud sections — what editorial content sits beneath.
+  </Card>
+  <Card title="Commerce sections" href="/sections-reference/commerce-sections">
+    Cart, collection, category archive, bundle.
+  </Card>
+  <Card title="Templates · Homepage" href="/templates/homepage">
+    See how chapters and club are placed in the default home stack.
+  </Card>
+</CardGroup>

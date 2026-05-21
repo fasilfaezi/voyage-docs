@@ -1,0 +1,426 @@
+---
+title: "Header & footer"
+description: "The header, footer, announcement bar, and the two section groups that bind them across every page."
+---
+
+Voyage's layout chrome is composed of two **section groups** — JSON files that pin a stack of sections to every page via `theme.liquid`. The header group contains the announcement bar plus the header section; the footer group contains the footer.
+
+| File | What it is |
+|---|---|
+| `sections/header-group.json` | Section group — pins announcement bar + header to every page. |
+| `sections/footer-group.json` | Section group — pins the footer to every page. |
+| `sections/header.liquid` | The header section. |
+| `sections/footer.liquid` | The footer section. |
+| `sections/announcement-bar.liquid` | The announcement bar section. |
+
+Section groups are the Online Store 2.0 way to compose layout-level sections. The merchant edits them in the Theme Editor like any other section, and they appear on every page that includes the group via `{% sections 'header' %}` / `{% sections 'footer' %}`.
+
+---
+
+## Header section group — `sections/header-group.json`
+
+Pins the announcement bar above the header on every page. Order: announcement bar first, header second. Both sections render with their default settings; the group itself has no schema settings of its own.
+
+### File contents
+
+```json
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {},
+      "blocks": { ... }
+    },
+    "header": { "type": "header", "settings": {} }
+  },
+  "order": ["announcement-bar", "header"]
+}
+```
+
+The default `blocks` for the announcement bar are four `message` blocks pre-populated with "Complimentary worldwide shipping", "Summer 2026 is here — Shop the collection", "Lifetime repair on every garment", and "EST · MMXXVI · MILANO".
+
+### When to edit
+
+Most merchants will never edit this file directly — they'll edit the announcement bar and header sections from the Theme Editor and the changes save back to the group automatically. Edit the JSON file only if you want to:
+
+- Change the default blocks shipped with a new install (e.g. localize the messages for a non-English market).
+- Add a third layout-level section to the header (rare — typically just the bar and header are needed).
+
+---
+
+## Footer section group — `sections/footer-group.json`
+
+Pins the footer to every page.
+
+### File contents
+
+```json
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": { "type": "footer", "settings": {} }
+  },
+  "order": ["footer"]
+}
+```
+
+Simpler than the header group — only one section. The footer itself has eight block types that compose its content; see the [Footer section](#footer--sectionsfooter-liquid) below.
+
+---
+
+## Header — `sections/header.liquid`
+
+Centered wordmark, primary menu on the left, utilities on the right (currency / language / theme / sound / account / search / cart). The header is transparent over the hero on the home page and solid white-with-hairline on every other page; the scroll-aware switch is driven by JS via the `data-scrolled` attribute on `<body>`.
+
+**Supports nested menus up to 3 levels** — top-level links with children render as hoverable parent buttons with a dropdown panel; children with their own children render as a column with a heading + nested list.
+
+### Section settings
+
+<ParamField path="menu" type="link_list" default="main-menu">
+  The primary navigation menu. Leave on **Main menu** to use the merchant's standard navigation, or pick a different menu from Online Store → Navigation.
+</ParamField>
+
+### Default navigation behavior
+
+If the merchant has Shopify's auto-generated default menu (links titled "Home", "Catalog", "Contact" in that order), Voyage detects this and renders its own design-intended menu instead — "New Arrivals", "Summer 2026", "Shop" — so a freshly installed theme looks right out of the box. As soon as the merchant edits the menu in admin, the design defaults are replaced by the merchant's links.
+
+### Mobile drawer
+
+A `<details>`-based accordion drawer slides in from the side on mobile. Supports the same 3-level nesting as the desktop dropdown. No JavaScript required for the accordion mechanics — native `<details>` / `<summary>` handles toggling, keyboard support, and ARIA.
+
+### Right-side utilities
+
+The header right cluster contains:
+
+- **Currency switcher** — Rendered via `snippets/currency-switcher.liquid`.
+- **Language switcher** — Rendered via `snippets/language-switcher.liquid`.
+- **Theme toggle** — `data-theme-toggle` triggers the dark-mode flip.
+- **Sound toggle** — `data-sound-toggle` toggles ambient sound (off by default).
+- **Account** — Links to `/account`.
+- **Search** — Opens the search panel (rendered as a separate snippet, see [Interactive features · Search panel](/interactive-features/search-panel)).
+- **Cart** — Opens the cart drawer with a live item count.
+
+### Blocks
+
+None — the header has no block types.
+
+### When to edit
+
+The header is the most-touched section after the home hero. Common merchant edits:
+
+- Pointing `menu` at a different link list (e.g. a region-specific menu for a Japanese storefront).
+- Editing the underlying linklist in Shopify admin to change the primary menu structure.
+
+For changes to the right-side utilities (e.g. removing the sound toggle), edit the Liquid file directly — none of the utility icons are schema-configurable.
+
+---
+
+## Footer — `sections/footer.liquid`
+
+Block-based footer per Theme Store §3.2 / §5. The merchant adds, reorders, and removes columns: link lists, rich text, newsletter forms, images, social icons, payment icons, and a bespoke studio block.
+
+The layout sandwich, top to bottom:
+
+1. Optional wave-pattern decoration.
+2. Trust strip (4 editable perk lines).
+3. Brand stack: logo + house paragraph, with the first newsletter block optionally floated to the right.
+4. Block grid (merchant-configurable columns).
+5. Bottom row: copyright, coordinate / seal text, legal menu.
+6. Optional "Powered by Shopify" link.
+
+### Section settings
+
+#### Branding
+
+<ParamField path="logo" type="image_picker">
+  Logo for the dark footer. PNG or SVG with light artwork. Falls back to the bundled `voyage-logo-white.svg`.
+</ParamField>
+<ParamField path="logo_height" type="range" default="60">
+  Logo height in pixels. Range 24–120.
+</ParamField>
+<ParamField path="brand_text" type="richtext" default="<p>A considered house, voyaging the Mediterranean since MMXXVI. Considered garments — silk for the morning, wool for the long evening, precise tailoring for the ship's deck.</p>">
+  Brand paragraph rendered under the logo.
+</ParamField>
+
+#### Trust strip
+
+<ParamField path="show_trust_strip" type="checkbox" default="true">
+  Show the four-perk trust strip at the top of the footer.
+</ParamField>
+<ParamField path="trust_1" type="text" default="Made by hand">
+  Trust line 1.
+</ParamField>
+<ParamField path="trust_2" type="text" default="Lifetime repair on every garment">
+  Trust line 2.
+</ParamField>
+<ParamField path="trust_3" type="text" default="Complimentary worldwide shipping">
+  Trust line 3.
+</ParamField>
+<ParamField path="trust_4" type="text" default="30-day returns, free worldwide">
+  Trust line 4.
+</ParamField>
+
+#### Layout
+
+<ParamField path="show_pattern" type="checkbox" default="true">
+  Show the wave pattern decoration at the top of the footer.
+</ParamField>
+<ParamField path="float_newsletter" type="checkbox" default="true">
+  Float the first newsletter block to the brand stack row (next to the logo) instead of the column grid. Preserves the original two-column visual.
+</ParamField>
+
+#### Bottom row
+
+<ParamField path="copyright_suffix" type="text" default="All rights reserved">
+  Suffix after the copyright line.
+</ParamField>
+<ParamField path="coords" type="text" default="EST · MMXXVI">
+  Seal text. Rendered on the right of the bottom row with a small dot decoration.
+</ParamField>
+<ParamField path="legal_menu" type="link_list">
+  Menu of legal links (Privacy, Terms, etc.). Renders inline on the bottom row.
+</ParamField>
+<ParamField path="show_powered_by" type="checkbox" default="false">
+  Show the "Powered by Shopify" link. Off by default.
+</ParamField>
+
+### Blocks (max 8)
+
+The footer supports up to 8 blocks. The default preset ships with four: two link lists, one newsletter, one social.
+
+#### Link list
+
+<ParamField path="title" type="text" default="Navigate">
+  Column heading.
+</ParamField>
+<ParamField path="menu" type="link_list" default="footer">
+  The link list to render. Defaults to the `footer` menu in admin.
+</ParamField>
+
+#### Rich text
+
+<ParamField path="title" type="text" default="About">
+  Column heading.
+</ParamField>
+<ParamField path="content" type="richtext" default="<p>A few lines about your house — when you started, what you make, where you ship from.</p>">
+  Column body (rich text).
+</ParamField>
+
+#### Newsletter (limit 1)
+
+<ParamField path="eyebrow" type="text" default="Letters from the studio">
+  Eyebrow above the newsletter heading.
+</ParamField>
+<ParamField path="heading" type="text">
+  Heading above the form. Optional.
+</ParamField>
+<ParamField path="placeholder" type="text" default="your-email@example.com">
+  Email input placeholder.
+</ParamField>
+<ParamField path="submit_label" type="text" default="Subscribe">
+  Submit button label.
+</ParamField>
+<ParamField path="success_message" type="text" default="Thank you — your inbox awaits.">
+  Confirmation message.
+</ParamField>
+
+<Note>
+  When `float_newsletter` is on (the default), the first newsletter block is pulled out of the column grid and rendered next to the brand stack. Any additional newsletter blocks render normally in the grid.
+</Note>
+
+#### Image
+
+<ParamField path="image" type="image_picker">
+  Image to render in the footer column.
+</ParamField>
+<ParamField path="link" type="url">
+  Optional link to wrap the image.
+</ParamField>
+<ParamField path="caption" type="text">
+  Optional caption rendered under the image.
+</ParamField>
+
+#### Social media
+
+<ParamField path="title" type="text" default="Follow">
+  Column heading.
+</ParamField>
+<ParamField path="url_instagram" type="url">
+  Instagram URL. Icon renders only when set.
+</ParamField>
+<ParamField path="url_facebook" type="url">
+  Facebook URL.
+</ParamField>
+<ParamField path="url_pinterest" type="url">
+  Pinterest URL.
+</ParamField>
+<ParamField path="url_tiktok" type="url">
+  TikTok URL.
+</ParamField>
+<ParamField path="url_youtube" type="url">
+  YouTube URL.
+</ParamField>
+<ParamField path="url_x" type="url">
+  X / Twitter URL.
+</ParamField>
+<ParamField path="url_linkedin" type="url">
+  LinkedIn URL.
+</ParamField>
+
+#### Payment icons (limit 1)
+
+<ParamField path="title" type="text">
+  Optional column heading.
+</ParamField>
+
+Renders `shop.enabled_payment_types` automatically — the icons reflect the merchant's actual payment methods configured in Shopify admin. No URLs or images to manage.
+
+#### Studio (limit 1)
+
+A bespoke block for studio contact details, plus an optional live status row with city / voyage state.
+
+<ParamField path="title" type="text" default="Studio">
+  Column heading.
+</ParamField>
+<ParamField path="line1" type="text" default="The Studio, Piano Terra">
+  First address line.
+</ParamField>
+<ParamField path="line2" type="text" default="123 Studio Lane · The Studio">
+  Second address line.
+</ParamField>
+<ParamField path="email" type="text" default="care@example.com">
+  Email. Renders as a `mailto:` link.
+</ParamField>
+<ParamField path="phone" type="text" default="+39 02 0000 0026">
+  Phone. Renders as a `tel:` link.
+</ParamField>
+<ParamField path="note" type="text" default="Visits by appointment">
+  Note under the contact lines.
+</ParamField>
+<ParamField path="show_studio_status" type="checkbox" default="true">
+  Show the live studio status row below the contact list.
+</ParamField>
+<ParamField path="status_city" type="text" default="The Studio">
+  City label for the status row.
+</ParamField>
+<ParamField path="status_voyage" type="text" default="Currently sailing · Summer MMXXVI">
+  Voyage / season status line.
+</ParamField>
+
+### Default preset (block order)
+
+1. Link list ("Navigate")
+2. Link list ("Service")
+3. Newsletter ("Letters from the studio")
+4. Social ("Follow")
+
+### When to use which block
+
+| Need | Block |
+|---|---|
+| Standard navigation list ("Navigate", "Service", "Help") | Link list |
+| Free-form copy column (about, mission, address paragraph) | Rich text |
+| Email capture in the footer | Newsletter |
+| Trust badge, certification, or campaign image | Image |
+| Social handles | Social |
+| Accepted payment methods | Payment icons |
+| Physical studio contact details + status | Studio |
+
+---
+
+## Announcement bar — `sections/announcement-bar.liquid`
+
+Slim horizontal strip above the header. Editable messages, configurable per-template visibility, marquee animation modes, entrance / exit animations, and color customization. JS in `theme.js` handles the scroll-reveal behavior and the body-padding offset so the page slides cleanly when the bar appears.
+
+### Section settings
+
+#### Visibility
+
+<ParamField path="initial_state" type="select" default="hidden">
+  On page load. Options: `hidden` (revealed on scroll), `visible` (always visible), `off` (never shown).
+</ParamField>
+<ParamField path="show_on_home" type="checkbox" default="true">
+  Show on the home page (`template.name == 'index'`).
+</ParamField>
+<ParamField path="show_on_collection" type="checkbox" default="true">
+  Show on collection pages.
+</ParamField>
+<ParamField path="show_on_product" type="checkbox" default="true">
+  Show on product pages.
+</ParamField>
+<ParamField path="show_on_cart" type="checkbox" default="true">
+  Show on the cart page.
+</ParamField>
+<ParamField path="show_on_other" type="checkbox" default="true">
+  Show on all other pages (blog, article, search, customer pages, etc.).
+</ParamField>
+
+#### Style
+
+<ParamField path="bg_color" type="color" default="#002F5B">
+  Background color.
+</ParamField>
+<ParamField path="text_color" type="color" default="#F6F4EF">
+  Text color.
+</ParamField>
+<ParamField path="separator" type="select" default="dot">
+  Separator between messages. Options: `dot` (·), `diamond` (◆), `slash` (/), `star` (✦), `anchor` (⚓), `none`.
+</ParamField>
+
+#### Entrance & exit animation
+
+<ParamField path="entrance" type="select" default="slide-down">
+  Bar entrance when it appears. Options: `slide-down`, `slide-left`, `slide-right`, `fade`, `expand`.
+</ParamField>
+<ParamField path="exit" type="select" default="slide-up">
+  Bar exit when it leaves. Options: `slide-up`, `slide-left`, `slide-right`, `fade`, `collapse`.
+</ParamField>
+
+#### Message layout
+
+<ParamField path="message_anim" type="select" default="marquee-left">
+  Message layout. Options: `marquee-left` (continuous left scroll), `marquee-right`, `static` (all messages in a row, no scroll).
+</ParamField>
+<ParamField path="speed" type="select" default="medium">
+  Marquee speed. Options: `slow`, `medium`, `fast`. Applies only to marquee modes.
+</ParamField>
+
+### Blocks
+
+#### Message (max 12)
+
+<ParamField path="text" type="text" default="Free worldwide shipping">
+  Message text.
+</ParamField>
+
+The default preset ships with 4 messages: "Complimentary worldwide shipping", "Summer 2026 is here — Shop the collection", "Lifetime repair on every garment", "EST · MMXXVI · MILANO".
+
+### When to use
+
+Standard merchant uses:
+
+- Shipping & returns reassurance ("Free worldwide shipping", "Lifetime repair").
+- Active campaign messaging ("Summer 2026 is here").
+- Brand seal / coordinates ("EST · MMXXVI · MILANO").
+- Time-limited promos — set `initial_state` to `visible` so the message is loud from first paint, then toggle back to `hidden` when the promo ends.
+
+For announcements that need rich content (images, multi-line copy, CTAs), use a [Rich text](/sections-reference/editorial-sections#rich-text--sectionsrich-text-liquid) section instead — the announcement bar is single-line by design.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Getting started · Page anatomy" href="/getting-started/anatomy">
+    See how the header, footer, and announcement bar fit into every page.
+  </Card>
+  <Card title="Theme setup · Layout and spacing" href="/theme-setup/layout-and-spacing">
+    Section spacing, max widths, and the page-level rhythm.
+  </Card>
+  <Card title="Interactive features · Search panel" href="/interactive-features/search-panel">
+    The search drawer rendered from the header's search icon.
+  </Card>
+</CardGroup>

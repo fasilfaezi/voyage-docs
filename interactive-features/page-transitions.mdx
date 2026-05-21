@@ -1,0 +1,92 @@
+---
+title: "Page transitions"
+description: "The navy curtain that rises and falls between pages — Voyage's cinematic navigation rhythm."
+---
+
+Voyage's most recognisable signature is the page-transition curtain. On every internal link click, a navy panel rises from the bottom of the viewport, fully covers the page, then falls away from the top to reveal the next page. The effect is cinematic — like a theatre curtain between scenes — and gives the storefront a film-like pacing that distinguishes it from the usual hard cut between Shopify pages.
+
+## How it works
+
+The curtain is a single fixed-position element (`<div class="curtain">`) sitting at `z-index: 800`, with a navy background and the Voyage wordmark centred. CSS keyframes handle the rise and fall:
+
+```css
+.curtain[data-state="rising"]  { animation: curtain-rise 0.7s ease forwards; }
+.curtain[data-state="falling"] { animation: curtain-fall 0.7s ease forwards; }
+
+@keyframes curtain-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes curtain-fall { from { transform: translateY(0); }    to { transform: translateY(-100%); } }
+```
+
+JS attaches a click handler to every internal `<a>`. On click, it:
+
+1. Sets `data-state="rising"` on the curtain (animation runs, 700 ms)
+2. Writes a `voyage-curtain-pending` flag to `sessionStorage`
+3. Lets the link navigate normally
+
+On the next page's first paint, a pre-paint coordinator script (inlined in `layout/theme.liquid`) reads the flag *before* anything else renders. If it sees the flag, it adds `.curtain-incoming` to `<html>`, which keeps the curtain pinned at `translateY(0)` so the page paints underneath a still-covered curtain. Once the page is settled and ready to reveal:
+
+1. `data-state="falling"` is set (700 ms fall animation)
+2. The `voyage-curtain-pending` flag is cleared
+3. `.curtain-incoming` is removed atomically with the animation start
+
+The result: the curtain visually appears to be a single continuous element that rises on one page and falls on the next, with no flash of unstyled content between.
+
+## Why the pre-paint coordinator
+
+Without the inlined pre-paint script, there's a window of ~50–200 ms between when the new page's HTML arrives and when the curtain's CSS class is applied. In that window, the browser would paint the new page *without* the curtain over it — a brief flash of the next page, then the curtain falls. The pre-paint coordinator eliminates that flash by reading `sessionStorage` synchronously before the first paint and pinning the curtain in place.
+
+## sessionStorage gate
+
+The `voyage-curtain-pending` key is set on link click and cleared once the curtain finishes falling on the next page. This gate ensures:
+
+- A user clicking two links in quick succession doesn't trigger two overlapping curtains
+- A page that loads without a rising curtain (direct nav, hard reload, external referrer) doesn't fall an invisible curtain on its own
+- Back-forward cache (bfcache) reloads reset to a clean state — when the browser restores a cached page, the flag is gone and the curtain stays at `translateY(100%)` (off-screen)
+
+## bfcache reset
+
+Browser back-button restores can leave a page in any state. Voyage explicitly resets the curtain on `pageshow` events where `event.persisted === true`:
+
+- Curtain `data-state` cleared
+- Inline `transform` and `animation` cleared
+- `.curtain-incoming` removed from `<html>`
+- `voyage-curtain-pending` cleared
+
+Without this, a visitor who hit Back from a checkout page might land on a storefront page with a stuck navy curtain still covering the viewport.
+
+## Opting out per-link
+
+Add `data-no-curtain` to any link or its ancestor to skip the transition:
+
+```liquid
+<a href="/cart" data-no-curtain>Cart</a>
+```
+
+The cart icon, dropdown menu items, currency switcher, and language switcher all carry this attribute by default — these elements navigate to the same page family or aren't really "navigation" in the editorial sense, so curtains would feel sluggish.
+
+## Accessibility
+
+The curtain respects `prefers-reduced-motion`. Visitors with the OS-level "Reduce motion" preference set will see a 700 ms animation only if their reduced-motion preference is *not* set. With the preference on, the curtain effectively disappears from the experience — the click does navigate, but the animation is skipped.
+
+This is handled by the global `@media (prefers-reduced-motion: reduce)` rule in `premium.css` that disables transitions on `.reveal`, split-text, image blur-to-clear, and the curtain.
+
+## Disabling the curtain globally
+
+There's no theme setting to turn the curtain off — it's part of Voyage's signature pacing. If you genuinely don't want it, you can:
+
+- Remove the `<div class="curtain">` from `layout/theme.liquid`
+- Remove the `.curtain-incoming` block from the pre-paint coordinator inline script in the same file
+- The page-transition click handler will then find no curtain element and silently no-op
+
+We recommend keeping it. It's the small touch that gives Voyage its film-like rhythm.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Magnetic & cursor" href="/interactive-features/magnetic-and-cursor">
+    The hover micro-interactions that complement the page rhythm.
+  </Card>
+  <Card title="Dark mode & grain" href="/interactive-features/dark-mode-and-grain">
+    The other two pillars of Voyage's premium feel.
+  </Card>
+</CardGroup>

@@ -1,0 +1,148 @@
+---
+title: "Offer popup"
+description: "A three-stage email/SMS capture modal — persuasion, capture, then the reward code."
+---
+
+Voyage's offer popup is a small, considered conversion surface. It's intentionally not a generic "10% off!" overlay — it's framed editorially ("First voyage, fifteen percent.") and stages the conversion in three deliberate steps that mirror how a fashion-led brand would speak to a first-time visitor.
+
+The popup is gated behind a sessionStorage flag, fires once per session on the home page only, and is dismissible at every step.
+
+## When it appears
+
+| Page | Behaviour |
+|---|---|
+| **Home page** | Triggers when the visitor has scrolled past the hero (one full viewport height down). Fires once per session. |
+| **Any other page** | Triggers after one viewport of scroll on pages without a hero — but Voyage's other templates rarely include the popup snippet, so in practice it's home-only by default. |
+
+The trigger uses a scroll listener. Once the threshold is crossed, the popup opens, the scroll listener becomes inert, and the body's `overflow` is locked to `hidden` so the popup feels modal.
+
+## The three stages
+
+Stage state is stored on `data-step` on the container (`1`, `2`, or `3`). Each stage has its own slot in the markup; CSS shows/hides them based on `data-step`.
+
+### Stage 1 — persuasion
+
+The first thing the visitor sees. It's framed as an invitation, not an offer:
+
+```
+AN INVITATION
+First voyage,
+fifteen percent.
+
+Save 15% off your first order*
+
+Letters from the studio — and 15%
+on your first piece.
+
+First-voyage subscribers only.
+
+[Reveal my 15% code →]
+
+15% won't appear again on this visit.   No thanks
+```
+
+The headline uses the Voyage script-and-serif typography. The asterisk and "won't appear again on this visit" copy lean into the loss-aversion principle — once the visitor declines, the dismissal is persisted to `sessionStorage` so the claim is honest.
+
+The primary CTA ("Reveal my 15% code →") commits the visitor to the small first "yes" — the psychological foot-in-the-door that makes the second-stage email field feel less like a transactional cost.
+
+### Stage 2 — capture
+
+Triggered when "Reveal my 15% code →" is clicked.
+
+```
+CODE UNLOCKED
+Your 15% is ready — where should we send it?
+
+[Email] | Mobile
+
+[your-email@example.com         ]
+[Email my 15% code →]
+
+One letter a season. Unsubscribe anytime.
+
+T&C apply*   No thanks
+```
+
+Two tabs — **Email** / **Mobile** — let the visitor pick their preferred channel. The form has a single field (email or phone), a single CTA, and a reassurance line ("One letter a season. Unsubscribe anytime.") that addresses the visitor's likely worry about spam.
+
+Switching tabs swaps the input type, placeholder, and submit-button label.
+
+### Stage 3 — success
+
+Triggered on form submission.
+
+```
+WELCOME ABOARD
+Your code awaits.
+
+Use at checkout
+ABBARA15
+
+[Continue browsing]
+```
+
+The code is displayed as a single tile. The "Continue browsing" CTA closes the popup and returns the visitor to the page.
+
+<Warning>
+The offer popup's form submission is intentionally **not wired to a backend by default**. On submit, the popup advances to Stage 3 without sending the email anywhere. To actually capture the lead, wire the form's submit handler to your ESP — Klaviyo, Mailchimp, Shopify Email — by adding a fetch to your endpoint in the popup's submit handler (`assets/theme.js`, look for `'.offer-pop__form'`).
+</Warning>
+
+## Dismissal mechanics
+
+The popup closes on:
+
+| Action | Behaviour |
+|---|---|
+| **× button** | Closes, persists `voyage-offer-dismissed: true` to sessionStorage |
+| **"No thanks" link** | Same as × button |
+| **Backdrop click** | Same |
+| **Escape key** | Same |
+| **Stage 3 → Continue browsing** | Same (the conversion is already captured) |
+
+Once `voyage-offer-dismissed` is `true`, the popup will not reopen for the rest of the session — even on subsequent page loads, refreshes, or navigation. New session, new opportunity.
+
+The dismissal copy ("15% won't appear again on this visit") is honest because of this gate. Don't loosen it without rewriting the copy.
+
+## Performance handling
+
+The popup includes a `9:16` video in the media frame. The video file is large (~7.9 MB) and would otherwise drag down the home-page LCP. Voyage handles this with lazy attachment:
+
+- The `<video>` element ships with `data-lazy-src` instead of `src`
+- The hidden poster image ships with `data-lazy-src` too
+- When the popup opens, JS copies `data-lazy-src` → `src` and calls `.load()`
+- If autoplay doesn't kick in within 800 ms (iOS Low Power Mode, autoplay block), JS hides the video and shows the poster image instead
+
+The result: the popup's video never enters the network payload on initial page load, and the page's Lighthouse performance score stays high.
+
+## Customizing the content
+
+The popup content lives in `snippets/offer-popup.liquid`. To customize:
+
+| Change | Where |
+|---|---|
+| **Discount %** | Update both the stage-1 headline and the stage-3 code display |
+| **Discount code** | Currently `ABBARA15` in Stage 3 — replace with your actual code |
+| **Headline copy** | Stage 1 `<h2 class="offer-pop__head">` |
+| **Reassurance line** | Stage 2 `<p class="offer-pop__reassurance">` |
+| **Video** | Replace `assets/popup-video.mp4` (keep `data-lazy-src` mechanism) |
+| **Poster image** | Replace the Unsplash URL in `data-lazy-src` on the `<img>` |
+
+## Disabling
+
+The popup ships in the home-page section group via `index.json`. To disable:
+
+- Remove the popup section from your `templates/index.json` `content_for_index` array, or
+- Remove the `{% render 'offer-popup' %}` call from wherever it's rendered
+
+Either way, the popup snippet stays in the codebase but isn't injected — no JS overhead.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Cart drawer" href="/interactive-features/cart-drawer">
+    Where the post-discount add-to-bag lands.
+  </Card>
+  <Card title="Search panel" href="/interactive-features/search-panel">
+    The other slide-in surface — same data-open / sessionStorage pattern.
+  </Card>
+</CardGroup>

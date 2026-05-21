@@ -1,0 +1,177 @@
+---
+title: "Checkout branding"
+description: "Match the Shopify Checkout to your Voyage theme — colors, typography, logo, and full presets for all three theme styles."
+---
+
+Shopify Checkout is hosted separately from your theme. It doesn't read `settings_schema.json`, doesn't load your theme's CSS, and doesn't render Liquid. To make it look like Voyage you configure it in **Settings → Checkout → Customize**.
+
+The good news: Shopify Checkout's branding API exposes everything Voyage needs — colors, typography, logo, corner radius, form field style. The values below produce a Checkout that reads as a continuous extension of the storefront.
+
+## Where to set everything
+
+<Steps>
+  <Step title="Open Checkout customization">
+    Shopify admin → **Settings** → **Checkout** → **Customize** (top right).
+  </Step>
+  <Step title="Pick the right checkout profile">
+    Most stores have one profile. If you have multiple (e.g., Shopify Plus draft orders), each one needs its own branding.
+  </Step>
+  <Step title="Walk the panels left-to-right">
+    *Brand assets* → *Colors* → *Typography* → *Style settings*. Save after each panel.
+  </Step>
+  <Step title="Preview, then publish">
+    The preview shows desktop and mobile side-by-side. Publish when both read clean.
+  </Step>
+</Steps>
+
+## Voyage default — Editorial Navy
+
+Use these values for the default Voyage theme style.
+
+### Colors
+
+| Slot | Hex |
+|---|---|
+| Brand color | `#002F5B` |
+| Accent | `#C39738` |
+| Header background | `#F6F4EF` |
+| Body background | `#F6F4EF` |
+| Order summary background | `#EFE9DC` |
+| Form field background | `#FFFFFF` |
+| Form field border | `#E5E2DA` |
+| Form field focus border | `#002F5B` |
+| Heading text | `#002F5B` |
+| Body text | `#0A0F18` |
+| Error | `#B00020` |
+| Success | `#2E7D32` |
+
+### Style settings
+
+| Setting | Value |
+|---|---|
+| Logo position | Left |
+| Logo size | Medium |
+| Form field style | Outlined |
+| Corner radius | `0 px` (Sharp) |
+| Typography — Headings | A sans-serif sibling of your heading font (Tenor Sans, Italiana, or Cormorant work) |
+| Typography — Body | A neutral sans (Inter, Source Sans, or Tajawal) |
+
+<Tip>
+The Checkout typography menu only lists fonts that Shopify hosts. If your storefront uses a font Shopify doesn't expose to Checkout (Italianno, for example), pick the closest available alternative — Checkout shoppers tolerate a small font shift; mismatched colors and corner radius are far more jarring.
+</Tip>
+
+## Alternate theme styles
+
+If you've selected one of the other named theme styles in **Theme settings → Theme styles**, use the matching Checkout palette below.
+
+### Warm Cream
+
+| Slot | Hex |
+|---|---|
+| Brand color | `#5B3A1F` |
+| Accent | `#C39738` |
+| Header background | `#EFE9DC` |
+| Body background | `#EFE9DC` |
+| Order summary background | `#E4DCC9` |
+| Form field background | `#FFFFFF` |
+| Form field border | `#D8CFB8` |
+| Form field focus border | `#5B3A1F` |
+| Heading text | `#5B3A1F` |
+| Body text | `#1F1B14` |
+| Error | `#B00020` |
+| Success | `#2E7D32` |
+
+### Minimal Monochrome
+
+| Slot | Hex |
+|---|---|
+| Brand color | `#000000` |
+| Accent | `#000000` |
+| Header background | `#FFFFFF` |
+| Body background | `#FFFFFF` |
+| Order summary background | `#F4F4F4` |
+| Form field background | `#FFFFFF` |
+| Form field border | `#E5E5E5` |
+| Form field focus border | `#000000` |
+| Heading text | `#000000` |
+| Body text | `#000000` |
+| Error | `#B00020` |
+| Success | `#2E7D32` |
+
+## Logo
+
+Upload the **navy variant** of your Voyage logo — the one you use on cream backgrounds.
+
+<Warning>
+Upload a **PNG**, not an SVG. Shopify Checkout rejects SVGs that contain `<text>` tags or external font references. PNG with transparency at 480×120 (or your logo's native aspect) is the safe path.
+</Warning>
+
+| Logo setting | Value |
+|---|---|
+| Format | PNG with transparency |
+| Width | 480 px (Shopify will scale down) |
+| Position | Left |
+| Size | Medium |
+
+## Save and publish
+
+Save each panel as you go. The **Publish** button is top-right of the Checkout editor. Test in an incognito window with a real product in the cart — Shopify Checkout doesn't preview certain features (Shop Pay, accelerated checkout) until a real session.
+
+## Complete preset table
+
+For convenience, a single table you can copy into your branding handoff document.
+
+| Token | Editorial Navy | Warm Cream | Minimal Monochrome |
+|---|---|---|---|
+| Brand color | `#002F5B` | `#5B3A1F` | `#000000` |
+| Accent | `#C39738` | `#C39738` | `#000000` |
+| Header background | `#F6F4EF` | `#EFE9DC` | `#FFFFFF` |
+| Body background | `#F6F4EF` | `#EFE9DC` | `#FFFFFF` |
+| Order summary background | `#EFE9DC` | `#E4DCC9` | `#F4F4F4` |
+| Form field background | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| Form field border | `#E5E2DA` | `#D8CFB8` | `#E5E5E5` |
+| Form field focus border | `#002F5B` | `#5B3A1F` | `#000000` |
+| Heading text | `#002F5B` | `#5B3A1F` | `#000000` |
+| Body text | `#0A0F18` | `#1F1B14` | `#000000` |
+| Error | `#B00020` | `#B00020` | `#B00020` |
+| Success | `#2E7D32` | `#2E7D32` | `#2E7D32` |
+| Corner radius | `0 px` | `0 px` | `0 px` |
+| Form field style | Outlined | Outlined | Outlined |
+| Logo position | Left | Left | Left |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Can't save Checkout settings">
+    Nine times out of ten the cause is the logo. Shopify Checkout rejects SVGs that embed `<text>` tags or external fonts — re-export your logo as a flat PNG with transparency at 480 px wide and try again.
+
+    If the logo isn't the issue, scan your hex codes. Each must start with `#`, contain exactly six hexadecimal characters, and have no trailing semicolon, no spaces, no comma. `#002F5B` is valid; `#002F5B;` and `#002F5B ` are not.
+  </Accordion>
+
+  <Accordion title="Italianno or my script font doesn't render on Checkout">
+    Expected. Shopify Checkout only loads fonts from its own hosted library — Google Fonts that ship with the Checkout font picker. Pick the closest available alternative; most shoppers will not perceive a mismatch in a checkout flow.
+  </Accordion>
+
+  <Accordion title="The Checkout brand color doesn't match my storefront primary">
+    The Checkout **Brand color** is used for buttons and links inside Checkout. Make sure you've set it to the same hex as your Voyage **Theme settings → Colors → Primary (ink)**, not a variant.
+  </Accordion>
+
+  <Accordion title="My logo looks tiny in the Checkout header">
+    Shopify scales the logo down to fit the header height. Upload at 480 px wide minimum — Checkout's logo box is roughly 200–240 px wide on desktop, so anything smaller looks under-resolved on Retina displays.
+  </Accordion>
+
+  <Accordion title="Order summary background bleeds into the form column on mobile">
+    Mobile Checkout stacks the summary above the form, then they share the body background. The **Order summary background** color is only used on desktop. This is a Shopify constraint, not a Voyage issue — there's no fix at the theme layer.
+  </Accordion>
+</AccordionGroup>
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Apps and integrations" href="/customization/apps-and-integrations">
+    Next surface to align — third-party apps that render in your storefront.
+  </Card>
+  <Card title="Internationalization" href="/troubleshooting/internationalization">
+    Shopify Markets, multi-currency, multi-language.
+  </Card>
+</CardGroup>

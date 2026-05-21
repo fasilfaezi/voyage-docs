@@ -1,0 +1,139 @@
+---
+title: "Apps and integrations"
+description: "App block support across Voyage, the Custom Liquid escape hatch, and notes on the most common app categories."
+---
+
+Voyage is built for app extensibility. Two surfaces — the main-product section and the featured-product section — accept `@app` blocks. The Custom Liquid section (and the Custom Liquid block on the PDP) is your escape hatch for anything that doesn't have a dedicated block.
+
+## App block support
+
+App blocks are Shopify's standard way for apps to inject UI into a theme without touching code. If an app is built on the modern Theme App Extensions API, you'll see its block appear in the **Add block** menu of any section that supports `@app`.
+
+Sections in Voyage that accept app blocks:
+
+| Section | Where it lives |
+|---|---|
+| `main-product` | Product template — the main PDP section |
+| `featured-product` | Any template where a single featured product is rendered |
+
+To add an app block:
+
+<Steps>
+  <Step title="Install the app">
+    From the Shopify App Store. Most apps that render on the PDP will tell you in their docs that they support theme app extensions.
+  </Step>
+  <Step title="Open the section">
+    Theme Editor → product template → main-product section.
+  </Step>
+  <Step title="Add the block">
+    **Add block** → scroll to the divider that separates Voyage's native blocks from app blocks → pick the app's block (Reviews, Loyalty widget, Bundle picker, etc.).
+  </Step>
+  <Step title="Drag into position">
+    The new block lands at the bottom by default. Drag it where you want it to appear on the page.
+  </Step>
+</Steps>
+
+<Tip>
+Some apps ship multiple blocks (a star-rating snippet, a full reviews widget, a write-a-review form). They appear as separate entries in **Add block**. You can place each one in a different spot.
+</Tip>
+
+## Custom Liquid section
+
+For homepage app embeds (or any one-off HTML), use the standalone **Custom Liquid** section. It sits in the **Add section** menu of the home template.
+
+<Steps>
+  <Step title="Add the section">
+    Home template → **Add section** → **Custom liquid**.
+  </Step>
+  <Step title="Paste the snippet">
+    The section has one field — **Custom Liquid** — that accepts Liquid, HTML, inline CSS, and inline JavaScript.
+  </Step>
+  <Step title="Set the wrapper">
+    The section's other settings control the container width, top/bottom padding, and background scheme — useful for matching the section to the rest of the homepage rhythm.
+  </Step>
+  <Step title="Position it">
+    Drag the section into the homepage order — typically between sections, not at the top.
+  </Step>
+</Steps>
+
+## Custom Liquid block (PDP)
+
+For app code on the product page specifically, prefer the **Custom Liquid block** (inside the main-product section) over the standalone section. The block sits in the same column as the rest of the PDP content, so layout is automatic.
+
+Product template → **Add block** → **Custom liquid**. Drag into position.
+
+## Common app categories
+
+Recommendations below are categorical, not specific endorsements — every store has different needs.
+
+### Reviews
+
+Look for an app that exposes a theme app extension (so you can drop the block on the PDP without code). Most modern review apps do.
+
+- **Star-rating snippet** — a small block placed next to the product title
+- **Reviews widget** — a larger block placed below the description
+- **Write a review form** — typically a separate block or a customer-account page
+
+Popular candidates: Loox, Judge.me, Yotpo Reviews, Stamped.
+
+### Loyalty
+
+Loyalty programs typically render an embed (the floating "rewards" launcher) plus optional blocks for points display and tier status.
+
+- Add the app embed via **App embeds** in the Theme Editor (left sidebar → **Theme settings** → **App embeds** at the bottom).
+- Add per-page blocks (points balance on the customer account page, rewards widget on the PDP) where they make sense.
+
+Popular candidates: Smile.io, Yotpo Loyalty, Rivo, LoyaltyLion.
+
+### Bundles
+
+Bundle apps add cross-sell, buy-X-get-Y, and "frequently bought together" widgets to the PDP.
+
+- Place the bundle block between Buy buttons and Pickup availability for "frequently bought together"
+- Place a cross-sell block on the cart drawer (some apps expose a cart block)
+
+Popular candidates: Bundler, Shopify Bundles (native), Rebuy.
+
+### Other categories
+
+| Category | Where the block typically lives |
+|---|---|
+| Wishlists | Header utility area, product card, PDP under buy buttons |
+| Size finder | PDP next to the size selector — Voyage has a native size-finder helper too |
+| Subscriptions | PDP Selling plans block (use the native one — supports Shopify Subscriptions and Recharge) |
+| Pre-orders | Buy buttons area — most apps replace the standard Add to bag button |
+| Back-in-stock | Variant picker or under buy buttons |
+| AB testing / personalization | Section-level via Shopify Plus, or app-level via Intelligems / Visually |
+| Analytics | App embed (not block) — fires globally, not per-section |
+| Live chat | App embed — floats over the page |
+
+## Add an app embed to the homepage
+
+Some apps don't have section blocks — they expose only a global app embed that injects an element somewhere on the page.
+
+<Steps>
+  <Step title="Open App embeds">
+    Theme Editor → left sidebar → **Theme settings** (gear icon) → scroll to **App embeds** at the bottom.
+  </Step>
+  <Step title="Enable the embed">
+    Toggle the app on. Most embeds show a chevron — click it to see app-specific settings.
+  </Step>
+  <Step title="If the app has no theme extension">
+    Fall back to the Custom Liquid section. Most apps document the exact `<script>` and `<div>` markup you need to paste.
+  </Step>
+</Steps>
+
+<Warning>
+Every app embed adds JavaScript to every page. Audit the cumulative impact on your Lighthouse score after enabling more than two or three embeds — see [performance and accessibility](/troubleshooting/performance-and-accessibility) for tools.
+</Warning>
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="PDP recipes" href="/customization/pdp-recipes">
+    Where to position the app blocks you just added.
+  </Card>
+  <Card title="Performance and accessibility" href="/troubleshooting/performance-and-accessibility">
+    Keep Lighthouse healthy after adding apps.
+  </Card>
+</CardGroup>

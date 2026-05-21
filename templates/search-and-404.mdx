@@ -1,0 +1,164 @@
+---
+title: "Search and 404"
+description: "Search results, the not-found page, and the predictive-search JSON endpoint."
+---
+
+Voyage ships three search-related templates and one 404 template. Two are user-facing pages; one is a JSON endpoint that powers the live predictive-search dropdown in the header.
+
+## Search results — `templates/search.json`
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-search", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The search results page renders `search.results` — a mixed list of products, articles, and pages that match the query. Voyage styles it like a PLP — sticky toolbar, view-mode picker, grid — but tightened to handle the heterogeneity of mixed object types.
+
+### Result types
+
+A single search query returns a mix of object types. Voyage renders each differently:
+
+| `search.results[i].object_type` | Voyage render |
+|---|---|
+| `product` | Product card with image, title, price, swatch row, "Select Options" overlay. |
+| `article` | Article card with featured image, title, published date, excerpt. |
+| `page` | Page card with title and excerpt. |
+
+The merchant controls which object types are searchable via Shopify's **Search & Discovery** app. Voyage's `search.json` simply renders whatever Shopify returns.
+
+### Default rendering
+
+- **Query header** — `"Results for [query]"` with the matched count.
+- **No results state** — a quiet "No results for [query]" line with a "Browse the collection" link below.
+- **Mixed grid** — products in the four-column PLP grid, articles and pages in interleaved cards.
+- **Pagination** — Shopify's `default_pagination` when results exceed one page.
+
+The section is intentionally minimal — most of its presentation is inherited from the PLP card snippets — so customer behavior matches the rest of the storefront.
+
+---
+
+## Predictive search endpoint — `templates/search.json.liquid`
+
+This is the only **Liquid** template among the three. It returns JSON, not HTML — a tiny endpoint that the live predictive-search dropdown in the header polls as the customer types.
+
+```liquid
+{%- layout none -%}{
+  "count":   {{ search.results_count | json }},
+  "query":   {{ search.terms | json }},
+  "products": [
+    {%- assign emitted = 0 -%}
+    {%- for item in search.results -%}
+      {%- if item.object_type == 'product' and emitted < 4 -%}
+        {%- if emitted > 0 -%},{%- endif -%}
+        {
+          "title": {{ item.title | json }},
+          "url":   {{ item.url | json }},
+          "type":  {{ item.type | json }},
+          "price": {{ item.price | money | json }},
+          "image": {%- if item.featured_image -%}{{ item.featured_image | image_url: width: 600 | json }}{%- else -%}null{%- endif -%}
+        }
+        {%- assign emitted = emitted | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}
+```
+
+### What it does
+
+`layout none` strips off `theme.liquid` so the response is pure JSON, not an HTML page. The endpoint:
+
+1. Reads `search.terms` from the query string (`?q=linen+shirt`).
+2. Iterates the first four products in `search.results`.
+3. Emits a JSON object for each — title, URL, type, formatted price, image URL at 600px wide.
+
+The header's predictive-search island fetches `/search?q={query}&view=json` and renders the response as a dropdown of result cards. The fetch is debounced (100ms) so the endpoint isn't hammered as the customer types.
+
+### Why only products?
+
+Predictive search is an intent-to-buy moment. Articles and pages are excluded from this endpoint to keep the dropdown focused on purchasable items. Customers who want a full mixed search submit the form to land on the full results page.
+
+### Predictive search settings
+
+Theme-level settings control which object types are surfaced in the dropdown (see [Theme settings reference](/reference/theme-settings-reference#search)):
+
+<ParamField path="search_predictive" type="checkbox" default="true">
+  Show the predictive dropdown at all.
+</ParamField>
+<ParamField path="search_show_collections" type="checkbox" default="true">
+  Include collections in the predictive dropdown (note: collections render in addition to the products from this endpoint).
+</ParamField>
+<ParamField path="search_show_articles" type="checkbox" default="false" />
+<ParamField path="search_show_pages" type="checkbox" default="false" />
+
+---
+
+## 404 page — `templates/404.json`
+
+```json
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": { "secondary_url": "/collections/all" }
+    }
+  },
+  "order": ["main"]
+}
+```
+
+A quiet, on-brand 404. The default template ships with a single secondary-URL setting pointing to `/collections/all` — the "Browse the collection" fallback.
+
+### What it renders
+
+- **Eyebrow** — "404" in tracked-out caps.
+- **Script accent** — "Lost at sea." in the accent font.
+- **Heading** — "We can't find that page."
+- **Body copy** — a single explanatory sentence.
+- **Search box** — a live search input that opens the predictive dropdown.
+- **Primary CTA** — "Return home" → `/`.
+- **Secondary CTA** — "Browse the collection" → `/collections/all` (or wherever `secondary_url` points).
+
+The 404 page is intentionally generous — when a customer lands here it's almost always because of a stale link, a typo, or a deleted product. The search box gives them a path forward without a full back-navigation.
+
+### Customizing
+
+Every label is editable on the `main-404` section. Common edits:
+
+| Setting | Default |
+|---|---|
+| `eyebrow` | `404` |
+| `script` | `Lost at sea.` |
+| `heading` | `We can't find that page.` |
+| `body` | A polite explanation paragraph. |
+| `primary_label` | `Return home` |
+| `primary_url` | `/` |
+| `secondary_label` | `Browse the collection` |
+| `secondary_url` | `/collections/all` |
+
+---
+
+## Three files, three jobs
+
+| File | Purpose | Format |
+|---|---|---|
+| `templates/search.json` | User-facing search results page | JSON |
+| `templates/search.json.liquid` | JSON endpoint for predictive dropdown | Liquid |
+| `templates/404.json` | User-facing not-found page | JSON |
+
+The naming convention `search.json.liquid` is deliberate. Shopify's template-resolution rules treat the `.json.liquid` suffix as "render this Liquid file when the request is for the `search.json` view" — meaning `/search?view=json` hits this file. The plain `templates/search.json` (without the `.liquid`) is the standard OS 2.0 template; the two coexist because they serve different views of the same `/search` route.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Search panel" href="/interactive-features/search-panel">
+    The header search island and how it consumes the predictive endpoint.
+  </Card>
+  <Card title="Search & Discovery" href="/troubleshooting/common-issues">
+    Tips for configuring Shopify's Search & Discovery app to populate the search results well.
+  </Card>
+</CardGroup>

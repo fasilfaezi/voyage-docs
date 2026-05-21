@@ -1,0 +1,186 @@
+---
+title: "Product page recipes"
+description: "Reorder blocks, edit accordions, configure provenance, wire the bespoke CTA, add custom Liquid, enable subscriptions, and connect app blocks on the PDP."
+---
+
+The product page in Voyage is the most configurable surface in the theme. The main product section is built from draggable blocks — fifteen-plus of them — and each has its own settings.
+
+## Reorder PDP blocks
+
+<Steps>
+  <Step title="Open any product page in the Theme Editor">
+    Top bar → **Products** → pick a product.
+  </Step>
+  <Step title="Find the main-product section">
+    In the left rail, click **Product information** (the section label, depending on your locale).
+  </Step>
+  <Step title="Drag a block">
+    Grab the handle on any block (Text, Title, Price, Variant picker, Selling plans, Quantity selector, Buy buttons, Pickup availability, Description, Perks, Provenance, Bespoke CTA, Share, Accordion, Custom liquid) and drop it where you want.
+  </Step>
+  <Step title="Save">
+    Top-right of the Theme Editor.
+  </Step>
+</Steps>
+
+The default order — Text → Title → Price → Variant picker → Buy buttons → Pickup availability → Perks → Provenance → Bespoke CTA → Accordion × 4 — is the considered Voyage rhythm. Common alternates: move Description above Variant picker for content-heavy products, or move Share to the very top for press-focused launches.
+
+## Add or remove an accordion section
+
+The PDP ships with four accordion blocks by default — Details, Composition & Care, Shipping & Returns, Payment Methods.
+
+<Steps>
+  <Step title="To add an accordion">
+    Section settings → **Add block** → **Accordion section**.
+  </Step>
+  <Step title="Set the heading">
+    **Heading** — e.g. "Sourcing".
+  </Step>
+  <Step title="Write the content">
+    Either fill **Content** with rich text, or point **Metafield key (under custom.*)** at a product metafield. If both are set, the metafield value wins.
+  </Step>
+  <Step title="Set open-by-default">
+    **Open by default** — leave off for most accordions; turn on for the one a shopper is most likely to want first (typically Composition & Care for fashion).
+  </Step>
+  <Step title="To remove an accordion">
+    Click the block → trash icon.
+  </Step>
+</Steps>
+
+## Edit the perks bullet list
+
+The Perks block is three short lines under the buy buttons — typically shipping, returns, and repair.
+
+Product template → **Perks** block. Edit **Perk 1**, **Perk 2**, **Perk 3**. Defaults:
+
+| Slot | Default |
+|---|---|
+| Perk 1 | Complimentary worldwide shipping |
+| Perk 2 | 30-day returns, free worldwide |
+| Perk 3 | Lifetime repair on every garment |
+
+Keep each line under nine words. The Perks block is rendered as a tight three-line stack — anything longer wraps awkwardly on mobile.
+
+## Configure provenance
+
+The Provenance block is a definition list — three term/description pairs — typically used for fabric sourcing, manufacturing, and finishing.
+
+| Slot | Default term | Default description |
+|---|---|---|
+| Pair 1 | Cloth | linen, 220 gsm |
+| Pair 2 | Cut and sewn | The Studio |
+| Pair 3 | Finished | by hand at The Studio |
+
+Edit **Term 1 / Description 1**, etc. For per-product values, leave the block in place and let it pull defaults — or point each accordion at a `custom.*` metafield.
+
+## Customize the variant picker
+
+Product template → **Variant picker** block.
+
+- **Show size finder helper** — toggles the small "Find my size" link beside the size row. Defaults to on.
+- **Size guide link** — paste a URL to your size guide page. The link appears alongside the size selector.
+
+Color is rendered as a swatch row (uses the value's Swatch image or fallback color from product settings). Size is rendered as a chip row. Other options fall through to a `<select>`.
+
+## Set up the bespoke CTA
+
+The Bespoke CTA is a small card promoting made-to-measure / private appointments.
+
+Product template → **Bespoke CTA** block.
+
+- **Eyebrow** — default "Su Misura · Bespoke".
+- **Body** — default "Have this cut to your measurements in the cloth of your choice."
+- **Link label** — default "Begin a fitting".
+- **Link URL** — point at `/pages/made-to-measure` or your bespoke form.
+
+If you don't offer bespoke, delete the block entirely.
+
+## Add a Custom Liquid block
+
+For app code snippets that don't have a dedicated app block, or for custom HTML.
+
+<Steps>
+  <Step title="Add the block">
+    Section settings → **Add block** → **Custom liquid**.
+  </Step>
+  <Step title="Paste the snippet">
+    The **Custom Liquid** field accepts Liquid, HTML, and inline `<style>` / `<script>`. Most third-party app docs give you a snippet to paste here.
+  </Step>
+  <Step title="Position the block">
+    Drag it to where you want it to render — typically below the buy buttons for review widgets, between Provenance and Accordion for shipping calculators.
+  </Step>
+</Steps>
+
+<Warning>
+Inline `<script>` tags execute on every product page load. For analytics events, prefer the Section Rendering / Web Pixels API instead of Custom Liquid.
+</Warning>
+
+## Enable / disable Shop Pay Installments
+
+Product template → **Price** block.
+
+**Show Shop Pay Installments banner** — default on. Disable for stores that prefer not to feature buy-now-pay-later messaging. The banner only renders when Shopify Payments and Shop Pay Installments are enabled on your store.
+
+## Configure selling plans (subscriptions)
+
+If you sell subscriptions via Shopify Subscriptions, Recharge, Bold, or similar:
+
+<Steps>
+  <Step title="Confirm your selling plan group">
+    Shopify admin → **Products → Subscriptions** (or your app of choice). Attach a selling plan to the product.
+  </Step>
+  <Step title="Add the Selling plans block on the PDP">
+    Product template → **Add block** → **Selling plans**. Position it between Variant picker and Buy buttons.
+  </Step>
+  <Step title="Set the label">
+    **Section label** — default "Purchase options". Shoppers see a radio group: one-time purchase or one of your subscription frequencies.
+  </Step>
+</Steps>
+
+## Connect product metafields for accordion content
+
+If you have many products with per-product details, metafields are the right tool.
+
+<Steps>
+  <Step title="Define the metafield">
+    Shopify admin → **Settings → Custom data → Products** → **Add definition**. Namespace `custom`, key e.g. `composition_care`, type **Multi-line text** or **Rich text**.
+  </Step>
+  <Step title="Fill the metafield per product">
+    Open a product → scroll to **Metafields** → add the value.
+  </Step>
+  <Step title="Point an accordion at the metafield">
+    Product template → Accordion block → **Metafield key (under custom.*)** → enter `composition_care` (no prefix, no braces).
+  </Step>
+  <Step title="Verify">
+    On the storefront the accordion now renders that product's metafield value. Products without the metafield fall back to the **Content** field.
+  </Step>
+</Steps>
+
+## Add app blocks to PDP
+
+Voyage's main-product section accepts `@app` blocks — any Shopify app that exposes a product-page block (most reviews, loyalty, and bundle apps do).
+
+<Steps>
+  <Step title="Install the app">
+    From the Shopify App Store.
+  </Step>
+  <Step title="Add the app block">
+    Product template → **Add block** → scroll to the app blocks at the bottom (under the divider) → pick the app's block.
+  </Step>
+  <Step title="Configure">
+    Most app blocks have minimal settings here — most configuration lives in the app's own admin UI.
+  </Step>
+  <Step title="Position carefully">
+    Place reviews near the description, loyalty near the price, bundle widgets between Buy buttons and Pickup availability.
+  </Step>
+</Steps>
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Apps and integrations" href="/customization/apps-and-integrations">
+    Recommended apps, Custom Liquid patterns, and how to add app embeds to the homepage.
+  </Card>
+  <Card title="Checkout branding" href="/customization/checkout-branding">
+    The last surface — make Shopify Checkout look like Voyage.
+  </Card>
+</CardGroup>

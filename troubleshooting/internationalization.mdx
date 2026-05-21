@@ -1,0 +1,154 @@
+---
+title: "Internationalization"
+description: "Shopify Markets, multi-currency, multi-language, RTL, locale files, and money formatting in Voyage."
+---
+
+Voyage is built to be sold from anywhere to anywhere. The platform layer — Shopify Markets — handles currencies, languages, taxes, and routing. The theme layer renders the switchers and respects the shopper's choice across every page.
+
+## Shopify Markets setup
+
+Markets is Shopify's name for the framework that ties together a country, a currency, a language, and a pricing strategy.
+
+<Steps>
+  <Step title="Open Markets">
+    Shopify admin → **Settings** → **Markets**.
+  </Step>
+  <Step title="Add a market">
+    **Add market**. Pick the countries it covers (e.g., *European Union*, or a single country, or *Rest of World*).
+  </Step>
+  <Step title="Set the currency">
+    Each market can use its own currency. Choose the local currency or use Shopify Payments' automatic currency conversion.
+  </Step>
+  <Step title="Set the language">
+    Each market can have its own primary language. Add multiple if you want to offer choices to shoppers.
+  </Step>
+  <Step title="Configure pricing">
+    *Same as primary market* — use exchange rates. *Custom* — set per-product prices per market. *Rounding rules* — keep prices ending in .99 across currencies.
+  </Step>
+  <Step title="Publish">
+    Markets go live the moment they're saved. Visitors from those countries see the configured currency and language by default.
+  </Step>
+</Steps>
+
+## Multi-currency switching
+
+Once you've configured more than one currency, Voyage renders a currency switcher in the announcement bar (right side) and in the footer.
+
+| Surface | Where it lives |
+|---|---|
+| Announcement bar | Top right, next to the language picker |
+| Footer | Bottom row, alongside payment icons |
+| URL parameter | `?currency=USD` works on any page |
+
+The selected currency is stored in a Shopify cookie. It persists across pages and across sessions on the same device.
+
+Prices format via Shopify's `money` filter — which honors the shopper's chosen currency, locale formatting, and `Theme settings → Currency → Show currency codes` (which appends e.g. `USD` next to each price).
+
+## Multi-language switching
+
+Same pattern as currency. After adding a second language in Markets:
+
+1. Voyage renders a language switcher in the announcement bar and footer.
+2. Translations are stored as `locales/[lang].json` files (e.g., `locales/fr.json`).
+3. Shopify's Translate & Adapt app (free, first-party) lets non-developers translate every storefront string in a friendly UI.
+
+### Locale files
+
+Voyage ships with `locales/en.default.json` containing every translatable string the theme renders. To support a new language manually:
+
+<Steps>
+  <Step title="Duplicate the English file">
+    `locales/en.default.json` → save as `locales/fr.json` (for French), `locales/ar.json` (Arabic), etc.
+  </Step>
+  <Step title="Translate every value">
+    Keys stay the same; values get translated. Don't translate the keys themselves.
+  </Step>
+  <Step title="Push to the theme">
+    `shopify theme push --only=locales/`. Or upload via the code editor.
+  </Step>
+  <Step title="Activate in Markets">
+    The language only takes effect once it's added to a market.
+  </Step>
+</Steps>
+
+<Tip>
+For most stores, Shopify's **Translate & Adapt** app is faster than editing locale files manually. It lets non-developers translate strings via a UI and offers automatic machine translation as a starting point.
+</Tip>
+
+## RTL support
+
+Voyage supports right-to-left languages (Arabic, Hebrew, Persian).
+
+| What Voyage does | What it means |
+|---|---|
+| Sets `dir="rtl"` on `<html>` for RTL locales | Browser mirrors block-level layout automatically |
+| Uses CSS logical properties (`margin-inline-start`, etc.) | Flex and grid layouts mirror without overrides |
+| Falls back to Tajawal for body | Tajawal supports Arabic, Hebrew, Persian, Urdu |
+| Mirrors icon positions | Chevrons, carousel arrows, and accordion indicators all flip |
+
+To test RTL without setting up Markets: append `?_pos=rtl` to any URL on the Theme Editor preview. (This is a development-only override; production RTL is controlled by Markets.)
+
+## Money formatting
+
+Shopify exposes two filters: `money` and `money_with_currency`.
+
+| Filter | Output |
+|---|---|
+| `{{ product.price \| money }}` | `$45.00` |
+| `{{ product.price \| money_with_currency }}` | `$45.00 USD` |
+
+Voyage uses `money` everywhere — the currency code is appended automatically when **Theme settings → Currency → Show currency codes** is checked.
+
+Format itself is controlled by the shop's currency settings in **Settings → Currency**. Most stores leave this on the default. If you want to override (e.g., always use European spacing — `45,00 €` even for USD), use Shopify's HTML format override: **Settings → Currency** → **Change formatting**.
+
+## Country selector in the header
+
+The header's right utility cluster contains the country / language selector. It expands into a small dropdown on click.
+
+To customize:
+
+<Steps>
+  <Step title="Open the header section">
+    Theme Editor → **Header** in the left rail.
+  </Step>
+  <Step title="Find the locale settings">
+    Scroll to **Localization**. The selector is on by default if more than one country or language is configured in Markets.
+  </Step>
+  <Step title="Toggle the components">
+    **Show country selector** — toggles the country dropdown. **Show language selector** — toggles the language dropdown.
+  </Step>
+  <Step title="Style overrides">
+    The selector inherits the global typography. No section-specific overrides needed.
+  </Step>
+</Steps>
+
+## Common gotchas
+
+<AccordionGroup>
+  <Accordion title="My language switcher shows but the page doesn't translate">
+    The locale file is missing. Voyage falls back to English if the requested language's locale file doesn't exist. Check `locales/` for the file matching the language code.
+  </Accordion>
+
+  <Accordion title="Prices look wrong in the cart drawer">
+    The cart drawer uses Section Rendering API — currency conversion happens server-side at render. If prices look off, force a hard reload (Cmd-Shift-R) to clear the cached drawer markup.
+  </Accordion>
+
+  <Accordion title="Arabic text reads ltr instead of rtl">
+    The `<html dir="rtl">` attribute isn't set. This is automatic via Markets — confirm the market is configured with Arabic as its language, not just as a translation pair.
+  </Accordion>
+
+  <Accordion title="One section ignores RTL mirroring">
+    Likely a section that uses absolute positioning or hand-rolled margins instead of logical properties. Voyage's native sections all use logical properties; if you've added custom sections, audit their CSS.
+  </Accordion>
+</AccordionGroup>
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Performance and accessibility" href="/troubleshooting/performance-and-accessibility">
+    Lighthouse, image weight, app weight.
+  </Card>
+  <Card title="Support and changelog" href="/troubleshooting/support-and-changelog">
+    Help and version history.
+  </Card>
+</CardGroup>

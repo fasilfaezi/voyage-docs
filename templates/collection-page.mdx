@@ -1,0 +1,142 @@
+---
+title: "Collection page"
+description: "Chip nav, filter sidebar, view-mode picker, product grid — the PLP, in detail."
+---
+
+The collection page (PLP) is composed of a single section — `main-collection` — driven by `templates/collection.json`. The section is intentionally rich: it owns the chip nav, the filter sidebar, the sticky toolbar, the view-mode picker, the product grid, the empty state, and an optional editorial studio note.
+
+## Anatomy
+
+| Element | What it does |
+|---|---|
+| **Optional banner** | Renders `collection.image` as a full-width banner when `show_banner` is on. |
+| **Title bar** | Alternate to the banner — renders `collection.title` + `collection.description` cleanly. |
+| **Chip nav** | Horizontal scrolling category chips above the toolbar. |
+| **Sticky toolbar** | Filter toggle, product count, view-mode picker, sort dropdown. Sticks to the top of the viewport as the customer scrolls. |
+| **Filter sidebar** | Storefront API filters — color swatches, size chips, price range, availability, brand, vendor. |
+| **Product grid** | Cards with hover-reveal second image and a "Select Options" quick-view button. |
+| **Pagination** | Numbered pagination (Shopify's default_pagination). |
+| **Editorial studio note** | Optional quote block at the bottom — script accent + signature. |
+
+## Default template
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-collection", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The default JSON is intentionally minimal — every setting on `main-collection` carries a sensible default, so the template simply opts in to the section's full layout. Override individual settings either in the Theme Editor (recommended) or by adding them to the JSON.
+
+## Chip nav
+
+The chip nav is a horizontal scrollable list of category labels. The default labels match the Voyage demo catalog vocabulary; merchants override per-vertical via the `chip_labels` setting (comma-separated string).
+
+<ParamField path="show_chip_nav" type="checkbox" default="true" />
+<ParamField path="chip_labels" type="text" default="All Pieces,Shirts,Trousers,Shorts,Knitwear,Outerwear,Accessories">
+  Comma-separated. The first entry is the "All" / catch-all label.
+</ParamField>
+
+Each chip links to `/collections/all?type={chip}` — meaning chips filter Shopify's `all` collection by product type. The first chip ("All Pieces" by default) clears the filter and shows the full catalog.
+
+## Filter sidebar
+
+The sidebar is driven by Shopify's Storefront API filters — configured in admin under **Online Store → Navigation → Filters**. Voyage renders three filter types differently:
+
+| Filter type | Voyage render |
+|---|---|
+| `list` (Color / Colour) | Circular color swatches in a horizontal row. |
+| `list` (Size) | Pill-style size chips in a horizontal row. |
+| `list` (everything else) | Checkbox list with `(count)` annotation. |
+| `price_range` | From / To number inputs + Apply button. |
+
+If no filters are configured in admin, the sidebar renders a polite empty-state note pointing the merchant at Navigation → Filters.
+
+<ParamField path="show_filter_sidebar" type="checkbox" default="true" />
+
+## Sort dropdown
+
+Pulls from `collection.sort_options` — Shopify's standard set (Featured, Best selling, Alphabetically A–Z and Z–A, Price low–high and high–low, Date newest and oldest). The current sort is highlighted; selecting another updates the URL and re-renders the grid.
+
+## View-mode picker
+
+Four options: 2 columns, 3 columns, 4 columns (default), and list view. The selection is **persisted in localStorage** under the key `voyage-plp-view` — so a customer who prefers list view sees it on every collection they browse, across sessions.
+
+<ParamField path="default_columns" type="select" default="4">
+  Initial column count for first-time visitors. Options: `2`, `3`, `4`.
+</ParamField>
+
+The list view applies an entirely different card layout — landscape image, longer description, larger price.
+
+## Product grid
+
+The grid renders product cards from the `product-card` snippet. Each card includes:
+
+- **Primary image** — first image, lazy-loaded
+- **Hover-reveal second image** — second image, fades in on hover (desktop only)
+- **Swatch row** — small dots for each color variant
+- **Title** — links to product page
+- **Price** — formatted via the `money` filter, with compare-at strikethrough if applicable
+- **"Select Options" overlay** — opens the quick-view modal without leaving the page
+
+<ParamField path="products_per_page" type="range" default="24">
+  Products per page. Min 12, max 48, step 4.
+</ParamField>
+<ParamField path="empty_text" type="text" default="No products in this collection yet." />
+
+## Pagination
+
+Uses Shopify's `default_pagination` filter — numbered page links with previous/next chevrons. Renders only when the collection spans more than one page.
+
+## Editorial studio note
+
+An optional studio quote block below the grid. Useful for editorial brands that want to close every PLP with a signature voice.
+
+<ParamField path="show_editorial" type="checkbox" default="true" />
+<ParamField path="editorial_eyebrow" type="text" default="Studio note · 03" />
+<ParamField path="editorial_location" type="text" default="Home Port · 44.40°N 8.94°E" />
+<ParamField path="editorial_quote" type="textarea">
+  The main quote. Wrapped in script-accent quotation marks.
+</ParamField>
+<ParamField path="editorial_signature" type="text" default="— Marco Visconti, Head Cutter" />
+
+## Banner vs title-only
+
+Two mutually useful display modes for the header area:
+
+<Tabs>
+  <Tab title="Banner">
+    Renders `collection.image` (from admin) as a full-width banner with title + description overlaid. Eager-loaded for LCP.
+    
+    ```liquid
+    {%- if section.settings.show_banner and collection.image -%}
+    ```
+    
+    Use when the merchant has set a strong featured image on the collection.
+  </Tab>
+  <Tab title="Title only">
+    A typographic-only header — title and description, no image.
+    
+    Set `show_title_only` to `true` and leave `show_banner` off.
+    
+    Use when the collection has no compelling hero image, or when the chip nav already provides enough visual context.
+  </Tab>
+</Tabs>
+
+## Structured data
+
+The PLP emits two JSON-LD blocks: `CollectionPage` (name, URL, description, image, number of items) and `BreadcrumbList` (Home › Collection).
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Main collection section" href="/sections-reference/main-collection">
+    Every setting in reference form.
+  </Card>
+  <Card title="Product card" href="/sections-reference/product-card">
+    The card snippet, its hover behavior, and quick-view triggers.
+  </Card>
+</CardGroup>

@@ -1,0 +1,87 @@
+---
+title: "Template reference"
+description: "Every template file, the route it serves, its format, and the section(s) it composes."
+---
+
+A sortable lookup table for every template Voyage ships. Use this when you need to answer "what file renders this URL?" or "where do I edit the [page]?"
+
+## All templates
+
+| File | Route | Format | Sections used | Block-based? | Notes |
+|---|---|---|---|---|---|
+| `templates/index.json` | `/` | JSON | `home-hero`, `home-new-arrivals`, `home-category-archive`, `home-bundle`, `home-chapters`, `home-club` | Yes (per section) | 6 default sections; merchant can add any standalone section |
+| `templates/product.json` | `/products/[handle]` | JSON | `main-product`, `complementary-products`, `related-products` | Yes (`main-product` has 15 block types) | Block-based PDP |
+| `templates/collection.json` | `/collections/[handle]` | JSON | `main-collection` | No | Single section; rich internal structure (chip nav, sidebar, grid) |
+| `templates/cart.json` | `/cart` | JSON | `main-cart` | No | Drawer parity via `snippets/cart-drawer.liquid` |
+| `templates/blog.json` | `/blogs/[handle]` | JSON | `main-blog` | No | Paginated article cards |
+| `templates/article.json` | `/blogs/[blog]/[handle]` | JSON | `main-article` | No | Article body + comments |
+| `templates/page.json` | `/pages/[handle]` | JSON | `main-page` | No | Default for any page without an alternate template |
+| `templates/page.about.json` | `/pages/[handle]` (when assigned) | JSON | `main-page-about` | Yes (block-driven) | Heritage / brand story layout |
+| `templates/page.lookbook.json` | `/pages/[handle]` (when assigned) | JSON | `main-page-lookbook` | Yes (block-driven) | Seasonal lookbook layout |
+| `templates/page.contact.json` | `/pages/[handle]` (when assigned) | JSON | `main-contact` | No | Contact form with editorial header |
+| `templates/list-collections.json` | `/collections` | JSON | `main-list-collections` | No | Index of all collections |
+| `templates/password.json` | `/` (when password is on) | JSON | `main-password` | No | Pre-launch password page |
+| `templates/search.json` | `/search` | JSON | `main-search` | No | Mixed-object results page |
+| `templates/search.json.liquid` | `/search?view=json` | Liquid | None (returns JSON) | No | Predictive search endpoint |
+| `templates/404.json` | (404 fallback) | JSON | `main-404` | No | Not-found page |
+| `templates/gift_card.liquid` | `/account/gift_cards/[token]` | Liquid | None (standalone document) | No | Issued gift card, doesn't inherit `theme.liquid` |
+| `templates/customers/login.json` | `/account/login` | JSON | `main-customer-login` | No | Sign-in + recover-password sub-form |
+| `templates/customers/register.json` | `/account/register` | JSON | `main-customer-register` | No | New account |
+| `templates/customers/account.json` | `/account` | JSON | `main-customer-account` | No | Dashboard — orders + default address |
+| `templates/customers/order.json` | `/account/orders/[id]` | JSON | `main-customer-order` | No | Passport-style order detail |
+| `templates/customers/addresses.json` | `/account/addresses` | JSON | `main-customer-addresses` | No | Address book |
+| `templates/customers/reset_password.json` | `/account/reset_password` | JSON | `main-customer-reset-password` | No | Password reset |
+| `templates/customers/activate_account.json` | `/account/activate_account` | JSON | `main-customer-activate-account` | No | First-time activation |
+
+Total: 23 template files (plus the `search.json.liquid` Liquid endpoint).
+
+## Counts by format
+
+| Format | Count |
+|---|---|
+| JSON template | 21 |
+| Liquid template | 2 (`gift_card.liquid`, `search.json.liquid`) |
+
+## Counts by namespace
+
+| Namespace | Count |
+|---|---|
+| Root `templates/*` | 16 |
+| `templates/customers/*` | 7 |
+
+## Block-based templates
+
+Only three of Voyage's twenty-three templates expose blocks at the section level. (Most sections own their internal structure rather than exposing it as blocks.)
+
+| Template | Block-based section | What the blocks are |
+|---|---|---|
+| `product.json` | `main-product` | 15 block types (eyebrow, title, price, variant_picker, selling_plans, quantity_selector, buy_buttons, pickup_availability, description, perks, provenance, bespoke_cta, share, accordion, custom_liquid) + `@app` |
+| `page.about.json` | `main-page-about` | Rows: image, two-column, pull-quote, image grid, trust strip, CTA |
+| `page.lookbook.json` | `main-page-lookbook` | Rows: full-bleed, two-up, one-up + caption, shop-the-look |
+
+Additionally, the homepage's six sections (`home-hero`, `home-bundle`, `home-chapters`, `home-category-archive`, `home-club`, `home-new-arrivals`) each define their own blocks — slides, hotspots, chapters, categories — but the template itself isn't block-based at the section level.
+
+## Alternate template assignment
+
+| Template | Assigned via | Available for |
+|---|---|---|
+| `page.about.json` | Page admin → Theme template dropdown | Any page |
+| `page.lookbook.json` | Page admin → Theme template dropdown | Any page |
+| `page.contact.json` | Page admin → Theme template dropdown | Any page |
+| `product.[name].json` | Product admin → Theme template (you create this) | Any product |
+| `collection.[name].json` | Collection admin → Theme template (you create this) | Any collection |
+| `blog.[name].json` | Blog admin → Theme template (you create this) | Any blog |
+| `article.[name].json` | Article admin → Theme template (you create this) | Any article |
+
+Voyage doesn't ship alternate `product.*`, `collection.*`, `blog.*`, or `article.*` templates by default — the defaults are intentionally generous — but the merchant can fork any of them in the code editor.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Section schemas" href="/reference/section-schema-tables">
+    Settings and block counts for every section.
+  </Card>
+  <Card title="Templates overview" href="/templates/templates-overview">
+    Editorial descriptions of every template.
+  </Card>
+</CardGroup>

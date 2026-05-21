@@ -1,0 +1,273 @@
+---
+title: "Theme settings reference"
+description: "Every setting in Voyage's settings_schema.json — group by group, with defaults and types."
+---
+
+This page is a complete transcription of `config/settings_schema.json`. Every group, every setting, every default — in the same order as the file. Use this as a quick lookup; the live Theme Editor will always be the canonical place to make edits.
+
+## Theme info
+
+The first object in the schema is informational metadata, not a setting group. It tells Shopify and the Theme Editor what to display as the theme's identity.
+
+| Key | Value |
+|---|---|
+| `theme_name` | `Voyage` |
+| `theme_version` | `1.0.0` |
+| `theme_author` | `Dibolky FZC` |
+| `theme_documentation_url` | `https://voyage.theme/docs` |
+| `theme_support_url` | `https://voyage.theme/support` |
+
+## Logo
+
+<ParamField path="logo" type="image_picker">
+  Logo (default / navy variant).
+</ParamField>
+<ParamField path="logo_white" type="image_picker">
+  Logo (light variant for dark backgrounds). Used on the transparent home-hero header and any dark-band section.
+</ParamField>
+<ParamField path="logo_width" type="range" default="140">
+  Logo width on desktop. Min 60, max 320, step 10, unit `px`.
+</ParamField>
+<ParamField path="favicon" type="image_picker">
+  Square PNG or SVG. Will be cropped to a 32×32 square.
+</ParamField>
+
+## Colors
+
+### Brand palette
+
+<ParamField path="color_primary" type="color" default="#002F5B">
+  Primary (ink) — used for body text, primary buttons, hairlines.
+</ParamField>
+<ParamField path="color_secondary" type="color" default="#F6F4EF">
+  Secondary (paper) — the default page background.
+</ParamField>
+<ParamField path="color_accent" type="color" default="#C39738">
+  Accent — used sparingly for editorial flourishes.
+</ParamField>
+<ParamField path="color_muted" type="color" default="#565E6B">
+  Muted text — secondary copy, captions, tiny-num annotations.
+</ParamField>
+
+### Scheme 1 — Default (page)
+
+<ParamField path="scheme_1_bg" type="color" default="#F6F4EF" />
+<ParamField path="scheme_1_fg" type="color" default="#002F5B" />
+
+### Scheme 2 — Inverse (navy)
+
+<ParamField path="scheme_2_bg" type="color" default="#002F5B" />
+<ParamField path="scheme_2_fg" type="color" default="#F6F4EF" />
+
+### Scheme 3 — Soft (warm cream)
+
+<ParamField path="scheme_3_bg" type="color" default="#EFE9DC" />
+<ParamField path="scheme_3_fg" type="color" default="#0A0F18" />
+
+### Scheme 4 — Deep (charcoal)
+
+<ParamField path="scheme_4_bg" type="color" default="#0A0F18" />
+<ParamField path="scheme_4_fg" type="color" default="#F6F4EF" />
+
+### Functional
+
+<ParamField path="color_success" type="color" default="#2E7D32" />
+<ParamField path="color_error" type="color" default="#B00020" />
+<ParamField path="color_rule" type="color" default="#E5E2DA">
+  Rule / hairline color. Used for dividers and faint borders.
+</ParamField>
+
+## Typography
+
+### Body
+
+<ParamField path="font_body" type="font_picker" default="assistant_n4">
+  Body font.
+</ParamField>
+<ParamField path="font_body_scale" type="range" default="100">
+  Body size as a percentage. Min 90, max 130, step 5, unit `%`.
+</ParamField>
+
+### Headings
+
+<ParamField path="font_heading" type="font_picker" default="playfair_display_n4">
+  Heading font.
+</ParamField>
+<ParamField path="font_heading_scale" type="range" default="110">
+  Heading size as a percentage. Min 90, max 160, step 5, unit `%`.
+</ParamField>
+
+### Accent / script
+
+<ParamField path="font_accent" type="font_picker" default="playfair_display_i4">
+  Accent font (italic / script). Used for the editorial accents — script headings, color labels, signatures.
+</ParamField>
+
+## Buttons
+
+<ParamField path="button_style" type="select" default="solid">
+  Default button style. Options:
+  - `solid` — solid background, contrasting label
+  - `outline` — transparent background, ink border
+  - `underline` — text-only with an underline
+</ParamField>
+<ParamField path="button_corner_radius" type="select" default="0">
+  Corner radius. Options:
+  - `0` — Sharp
+  - `2` — 2 px
+  - `4` — 4 px
+  - `8` — 8 px
+  - `999` — Pill
+</ParamField>
+<ParamField path="button_letterspacing" type="select" default="extra">
+  Letter-spacing. Options:
+  - `normal` — 0.02em
+  - `wide` — 0.12em
+  - `extra` — 0.22em (editorial)
+</ParamField>
+
+## Layout
+
+<ParamField path="container_width" type="select" default="1280">
+  Container width. Options:
+  - `full` — 100%
+  - `1440` — 1440 px
+  - `1280` — 1280 px (default)
+  - `1024` — 1024 px
+</ParamField>
+<ParamField path="section_spacing" type="select" default="comfortable">
+  Section spacing. Options:
+  - `compact` — 48 px section padding
+  - `comfortable` — 80 px (default)
+  - `spacious` — 120 px
+</ParamField>
+<ParamField path="rule_style" type="select" default="thin">
+  Rule / divider style. Options:
+  - `thin` — 1 px
+  - `medium` — 2 px
+  - `double` — 3 px
+</ParamField>
+
+## Cards
+
+<ParamField path="card_image_ratio" type="select" default="portrait">
+  Product card image ratio. Options:
+  - `portrait` — 4:5
+  - `square` — 1:1
+  - `landscape` — 4:3
+</ParamField>
+<ParamField path="card_text_alignment" type="select" default="left">
+  Product card text alignment. Options:
+  - `left`
+  - `center`
+</ParamField>
+<ParamField path="card_show_quickview" type="checkbox" default="true">
+  Show quick-view hover button on product cards.
+</ParamField>
+<ParamField path="card_show_wishlist" type="checkbox" default="true">
+  Show wishlist hover button on product cards.
+</ParamField>
+<ParamField path="card_show_vendor" type="checkbox" default="false">
+  Show product vendor beneath the title.
+</ParamField>
+
+## Cart
+
+<ParamField path="cart_type" type="select" default="drawer">
+  Cart type. Options:
+  - `drawer` — slides in from the side
+  - `page` — full cart page
+  - `notification` — popup on add
+</ParamField>
+<ParamField path="cart_show_notes" type="checkbox" default="true">
+  Show order notes field in the cart.
+</ParamField>
+<ParamField path="cart_show_discount_codes" type="checkbox" default="true">
+  Show discount code field.
+</ParamField>
+
+## Animation
+
+<ParamField path="animations_reveal" type="checkbox" default="true">
+  Reveal animations on scroll.
+</ParamField>
+<ParamField path="animations_hover" type="checkbox" default="true">
+  Image zoom on hover.
+</ParamField>
+<ParamField path="animations_blur" type="checkbox" default="true">
+  Image blur-to-clear on scroll.
+</ParamField>
+
+### Editorial premium effects
+
+<ParamField path="show_cursor" type="checkbox" default="true">
+  Custom cursor — uses the `data-cursor` attribute on interactive elements.
+</ParamField>
+<ParamField path="show_grain" type="checkbox" default="true">
+  Film grain overlay across the viewport.
+</ParamField>
+<ParamField path="show_intro_loader" type="checkbox" default="true">
+  Intro loader — the navy curtain that rises on first visit.
+</ParamField>
+<ParamField path="click_sounds" type="checkbox" default="true">
+  Click sounds on primary CTAs.
+</ParamField>
+
+## Social media
+
+<ParamField path="social_instagram_link" type="text">
+  Instagram URL.
+</ParamField>
+<ParamField path="social_facebook_link" type="text">
+  Facebook URL.
+</ParamField>
+<ParamField path="social_pinterest_link" type="text">
+  Pinterest URL.
+</ParamField>
+<ParamField path="social_tiktok_link" type="text">
+  TikTok URL.
+</ParamField>
+<ParamField path="social_youtube_link" type="text">
+  YouTube URL.
+</ParamField>
+<ParamField path="social_x_link" type="text">
+  X / Twitter URL.
+</ParamField>
+<ParamField path="social_linkedin_link" type="text">
+  LinkedIn URL.
+</ParamField>
+<ParamField path="social_threads_link" type="text">
+  Threads URL.
+</ParamField>
+
+## Currency
+
+<ParamField path="show_currency_codes" type="checkbox" default="false">
+  Show currency codes (e.g. USD next to price). Adds the ISO code next to formatted prices. Helps multi-market shoppers identify the currency at a glance.
+</ParamField>
+
+## Search
+
+<ParamField path="search_predictive" type="checkbox" default="true">
+  Show predictive search dropdown.
+</ParamField>
+<ParamField path="search_show_collections" type="checkbox" default="true">
+  Include collections in predictive results.
+</ParamField>
+<ParamField path="search_show_articles" type="checkbox" default="false">
+  Include articles in predictive results.
+</ParamField>
+<ParamField path="search_show_pages" type="checkbox" default="false">
+  Include pages in predictive results.
+</ParamField>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="CSS tokens" href="/reference/css-tokens-reference">
+    Every `--custom-property` derived from these settings.
+  </Card>
+  <Card title="Section schemas" href="/reference/section-schema-tables">
+    Settings and blocks count for every section.
+  </Card>
+</CardGroup>

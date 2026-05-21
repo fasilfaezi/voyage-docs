@@ -1,0 +1,200 @@
+---
+title: "Media sections"
+description: "Video, logo list, and map — the three media-led patterns."
+---
+
+Three sections sit between editorial and commerce — they carry video, partner marks, or location information. Each is a single-purpose tool: pick the one that matches the content you have.
+
+| Section | Use when |
+|---|---|
+| **Video** | You have a film, lookbook reel, or behind-the-scenes clip. |
+| **Logo list** | You want a row of press / partner / stockist marks. |
+| **Map** | You want to surface a physical studio or store location. |
+
+(For carousel patterns, see [Hero & banners](/sections-reference/hero-and-banners) — the slideshow section lives there.)
+
+---
+
+## Video — `sections/video.liquid`
+
+Single embedded video with optional heading + caption. Accepts a Shopify-hosted video (`{% video %}`-compatible asset) or an external YouTube / Vimeo URL. Falls back to a poster image if no video source is provided.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text">
+  Eyebrow above the heading. Optional.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text">
+  Section heading. The whole header block renders only when heading is set.
+</ParamField>
+
+#### Video
+
+<ParamField path="video" type="video">
+  Shopify-hosted video. Takes precedence over the URL field if both are set.
+</ParamField>
+<ParamField path="video_url" type="video_url">
+  External video URL. Accepts YouTube or Vimeo only. Used only if no Shopify-hosted video.
+</ParamField>
+<ParamField path="image" type="image_picker">
+  Poster image. Falls back to this if neither video field is set.
+</ParamField>
+<ParamField path="aspect_ratio" type="select" default="16/9">
+  Player aspect ratio. Options: `16/9` (landscape), `4/3`, `1/1` (square), `9/16` (vertical).
+</ParamField>
+<ParamField path="autoplay" type="checkbox" default="false">
+  Autoplay the video. The player is automatically muted when autoplay is enabled (browser policy requirement).
+</ParamField>
+<ParamField path="loop" type="checkbox" default="false">
+  Loop the video.
+</ParamField>
+<ParamField path="show_controls" type="checkbox" default="true">
+  Show player controls.
+</ParamField>
+
+#### Caption
+
+<ParamField path="caption" type="text">
+  Caption rendered under the player.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Video is the right place to feature:
+
+- Lookbook reels and editorial films.
+- Behind-the-scenes / atelier footage.
+- Designer notes — a video letter from the founder.
+
+For the home-page hero with full-bleed video and overlaid copy, use [Home · Hero](/sections-reference/hero-and-banners#home--hero--sectionshome-hero-liquid) instead — it's purpose-built for that.
+
+---
+
+## Logo list — `sections/logo-list.liquid`
+
+Row of partner / press / stockist marks. Greyscale by default, color on hover. Used for "as seen in" or "available at" bands. Logos can be links if they should point at partner pages.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text" default="As seen in">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="heading" type="text">
+  Section heading. Renders only when set.
+</ParamField>
+
+#### Layout
+
+<ParamField path="logo_size" type="select" default="medium">
+  Logo size. Options: `small`, `medium`, `large`.
+</ParamField>
+
+### Blocks
+
+#### Logo (no max)
+
+<ParamField path="image" type="image_picker">
+  Logo image. SVG preferred for crispness across sizes.
+</ParamField>
+<ParamField path="name" type="text">
+  Brand name. Rendered as fallback text when no image is set.
+</ParamField>
+<ParamField path="link" type="url">
+  Optional link. Makes the logo clickable.
+</ParamField>
+
+### Default preset
+
+Four blank logo blocks.
+
+### When to use
+
+Logo list is the press / partner social-proof band. Common placements:
+
+- "As seen in" below the home hero — *Vogue*, *Monocle*, *The Gentleman's Journal*, etc.
+- "Available at" on a stockist page — a row of partner store logos.
+- "Friends of the house" — collaborators and frequent contributors.
+
+For attributed quotes with names and roles, use [Testimonials](/sections-reference/editorial-sections#testimonials--sectionstestimonials-liquid) instead — that's the right pattern for press quotes with weight.
+
+---
+
+## Map — `sections/map.liquid`
+
+Google Maps embed. The merchant supplies a free-text address and the section builds the embed URL automatically (no Google API key required). For richer interactive maps, paste a full embed URL into the override field.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header (optional)
+
+<ParamField path="eyebrow" type="text" default="Find us">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="The Studio">
+  Section heading.
+</ParamField>
+<ParamField path="address" type="textarea" default="123 Studio Lane, City">
+  Physical address. Used as the map search query if no embed URL override is set.
+</ParamField>
+<ParamField path="link_label" type="text">
+  Optional CTA label — e.g. "Book a visit".
+</ParamField>
+<ParamField path="link_url" type="url">
+  CTA destination.
+</ParamField>
+
+#### Map
+
+<ParamField path="embed_url" type="textarea">
+  Google Maps embed URL. If set, overrides the address-based default. Use this for richer maps with custom markers or styling.
+</ParamField>
+<ParamField path="height" type="select" default="medium">
+  Map height. Options: `small`, `medium`, `large`.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Map is for storefront pages where you want to give visitors directions:
+
+- "Visit the studio" pages.
+- Stockist / store-locator pages with a single flagship address.
+- The contact page — pair with [Contact form](/sections-reference/engagement-sections#contact-form--sectionscontact-form-liquid) above for a complete contact layout.
+
+For multiple locations, the simplest approach is to add several `map` sections to the same page — one per location.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Hero & banners" href="/sections-reference/hero-and-banners">
+    Slideshow lives here — the closest carousel pattern to media.
+  </Card>
+  <Card title="Engagement sections" href="/sections-reference/engagement-sections">
+    Contact form pairs naturally with a map on a contact page.
+  </Card>
+  <Card title="Editorial sections" href="/sections-reference/editorial-sections">
+    Image-with-text, multicolumn, testimonials.
+  </Card>
+</CardGroup>

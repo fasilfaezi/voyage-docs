@@ -1,0 +1,78 @@
+---
+title: "Quick view modal"
+description: "A product picker that opens over the page — variant selection and add-to-bag without leaving the collection."
+---
+
+The quick-view modal lets a visitor pick a variant and add a product to the bag without leaving the collection page. It's a small detail that lowers friction on browse-heavy storefronts — a visitor scanning ten products can add two without ever loading a PDP.
+
+## Triggers
+
+The modal opens when the visitor clicks either of two affordances on a product card:
+
+| Trigger | Where it sits | When it shows |
+|---|---|---|
+| **Eye icon** | Top-left of every product card | On hover (desktop) or always (mobile), if quick-view is enabled in **Theme settings → Cards** |
+| **Select Options button** | Bottom of every product card | On hover (desktop) or always-visible (mobile), if quick-view is enabled |
+
+Both elements carry `data-pcard-quickview` and the product's `handle` in `data-handle`. Clicking either triggers the modal open and a fetch.
+
+## How it loads
+
+When the modal opens, Voyage fetches the rendered quick-view section via Shopify's **Section Rendering API**:
+
+```js
+// inside theme.js
+const res = await fetch(`/products/${handle}?section_id=quick-view`);
+const html = await res.text();
+modalBody.innerHTML = html;
+```
+
+The endpoint returns the same product section Voyage uses inside the modal — defined in `sections/quick-view.liquid`. Because it's server-rendered with full Shopify product context, the modal includes accurate prices, variant availability, accelerated-checkout buttons, and stock states.
+
+While the fetch is in flight, the modal shows a quiet "Loading…" state. On network failure, it falls back to a polite "Sorry — could not load this piece" message.
+
+## Layout
+
+The modal has two columns side by side:
+
+| Side | Contents |
+|---|---|
+| **Left (media)** | The product's featured image, rendered at `width: 1400` for crispness on retina displays |
+| **Right (buy column)** | Eyebrow (product type) → title → price → option chips → quantity stepper → Add to Cart → accelerated checkout (Shop Pay / Apple Pay / Google Pay) → "View Full Details →" link |
+
+The buy column uses `flex: column; justify-content: space-between` so the eyebrow / title / price group anchors the top, the option chips sit in the middle, and the actions (ATC + accelerated checkout + view-full-details) pin to the bottom — distributing weight across the full modal height rather than bunching at the top.
+
+## Variant picker
+
+The picker mirrors the full PDP. Voyage emits a JSON blob (`#quickview-variants-data`) with every variant's id, price, availability, and option values. As the visitor changes options, JS finds the matching variant, updates the hidden variant id, and refreshes the displayed price.
+
+If a colour and size combo is sold out, **Add to Cart** stays clickable — Shopify's cart API will return an error which is surfaced as a toast. This deliberate choice mirrors the full PDP behaviour and keeps the modal's logic light.
+
+## Close handlers
+
+The modal closes on:
+
+| Action | Behaviour |
+|---|---|
+| **× button** | Click the close icon top-right of the modal |
+| **Backdrop click** | Click anywhere outside the modal card |
+| **Escape key** | Press `Esc` while the modal is open |
+| **View Full Details →** | Navigates to the full product page; modal stays open until the page loads, then is cleared by the page transition |
+| **Add to Cart success** | Modal stays open by default. The cart drawer opens *over* it with the new item. The visitor can close one or both. |
+
+## Disabling quick view
+
+Set **Theme settings → Cards → Show quick-view hover button on product cards** to `false`. Both the eye icon and the "Select Options" button disappear from every card, and the modal is no longer wired to anything — there's no need to remove the section.
+
+The modal element stays in the DOM (it's part of the global layout) but is inert. The cost of leaving it there is negligible — empty `<dialog>` with no event handlers.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Cart drawer" href="/interactive-features/cart-drawer">
+    Where added items land after a quick-view purchase.
+  </Card>
+  <Card title="Product page" href="/templates/product-page">
+    The full PDP — what the quick-view modal is a compact version of.
+  </Card>
+</CardGroup>

@@ -1,0 +1,154 @@
+---
+title: "Branding recipes"
+description: "Logos, favicon, color, schemes, button radius, grain, dark mode, and typography — everything that makes Voyage look like your shop."
+---
+
+The branding layer sits in **Theme settings** (the gear icon in the Theme Editor sidebar). Every recipe below assumes you're already there.
+
+## Replace the logo
+
+Voyage uses two logo variants — one for cream and light backgrounds, one for dark.
+
+<Steps>
+  <Step title="Open the Logo group">
+    Theme settings → **Logo**.
+  </Step>
+  <Step title="Upload the default logo">
+    **Logo (default / navy variant)** — your main wordmark in dark ink. This appears on the cream paper background almost everywhere.
+  </Step>
+  <Step title="Upload the light variant">
+    **Logo (light variant for dark backgrounds)** — a white-fill version of the same mark. This appears on the navy hero overlay, the dark category archive band, and any other Scheme 2 / Scheme 4 surface.
+  </Step>
+  <Step title="Tune the desktop width">
+    **Logo width (desktop)** — default `140 px`, range 60–320. The mobile width auto-scales.
+  </Step>
+</Steps>
+
+<Tip>
+PNG with transparency is the safest format. SVG works too, but Shopify will reject SVGs that embed `<text>` tags or external fonts — flatten text to paths before exporting.
+</Tip>
+
+## Replace the favicon
+
+Theme settings → **Logo** → **Favicon**. Upload a square PNG or SVG. Voyage crops it to 32×32 for the browser tab. Test by hard-refreshing the storefront in an incognito window — favicon caching is aggressive in most browsers.
+
+## Set your brand primary color
+
+Theme settings → **Colors** → **Primary (ink)**. Paste your hex code (default `#002F5B`). The primary color drives:
+
+- The header wordmark fallback when no logo is uploaded
+- Filled buttons across the storefront
+- Active states (selected swatch ring, active filter chip, focused input border)
+- Editorial link underlines
+
+Adjust the other brand tokens at the same time:
+
+| Token | Default | Use |
+|---|---|---|
+| Primary (ink) | `#002F5B` | Text, buttons, links, active states |
+| Secondary (paper) | `#F6F4EF` | Page background, soft surfaces |
+| Accent | `#C39738` | Italianno script, small flourishes |
+| Muted text | `#565E6B` | Captions, helper text, disabled labels |
+
+## Customize one of the four schemes
+
+Schemes are background–foreground pairs that sections can opt into. Voyage ships with four.
+
+| Scheme | Default background | Default foreground | Used by |
+|---|---|---|---|
+| 1 — Default | `#F6F4EF` cream | `#002F5B` ink | Most page sections |
+| 2 — Inverse | `#002F5B` navy | `#F6F4EF` cream | Hero overlay, category archive band |
+| 3 — Soft | `#EFE9DC` deeper cream | `#0A0F18` charcoal | Editorial accents, soft tiles |
+| 4 — Deep | `#0A0F18` charcoal | `#F6F4EF` cream | Footer |
+
+To customize:
+
+<Steps>
+  <Step title="Open Colors">
+    Theme settings → **Colors**.
+  </Step>
+  <Step title="Find the scheme you want to change">
+    Each scheme has its own header — *Scheme 2 — Inverse (navy)*, etc.
+  </Step>
+  <Step title="Pick a new pair">
+    Change **Background** and **Foreground**. Aim for at least a 4.5:1 contrast ratio — Voyage's a11y system depends on it.
+  </Step>
+  <Step title="Preview every section">
+    Schemes affect many surfaces. Walk the home, product, collection, and cart pages before publishing.
+  </Step>
+</Steps>
+
+<Warning>
+Two of the named theme styles — **Warm Cream** and **Minimal Monochrome** — work by swapping these scheme tokens. If you've selected a style and then edited a scheme, the style picker will keep your overrides; switching styles will overwrite them.
+</Warning>
+
+## Soften the button corners
+
+Voyage's editorial default is sharp corners. To soften:
+
+<Steps>
+  <Step title="Open Buttons">
+    Theme settings → **Buttons**.
+  </Step>
+  <Step title="Pick a corner radius">
+    **Corner radius** → Sharp / 2 px / 4 px / 8 px / Pill. *Sharp* is the maritime default; *2 px* and *4 px* read warmer; *Pill* swings the whole storefront toward a contemporary DTC feel.
+  </Step>
+</Steps>
+
+You can also change **Default button style** (Solid / Outline / Underline) and **Letter-spacing** (Normal / Wide / Extra wide editorial) from the same group. Most buttons inherit the global default; some sections override it per-button.
+
+## Toggle film grain
+
+Theme settings → **Animation** → **Editorial premium effects** → **Film grain overlay**. Default is on. Uncheck to remove the subtle texture from every page.
+
+<Tip>
+Film grain is a single CSS pseudo-element pinned to the viewport. Toggling it has no measurable performance impact, but some clients with very saturated photography prefer to leave it off.
+</Tip>
+
+## Disable the dark mode toggle
+
+Voyage's dark mode is a CSS-level scheme inversion, not a separate stylesheet. To remove the toggle UI from the header:
+
+1. Open `sections/header.liquid` in the code editor.
+2. Find the `data-theme-toggle` button.
+3. Wrap it in `{% if false %}…{% endif %}` or delete the block.
+
+If you want to default the whole site to dark mode without the toggle, add `data-theme="dark"` to the `<html>` tag in `layout/theme.liquid`. Most merchants leave dark mode toggleable.
+
+## Change typography
+
+Theme settings → **Typography**. Voyage uses three font slots.
+
+| Slot | Default | Purpose |
+|---|---|---|
+| Body | Playfair Display body fallback (Tajawal in production) | Paragraphs, labels, navigation |
+| Heading | Playfair Display | Page headings, section titles, product names |
+| Accent (italic / script) | Playfair Display italic | The Italianno-feeling script that runs above headlines |
+
+Click each font picker, search Shopify's library (1,200+ Google Fonts), pick a face, and the storefront re-skins live in the preview.
+
+<Steps>
+  <Step title="Pick a body font">
+    Aim for something legible at 14–16 px — a humanist sans (Inter, Source Sans, Tajawal) or a quiet serif (Source Serif, EB Garamond).
+  </Step>
+  <Step title="Pick a heading font">
+    Bigger personality, but still readable at h1 sizes. Playfair Display, Cormorant, Italiana, or Tenor Sans pair well with Voyage's tone.
+  </Step>
+  <Step title="Pick an accent font">
+    A script for the eyebrow text above hero headlines and product titles. Italianno, Allura, or Petit Formal Script are the closest matches to Voyage's default mood.
+  </Step>
+  <Step title="Adjust scale">
+    **Body size** (90–130%) and **Heading size** (90–160%) let you push the typographic ratio without changing fonts.
+  </Step>
+</Steps>
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Homepage recipes" href="/customization/homepage-recipes">
+    Now wire your branded storefront to your products.
+  </Card>
+  <Card title="Theme setup deep dive" href="/theme-setup/logo-and-favicon">
+    Every setting, explained.
+  </Card>
+</CardGroup>

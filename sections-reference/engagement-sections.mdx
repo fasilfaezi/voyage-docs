@@ -1,0 +1,326 @@
+---
+title: "Engagement sections"
+description: "Newsletter, contact form, blog posts, and the three blog / contact template sections."
+---
+
+Six sections handle email capture, contact, and editorial content. Three are drop-ins addable to any template (`newsletter`, `contact-form`, `blog-posts`); three are pinned to specific templates (`main-contact`, `main-blog`, `main-article`).
+
+| Section | Where it lives | Pattern |
+|---|---|---|
+| **Newsletter** | Any template | Standalone email signup. |
+| **Contact form** | Any template | Drop-in contact form. |
+| **Blog posts** | Any template | Featured articles grid from a chosen blog. |
+| **Contact form** (`main-contact`) | Page template (contact page) | The contact page section, page-tailored layout. |
+| **Blog** (`main-blog`) | Blog template | The blog index. |
+| **Article** (`main-article`) | Article template | The article detail. |
+
+---
+
+## Newsletter — `sections/newsletter.liquid`
+
+Standalone signup section. Posts to Shopify's `customer` form with the `newsletter` tag attached. Distinct from the floating offer popup that sits as a snippet — this is a block on the page, not a modal.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Layout
+
+<ParamField path="alignment" type="select" default="center">
+  Text alignment. Options: `left`, `center`.
+</ParamField>
+
+#### Color
+
+<ParamField path="bg_color" type="color">
+  Section background color. Optional.
+</ParamField>
+<ParamField path="text_color" type="color">
+  Text color. Optional.
+</ParamField>
+
+### Blocks
+
+#### Eyebrow (limit 1)
+
+<ParamField path="text" type="text" default="Letters from the studio">
+  Eyebrow text.
+</ParamField>
+
+#### Heading (limit 1)
+
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="text" type="text" default="Join the house">
+  Serif heading.
+</ParamField>
+
+#### Body (limit 1)
+
+<ParamField path="text" type="richtext" default="<p>A quiet letter from the studio — new pieces, voyage notes, and the occasional invitation.</p>">
+  Body paragraph (rich text).
+</ParamField>
+
+#### Signup form (limit 1)
+
+<ParamField path="placeholder" type="text" default="your@email.com">
+  Email input placeholder.
+</ParamField>
+<ParamField path="submit_label" type="text" default="Subscribe">
+  Submit button label.
+</ParamField>
+<ParamField path="success_message" type="text" default="Thank you — your inbox awaits.">
+  Message shown after a successful submission.
+</ParamField>
+
+### Default preset
+
+Eyebrow → heading → body → form.
+
+### When to use
+
+The standalone newsletter section is for inline email capture in a page flow — at the bottom of a journal article, between sections on the home page, or as the closing block on a content page. For a more prominent floating popup, see the offer popup snippet ([Interactive features · Offer popup](/interactive-features/offer-popup)). For a footer-level newsletter form, use the `newsletter` block inside the [Footer](/sections-reference/header-and-footer#footer--sectionsfooter-liquid) section.
+
+---
+
+## Contact form — `sections/contact-form.liquid`
+
+Drop-in contact form. Uses Shopify's `{% form 'contact' %}` with fields for name, email, optional phone, and message body. Different from `main-contact` (which is the dedicated contact-page section with a page-tailored layout) — this one is a section any page can include.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text" default="Write to the studio">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Get in touch">
+  Section heading.
+</ParamField>
+<ParamField path="body" type="richtext" default="<p>For bespoke commissions, repair appointments, or press inquiries.</p>">
+  Body paragraph above the form.
+</ParamField>
+
+#### Form
+
+<ParamField path="show_phone" type="checkbox" default="false">
+  Show an optional phone field. Off by default — most editorial brands don't need it.
+</ParamField>
+<ParamField path="submit_label" type="text" default="Send">
+  Submit button label.
+</ParamField>
+<ParamField path="success_message" type="text" default="Thank you — we will be in touch.">
+  Confirmation message after a successful submission.
+</ParamField>
+
+#### Layout
+
+<ParamField path="alignment" type="select" default="center">
+  Form alignment. Options: `left`, `center`.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Use the drop-in contact section when you want a contact form **on a page that isn't the dedicated contact page** — e.g. embedded inside a bespoke / made-to-measure page, an enquiries page for stockists, or a press page. For the actual contact page, use [`main-contact`](#contact-form-main-contact--sectionsmain-contact-liquid) below — it's pre-wired for that template.
+
+---
+
+## Blog posts — `sections/blog-posts.liquid`
+
+Featured articles grid drawn from a merchant-chosen blog. Each tile shows the article image, eyebrow (date), title, and excerpt. Used on the home page or as a related-reading band on other content pages.
+
+**Available on:** All templates.
+
+### Section settings
+
+#### Header
+
+<ParamField path="eyebrow" type="text" default="From the journal">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text">
+  Optional script word that precedes the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Latest articles">
+  Section heading.
+</ParamField>
+
+#### Content
+
+<ParamField path="blog" type="blog">
+  The source blog. Pick from the merchant's configured blogs.
+</ParamField>
+<ParamField path="post_limit" type="range" default="3">
+  Number of articles to show. Range 2–12.
+</ParamField>
+<ParamField path="columns" type="select" default="3">
+  Grid columns. Options: `2`, `3`, `4`.
+</ParamField>
+<ParamField path="show_excerpt" type="checkbox" default="true">
+  Show article excerpts under each title.
+</ParamField>
+
+#### View all
+
+<ParamField path="show_view_all" type="checkbox" default="true">
+  Show a "Read more" link in the header that goes to the blog index.
+</ParamField>
+<ParamField path="view_all_label" type="text" default="Read more">
+  Link label.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+Blog posts is for surfacing journal content outside the blog template. Use it for:
+
+- "From the journal" rail on the home page.
+- Related reading at the bottom of a product page or content page.
+- A "press" page that mixes editorial entries with curated articles.
+
+For the actual blog index template, use [`main-blog`](#blog-main-blog--sectionsmain-blog-liquid) below.
+
+---
+
+## Contact form (`main-contact`) — `sections/main-contact.liquid`
+
+The contact page section. Renders the same `{% form 'contact' %}` fields as the drop-in `contact-form` section but with a page-tailored layout — heading, optional page content / intro, then the full form with name, email, phone, and message.
+
+**Available on:** Page template (intended for the contact page).
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Get in touch">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="heading" type="text" default="Contact">
+  Page heading. Falls back to `page.title` if the page has its own title set.
+</ParamField>
+<ParamField path="intro" type="textarea">
+  Intro text. Used only when `page.content` is blank. If the page has its own content body in admin, that takes precedence.
+</ParamField>
+<ParamField path="button_label" type="text" default="Send">
+  Submit button label.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+`main-contact` is the dedicated contact page section. Wire it into a `page.contact.json` template (or whatever page template you create for the contact page) and let merchants edit the heading, eyebrow, and button label in the editor while pulling the actual page body from `page.content` in admin.
+
+For a contact form on a different page, use the drop-in [`contact-form` section](#contact-form--sectionscontact-form-liquid) above.
+
+---
+
+## Blog (`main-blog`) — `sections/main-blog.liquid`
+
+The blog index. Renders a paginated grid of articles with image, date, title, optional excerpt, and optional author.
+
+**Available on:** Blog template.
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Journal">
+  Eyebrow above the blog title.
+</ParamField>
+<ParamField path="intro" type="textarea">
+  Intro text shown under the title.
+</ParamField>
+<ParamField path="columns" type="select" default="2">
+  Grid columns. Options: `1`, `2`, `3`.
+</ParamField>
+<ParamField path="per_page" type="range" default="9">
+  Articles per pagination page. Range 3–24, step 3.
+</ParamField>
+<ParamField path="show_image" type="checkbox" default="true">
+  Show featured images on the article cards.
+</ParamField>
+<ParamField path="show_date" type="checkbox" default="true">
+  Show the published date.
+</ParamField>
+<ParamField path="show_excerpt" type="checkbox" default="true">
+  Show article excerpts.
+</ParamField>
+<ParamField path="show_author" type="checkbox" default="false">
+  Show the author byline.
+</ParamField>
+
+### Blocks
+
+None.
+
+### When to use
+
+`main-blog` is the section behind the blog index template. There's one per theme. Configure columns and per-page count based on how much content you want to show before pagination; toggle excerpt / date / author depending on whether your articles benefit from those signals.
+
+---
+
+## Article (`main-article`) — `sections/main-article.liquid`
+
+The article detail section. Renders the article header, featured image, body content, optional tags, optional social share links, and the comment thread (when enabled on the blog). Emits `Article` and `BreadcrumbList` JSON-LD for rich snippets in search results.
+
+**Available on:** Article template.
+
+### Section settings
+
+<ParamField path="show_breadcrumb" type="checkbox" default="true">
+  Show the "{blog title} · {date}" breadcrumb above the article title.
+</ParamField>
+<ParamField path="show_image" type="checkbox" default="true">
+  Show the featured image below the title.
+</ParamField>
+<ParamField path="show_author" type="checkbox" default="false">
+  Show the author byline under the title.
+</ParamField>
+<ParamField path="show_tags" type="checkbox" default="true">
+  Show article tags at the bottom of the body.
+</ParamField>
+<ParamField path="show_share" type="checkbox" default="true">
+  Show Twitter / Facebook / Pinterest share links.
+</ParamField>
+
+### Blocks
+
+None.
+
+### What renders automatically
+
+- **Comments** — `article.comments` are rendered as an ordered list when `blog.comments_enabled?` is true. Comment submission posts to `new_comment` form. Moderation notice is shown when `blog.moderated?` is true.
+- **Pagination** — Comments are paginated 10 per page.
+- **Structured data** — `Article` JSON-LD includes headline, datePublished, dateModified, image, description, author, publisher (with shop logo), and `mainEntityOfPage`.
+
+### When to use
+
+`main-article` is the section behind the article template. There's one per theme. The defaults (breadcrumb on, image on, author off, tags on, share on) match a journal-style editorial article. Turn `show_author` on for op-ed style pieces with named writers.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Header & footer" href="/sections-reference/header-and-footer">
+    The footer has its own newsletter block — see how it differs from the standalone `newsletter` section.
+  </Card>
+  <Card title="Interactive features · Offer popup" href="/interactive-features/offer-popup">
+    The floating modal that captures emails on first visit.
+  </Card>
+  <Card title="Templates · Blog & article" href="/templates/blog-and-article">
+    How `main-blog` and `main-article` are wired into their templates.
+  </Card>
+</CardGroup>

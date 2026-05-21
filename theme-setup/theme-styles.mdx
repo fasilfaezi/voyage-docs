@@ -1,0 +1,130 @@
+---
+title: "Theme styles"
+description: "Three named presets that swap the whole storefront's palette, typography, and pacing in one click."
+---
+
+Voyage ships with three named theme styles — **Editorial Navy**, **Warm Cream**, and **Minimal Monochrome**. Switching presets in the Theme Editor swaps colours, button corner radius, letter-spacing, container width, section spacing, card image ratio, and a handful of motion settings all at once. It's the fastest way to find a register that fits your brand before you start tuning individual values.
+
+Presets live in **Theme settings → Theme styles**.
+
+## Editorial Navy (default)
+
+The original Voyage mood. Italian maison editorial — navy ink on warm cream, caramel accent, extra-wide letter-spacing on buttons, sharp corners.
+
+| Setting | Value |
+|---|---|
+| Primary (ink) | `#002F5B` |
+| Secondary (paper) | `#F6F4EF` |
+| Accent | `#C39738` |
+| Muted text | `#565E6B` |
+| Scheme 1 bg / fg | `#F6F4EF` / `#002F5B` |
+| Scheme 2 bg / fg | `#002F5B` / `#F6F4EF` |
+| Scheme 3 bg / fg | `#EFE9DC` / `#0A0F18` |
+| Scheme 4 bg / fg | `#0A0F18` / `#F6F4EF` |
+| Button corner radius | `0` (sharp) |
+| Button letter-spacing | Extra wide |
+| Container width | `1280 px` |
+| Section spacing | Comfortable |
+| Card image ratio | Portrait (`4:5`) |
+| Card text alignment | Left |
+| Film grain | On |
+| Click sounds | On |
+| Intro loader | On |
+
+Best for maritime / heritage / tailored / restrained brands — the original Voyage stance.
+
+## Warm Cream
+
+Same restraint, warmer register. Brown-ink on a deeper cream paper with a soft caramel accent. Subtler than Editorial Navy, and a touch friendlier — corners go to 4 px, letter-spacing relaxes from extra-wide to wide, the grain overlay disappears.
+
+| Setting | Value |
+|---|---|
+| Primary (ink) | `#2A1F14` |
+| Secondary (paper) | `#F2EDE3` |
+| Accent | `#8B6F47` |
+| Muted text | `#6F5B47` |
+| Scheme 1 bg / fg | `#F2EDE3` / `#2A1F14` |
+| Scheme 2 bg / fg | `#2A1F14` / `#F2EDE3` |
+| Scheme 3 bg / fg | `#E8DFCB` / `#3D2F1F` |
+| Scheme 4 bg / fg | `#1A1208` / `#F2EDE3` |
+| Button corner radius | `4 px` |
+| Button letter-spacing | Wide |
+| Container width | `1280 px` |
+| Section spacing | Comfortable |
+| Card image ratio | Portrait (`4:5`) |
+| Film grain | Off |
+| Click sounds | Off |
+| Intro loader | On |
+
+Best for beauty, home goods, wellness, and brands that read warm rather than crisp.
+
+## Minimal Monochrome
+
+Pure black on white. No accent colour — the accent token is reset to pure black so every "accent" surface reads as ink. Buttons become outline-style. Square cards with centred text. Wider container, more generous section spacing, no grain, no cursor, no intro loader.
+
+| Setting | Value |
+|---|---|
+| Primary (ink) | `#000000` |
+| Secondary (paper) | `#FFFFFF` |
+| Accent | `#000000` |
+| Muted text | `#5C5C5C` |
+| Scheme 1 bg / fg | `#FFFFFF` / `#000000` |
+| Scheme 2 bg / fg | `#000000` / `#FFFFFF` |
+| Scheme 3 bg / fg | `#F5F5F5` / `#000000` |
+| Scheme 4 bg / fg | `#111111` / `#F5F5F5` |
+| Button style | Outline |
+| Button corner radius | `0` (sharp) |
+| Button letter-spacing | Extra wide |
+| Container width | `1440 px` |
+| Section spacing | Spacious |
+| Card image ratio | Square (`1:1`) |
+| Card text alignment | Center |
+| Card show vendor | On |
+| Card show wishlist | Off |
+| Film grain | Off |
+| Custom cursor | Off |
+| Intro loader | Off |
+| Predictive search includes articles | On |
+| Predictive search includes pages | On |
+
+Best for sculpture, niche fragrance, art-led brands, and houses where the imagery does the talking.
+
+## How to switch
+
+<Steps>
+  <Step title="Open the Theme Editor">
+    From your Shopify admin, go to **Online Store → Themes → Customize** on the Voyage theme.
+  </Step>
+  <Step title="Open Theme settings">
+    Click the gear icon in the left sidebar.
+  </Step>
+  <Step title="Pick a preset">
+    Open **Theme styles**. Select **Editorial Navy**, **Warm Cream**, or **Minimal Monochrome**.
+  </Step>
+  <Step title="Save">
+    Click **Save** in the top right. The preview swaps live; the whole storefront now uses the new preset.
+  </Step>
+</Steps>
+
+<Warning>
+Switching presets overwrites every setting controlled by the preset. If you've already tuned brand colours, button radius, or section spacing, they'll be replaced. Duplicate your theme first if you want to compare.
+</Warning>
+
+## Creating custom variations
+
+Once you've selected a preset, you can override any individual setting — change the accent colour, push container width to `1440 px`, swap the card ratio to square. The moment you do, Theme settings → Theme styles shows the preset name with a **Custom** tag.
+
+This is the recommended workflow: pick the preset closest to your brand, then tune the four brand colours and one or two layout settings. You preserve the curated balance of the preset while making it yours.
+
+To return to a clean preset, re-select it from the dropdown — Voyage restores every default and clears the **Custom** tag.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Colors deep dive" href="/theme-setup/colors">
+    The brand palette, four schemes, and functional tokens explained.
+  </Card>
+  <Card title="Layout & spacing" href="/theme-setup/layout-and-spacing">
+    Container, spacing, rule weight, card behaviour.
+  </Card>
+</CardGroup>

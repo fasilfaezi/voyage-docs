@@ -1,0 +1,144 @@
+---
+title: "Alternate page templates"
+description: "Voyage's three editorial page variants — About, Lookbook, Contact — and how to assign them."
+---
+
+Beyond the default `templates/page.json`, Voyage ships three **alternate page templates** — each designed for a specific editorial purpose. They're available to merchants from the **Theme template** dropdown in the page admin, so any page can be reassigned to one of these layouts with a single click.
+
+| Template | Section | Designed for |
+|---|---|---|
+| `page.about.json` | `main-page-about` | Brand story, heritage, manifesto |
+| `page.lookbook.json` | `main-page-lookbook` | Seasonal lookbook, editorial gallery |
+| `page.contact.json` | `main-contact` | Contact form with editorial header |
+
+## Assigning an alternate template
+
+The merchant assigns the template from Shopify admin, not from the Theme Editor.
+
+<Steps>
+  <Step title="Create the page in admin">
+    **Online Store → Pages → Add page.** Give it a title (for example "Heritage", "Spring 2026 Lookbook", "Contact").
+  </Step>
+  <Step title="Open the Theme template dropdown">
+    In the page editor's right sidebar, find the section labelled **Theme template**. The dropdown lists every `page.*` template Voyage ships with.
+  </Step>
+  <Step title="Choose the right template">
+    Pick `page.about`, `page.lookbook`, or `page.contact`. The page reloads with the chosen template applied.
+  </Step>
+  <Step title="Customize in the Theme Editor">
+    Open the page in the Theme Editor (`/pages/heritage?_pb=0`). The sections from the chosen alternate template are now editable.
+  </Step>
+</Steps>
+
+<Tip>
+  The default `page.json` template still applies to every page that hasn't been explicitly reassigned — terms of service, privacy, FAQ, shipping. Only pages with a non-default template route to the alternate layouts.
+</Tip>
+
+## `page.about` — Heritage / brand story
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-page-about", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The About template renders a long-form editorial page — designed for the brand story, the founders' note, the manifesto. Layout:
+
+| Section | What it renders |
+|---|---|
+| **Hero strip** | Full-bleed image with an eyebrow line ("Since 2019 · Heritage"), a script accent ("The long voyage."), and a serif headline. |
+| **Two-column intro** | Left column: the brand essay (rich text). Right column: a definition list of founding facts — Founded, Studio, Atelier, Cloth. |
+| **Pull quote** | Centered editorial pull-quote in script accent, with a signature. |
+| **Image grid** | A four-up or six-up grid of editorial images. |
+| **Trust strip** | A row of four icon + label trust signals — Made in studio, Lifetime repair, Worldwide shipping, Considered sourcing. |
+| **CTA band** | A closing call-to-action — "Begin with the collection" or "Read the journal". |
+
+Every block is editable from the Theme Editor — replace the founders' photograph, retune the manifesto, swap the trust strip icons.
+
+## `page.lookbook` — Seasonal gallery
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-page-lookbook", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The Lookbook template renders a fashion-house-style editorial gallery — designed for a season drop, a campaign, or an immersive product gallery.
+
+| Section | What it renders |
+|---|---|
+| **Title plate** | An eyebrow line ("Summer 2026 · Edition I"), a script accent ("The long voyage."), and a serif headline. |
+| **Editorial image grid** | A staggered, magazine-spread grid of images — alternating one-up, two-up, and full-bleed rows. |
+| **Caption blocks** | Optional caption blocks between rows — script accent + paragraph + product link. |
+| **Shop the look** | A row of product cards drawn from a referenced collection, styled as PLP cards. |
+| **Closing band** | A full-bleed image with overlay copy and a CTA — typically "Shop Summer" or "Begin a fitting". |
+
+The grid uses a deliberate vertical rhythm: full-bleed image, then two-up, then one-up with a caption, then two-up again. The pattern can be tuned in the Theme Editor — each row is a block.
+
+## `page.contact` — Contact form
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-contact", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The Contact template renders Shopify's built-in `contact` form helper inside Voyage's editorial vocabulary.
+
+| Section | What it renders |
+|---|---|
+| **Header** | Eyebrow ("Contact"), script accent ("Write to the studio."), serif heading ("How can we help?"). |
+| **Intro** | Two- or three-sentence intro paragraph. |
+| **Form** | Name, Email, Phone (optional), Subject, Message — all editorial-styled with floating labels. |
+| **Magnetic submit** | Single primary button wrapped in `.magnetic`, "Send message". |
+| **Studio block** | A right-column or below-form block with the studio address, hours, and a map link. |
+
+Form submissions route to Shopify's built-in contact endpoint and arrive in the merchant's email. Spam protection is handled by Shopify automatically.
+
+## What the default `page.json` looks like
+
+For comparison — the plain `page.json` template:
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The `main-page` section renders a single centered column with `page.content` as rich text, prefixed by a `page.title` heading. It's intentionally generic — designed for legal pages, FAQ, shipping policy, anywhere a clean reading layout is the priority.
+
+## Creating new alternate templates
+
+A merchant — or developer — can add more alternate templates by creating new `page.[name].json` files in the code editor. Common additions:
+
+| Custom template | Use it for |
+|---|---|
+| `page.faq.json` | FAQ with accordion blocks |
+| `page.size-guide.json` | Size guide with table + visual |
+| `page.press.json` | Press kit, downloads, logos |
+| `page.bespoke.json` | Made-to-measure landing page |
+
+Each new template appears in the **Theme template** dropdown automatically — no admin configuration required.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Section reference" href="/sections-reference/sections-overview">
+    The `main-page-*` sections in detail.
+  </Card>
+  <Card title="Customization recipes" href="/customization/recipes-overview">
+    How to fork an alternate template into a new page variant.
+  </Card>
+</CardGroup>

@@ -1,0 +1,211 @@
+---
+title: "Product page"
+description: "Voyage's block-based PDP — fifteen draggable blocks, complementary and related products, gallery and zoom."
+---
+
+The product page is the most considered template in Voyage. Its main section is **block-based** — every element in the buy column is a draggable, independent block that the merchant can reorder, hide, or duplicate from the Theme Editor. Three sections compose the page: the main product, complementary products, related products.
+
+## Template structure
+
+`templates/product.json` declares three sections:
+
+```json
+{
+  "sections": {
+    "main":          { "type": "main-product" },
+    "complementary": { "type": "complementary-products" },
+    "related":       { "type": "related-products" }
+  },
+  "order": ["main", "complementary", "related"]
+}
+```
+
+## The fifteen blocks
+
+The `main-product` section accepts fifteen block types. The default template ships with twelve enabled (eyebrow, title, price, variant, selling_plans, buy, pickup, perks, provenance, bespoke, share, and four accordions). The remaining types — quantity_selector, description, custom_liquid, and `@app` — are available from the **Add block** menu.
+
+### 1. Eyebrow (`text`)
+
+A small uppercase label above the title. Useful for collection labels ("Summer 2026 · Edition I") or category eyebrows.
+
+<ParamField path="text" type="text" default="Summer 2026">
+  The text to render. Falls back to `product.type` if empty.
+</ParamField>
+
+### 2. Title (`title`)
+
+The product title. Optionally appends the selected color in script — so a navy linen shirt reads "Mina Camp-Collar Shirt *navy*" with the color in the accent font.
+
+<ParamField path="show_color_script" type="checkbox" default="true">
+  Render the currently selected color value in the accent font next to the title.
+</ParamField>
+
+### 3. Price (`price`)
+
+Price, compare-at price (strike-through), unit price (when applicable), tax note, and the Shop Pay Installments banner.
+
+<ParamField path="show_tax_note" type="checkbox" default="true" />
+<ParamField path="tax_note" type="text" default="Inclusive of VAT" />
+<ParamField path="show_installments" type="checkbox" default="true">
+  Shows the Shop Pay Installments banner when the merchant has it enabled and the price qualifies.
+</ParamField>
+
+### 4. Variant picker (`variant_picker`)
+
+Iterates `product.options_with_values`. **Color** options render as circular swatches; **Size** options render as text buttons. Anything else renders as a generic size-style row. A subscription-style size-finder tool can be enabled — it cross-references the customer's size at other houses (Loro Piana, Brunello Cucinelli, Zegna, Brioni, Kiton, Drake's, Massimo Dutti, Uniqlo) to suggest a Voyage size.
+
+<ParamField path="show_size_finder" type="checkbox" default="true" />
+<ParamField path="size_guide_url" type="url">
+  Optional link to a separate size guide page.
+</ParamField>
+
+### 5. Selling plans (`selling_plans`)
+
+Renders subscription / pre-order options when the product has any selling-plan groups. Includes a default "One-time purchase" radio.
+
+<ParamField path="label" type="text" default="Purchase options" />
+
+### 6. Quantity selector (`quantity_selector`)
+
+A standalone stepper. The buy_buttons block auto-includes its own inline qty stepper when this block isn't present — so use this only if you want the qty selector visually separated from the add-to-cart button.
+
+<ParamField path="label" type="text" default="Quantity" />
+
+### 7. Buy buttons (`buy_buttons`)
+
+Add-to-bag button, accelerated checkout (Shop Pay, Apple Pay, Google Pay, PayPal), and an optional wishlist heart. The label dynamically reflects the cart total and respects sold-out state.
+
+<ParamField path="atc_label" type="text" default="Add to bag" />
+<ParamField path="sold_out_label" type="text" default="Sold out" />
+<ParamField path="show_wishlist" type="checkbox" default="true" />
+<ParamField path="show_dynamic_checkout" type="checkbox" default="true">
+  Render Shopify's accelerated-checkout buttons below the add-to-bag.
+</ParamField>
+
+### 8. Pickup availability (`pickup_availability`)
+
+Shows in-store pickup status for the customer's nearest location. Renders only when the variant has store availabilities.
+
+### 9. Description (`description`)
+
+Short product description from the admin. The full description also renders below the main section if `show_long_description` is on at section-level.
+
+### 10. Perks (`perks`)
+
+Three checkmark bullet points — shipping, returns, repair. All three are merchant-editable strings.
+
+<ParamField path="perk_1" type="text" default="Complimentary worldwide shipping" />
+<ParamField path="perk_2" type="text" default="30-day returns, free worldwide" />
+<ParamField path="perk_3" type="text" default="Lifetime repair on every garment" />
+
+### 11. Provenance (`provenance`)
+
+A definition list — Cloth, Cut and sewn, Finished — that signals craft. Three term/description pairs.
+
+<ParamField path="term_1" type="text" default="Cloth" />
+<ParamField path="desc_1" type="text" default="linen, 220 gsm" />
+<ParamField path="term_2" type="text" default="Cut and sewn" />
+<ParamField path="desc_2" type="text" default="The Studio" />
+<ParamField path="term_3" type="text" default="Finished" />
+<ParamField path="desc_3" type="text" default="by hand at The Studio" />
+
+### 12. Bespoke CTA (`bespoke_cta`)
+
+A made-to-measure call-to-action card. Useful for fashion houses offering bespoke services alongside ready-to-wear.
+
+<ParamField path="eyebrow" type="text" default="Su Misura · Bespoke" />
+<ParamField path="text" type="textarea" default="Have this cut to your measurements in the cloth of your choice." />
+<ParamField path="link_label" type="text" default="Begin a fitting" />
+<ParamField path="link_url" type="url" />
+
+### 13. Share (`share`)
+
+A native share button plus an optional "Follow on Shop" web component. The Follow on Shop button auto-renders only for customers signed into Shop.
+
+<ParamField path="share_label" type="text" default="Share" />
+<ParamField path="show_follow_on_shop" type="checkbox" default="true" />
+
+### 14. Accordion (`accordion`)
+
+Collapsible content panels. Multiple accordion blocks are allowed — the default template ships four: Details, Composition & Care, Shipping & Returns, Payment Methods.
+
+<ParamField path="heading" type="text" default="Details" />
+<ParamField path="content" type="richtext">
+  The body content. Rich text editor in the Theme Editor.
+</ParamField>
+<ParamField path="metafield_source" type="text">
+  A metafield key under the `custom` namespace. When set, `product.metafields.custom.{key}` takes precedence over `content`. Useful for per-product values (for example a `composition_care` metafield).
+</ParamField>
+<ParamField path="open_by_default" type="checkbox" default="false" />
+
+### 15. Custom Liquid (`custom_liquid`)
+
+A free-form Liquid editor for merchant snippets — useful for an app that ships markup but no app block, or for one-off custom HTML.
+
+<ParamField path="custom_liquid" type="liquid" />
+
+### Plus: `@app` blocks
+
+Any Shopify app that ships product-block extensions appears in the **Add block** menu. Voyage renders them at the position chosen.
+
+## Section-level settings
+
+These live on the `main-product` section itself, not on any block.
+
+<ParamField path="show_breadcrumb" type="checkbox" default="true">
+  Render the "Back to [Collection]" link and breadcrumb trail above the gallery.
+</ParamField>
+<ParamField path="thumbnail_count" type="range" default="4">
+  Number of gallery thumbnails. Min 3, max 6.
+</ParamField>
+<ParamField path="show_long_description" type="checkbox" default="true">
+  Render the full product description below the gallery, beneath the buy column.
+</ParamField>
+<ParamField path="fallback_description" type="textarea">
+  Used only when the product has no description.
+</ParamField>
+
+## Gallery and zoom
+
+The left column is a sticky gallery — main image at full size, thumbnail strip on the side, and a cursor-follow zoom that activates on hover (desktop only). The gallery sources from `product.media` first (covering image, video, 3D model, and external video types) and falls back to `product.images` for legacy products without rich media.
+
+The lead image is requested at 1600px wide; the zoom image at 2400px wide. Both lazy-load by default except for the first image, which loads eagerly to win the LCP race.
+
+## Complementary products
+
+The second section on the page. Renders three to twelve recommended products from Shopify's recommendation engine.
+
+<ParamField path="show_section" type="checkbox" default="true" />
+<ParamField path="eyebrow" type="text" default="Pair with" />
+<ParamField path="heading" type="text" default="Wears with this" />
+<ParamField path="limit" type="range" default="3" />
+<ParamField path="columns" type="select" default="3" />
+
+## Related products
+
+The third section. Same engine, different prompt — "what else lives in this aesthetic," not "what should you wear with this."
+
+<ParamField path="show_section" type="checkbox" default="true" />
+<ParamField path="eyebrow" type="text" default="Worn together" />
+<ParamField path="heading_script" type="text" default="The Coordinates" />
+<ParamField path="heading" type="text" default="Pieces designed to live alongside this one." />
+<ParamField path="limit" type="range" default="4" />
+<ParamField path="columns" type="select" default="4" />
+<ParamField path="show_view_all" type="checkbox" default="true" />
+<ParamField path="view_all_label" type="text" default="View all" />
+<ParamField path="view_all_url" type="url" default="/collections/all" />
+
+## Structured data
+
+The PDP emits two JSON-LD blocks: `Product` (covering name, image, description, brand, SKU, price, availability) and `BreadcrumbList` (Home › Collection › Product when reached from a collection, otherwise Home › Product). Both are required for rich snippets in Google search results.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Main product section" href="/sections-reference/main-product">
+    Every block's exact schema, in reference form.
+  </Card>
+  <Card title="Customization recipes" href="/customization/recipes-overview">
+    Common PDP tweaks — reordering blocks, hiding the size finder, custom accordions.
+  </Card>
+</CardGroup>

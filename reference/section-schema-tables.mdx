@@ -1,0 +1,217 @@
+---
+title: "Section schema tables"
+description: "Every section's settings and blocks — one row per section, with counts and block-type breakdowns."
+---
+
+A reference lookup for every section Voyage ships. The settings count is the number of merchant-facing fields exposed on the section itself; the blocks count is the number of block types the section accepts.
+
+## All sections
+
+| Section | Section settings | Block types | Allowed on |
+|---|---|---|---|
+| `announcement-bar` | 6 | 1 (message) | Header group |
+| `blog-posts` | 7 | 0 | Any |
+| `collection-list` | 5 | 1 (collection) | Any |
+| `complementary-products` | 5 | 0 | Product |
+| `contact-form` | 4 | 0 | Page (contact) |
+| `custom-liquid` | 1 | 0 | Any |
+| `featured-collection` | 8 | 0 | Any |
+| `featured-product` | 8 | 5 (text, title, price, variant_picker, buy_buttons) | Any |
+| `footer` | 7 | 7 (text, link_list, social, newsletter, payment, image, custom_liquid) | Footer group |
+| `header` | 5 | 0 | Header group |
+| `home-bundle` | 3 | 1 (hotspot) | Index |
+| `home-category-archive` | 1 | 1 (category) | Index |
+| `home-chapters` | 1 | 1 (chapter) | Index |
+| `home-club` | 5 | 0 | Index |
+| `home-hero` | 2 | 1 (slide) | Index |
+| `home-new-arrivals` | 3 | 0 | Index |
+| `image-banner` | 6 | 0 | Any |
+| `image-with-text` | 7 | 0 | Any |
+| `logo-list` | 3 | 1 (logo) | Any |
+| `main-404` | 9 | 0 | 404 template |
+| `main-article` | 5 | 0 | Article template |
+| `main-blog` | 8 | 0 | Blog template |
+| `main-cart` | 9 | 0 | Cart template |
+| `main-collection` | 14 | 0 | Collection template |
+| `main-contact` | 4 | 0 | Page (contact) template |
+| `main-customer-account` | 3 | 0 | Customer/account |
+| `main-customer-activate-account` | 2 | 0 | Customer/activate |
+| `main-customer-addresses` | 0 | 0 | Customer/addresses |
+| `main-customer-login` | 5 | 0 | Customer/login |
+| `main-customer-order` | 0 | 0 | Customer/order |
+| `main-customer-register` | 5 | 0 | Customer/register |
+| `main-customer-reset-password` | 2 | 0 | Customer/reset |
+| `main-list-collections` | 5 | 0 | List-collections |
+| `main-page` | 2 | 0 | Page template |
+| `main-page-about` | 0 | 7 (hero, two-column, pull-quote, image-grid, trust, cta, image) | Page (about) |
+| `main-page-lookbook` | 0 | 4 (full-bleed, two-up, caption, shop-the-look) | Page (lookbook) |
+| `main-password` | 4 | 0 | Password template |
+| `main-product` | 4 | 16 (15 typed blocks + `@app`) | Product template |
+| `main-search` | 5 | 0 | Search template |
+| `map` | 8 | 0 | Any |
+| `multicolumn` | 6 | 1 (column) | Any |
+| `newsletter` | 7 | 0 | Any |
+| `quick-view` | 0 | 0 | (rendered globally) |
+| `related-products` | 8 | 0 | Product |
+| `rich-text` | 4 | 5 (heading, text, button, caption, image) | Any |
+| `slideshow` | 5 | 1 (slide) | Any |
+| `testimonials` | 4 | 1 (testimonial) | Any |
+| `video` | 6 | 0 | Any |
+
+Total: **47 Liquid sections** plus **2 section groups** (`header-group.json`, `footer-group.json`).
+
+## Block-based sections — full breakdown
+
+### `main-product` — 16 block types
+
+The block-based product page. See [Product page](/templates/product-page) for setting-level detail.
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `text` | 1 | Eyebrow label above the title |
+| `title` | 1 | Product title + optional color script |
+| `price` | 1 | Price, compare-at, unit price, tax note, Shop Pay banner |
+| `variant_picker` | 1 | Color swatches + size buttons + size finder |
+| `selling_plans` | 1 | Subscription / pre-order options |
+| `quantity_selector` | 1 | Standalone qty stepper |
+| `buy_buttons` | 1 | Add to bag + accelerated checkout + wishlist |
+| `pickup_availability` | 1 | In-store pickup status |
+| `description` | 1 | Short description in the buy column |
+| `perks` | 1 | Three checkmark bullet points |
+| `provenance` | 1 | Definition list — cloth, cut, finished |
+| `bespoke_cta` | 1 | Made-to-measure call-to-action card |
+| `share` | 1 | Native share + Follow on Shop |
+| `accordion` | unlimited | Collapsible content panels |
+| `custom_liquid` | unlimited | Free-form Liquid editor |
+| `@app` | unlimited | Shopify app blocks |
+
+### `home-hero` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `slide` | 8 | A single hero slide — eyebrow, script headline, sans headline, fallback image, CTA |
+
+### `home-category-archive` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `category` | 6 | A single category tile — collection reference + fallback title/count/url/image |
+
+### `home-bundle` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `hotspot` | 4 | A single hotspot on the bundle stage — x/y coords, side, default state, fallback product |
+
+### `home-chapters` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `chapter` | 4 | A single chapter tile — script label, CTA, link, fallback image |
+
+### `footer` — 7 block types
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `text` | unlimited | Rich text block |
+| `link_list` | unlimited | A column of menu links |
+| `social` | 1 | Social icon row |
+| `newsletter` | 1 | Email capture form |
+| `payment` | 1 | Payment method icons |
+| `image` | unlimited | Studio block — image + caption |
+| `custom_liquid` | unlimited | Free-form Liquid editor |
+
+### `main-page-about` — 7 block types
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `hero` | 1 | Full-bleed hero strip |
+| `two_column` | unlimited | Essay + definition-list pair |
+| `pull_quote` | unlimited | Centered editorial quote |
+| `image_grid` | unlimited | Four-up or six-up image grid |
+| `trust_strip` | 1 | Four icon + label trust signals |
+| `cta` | unlimited | Closing CTA band |
+| `image` | unlimited | Standalone full-bleed image |
+
+### `main-page-lookbook` — 4 block types
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `full_bleed` | unlimited | Full-width editorial image |
+| `two_up` | unlimited | Two-image row |
+| `caption` | unlimited | Script-accent caption between rows |
+| `shop_the_look` | unlimited | Product row from a referenced collection |
+
+### `featured-product` — 5 block types
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `text` | 1 | Eyebrow |
+| `title` | 1 | Product title |
+| `price` | 1 | Price + compare-at |
+| `variant_picker` | 1 | Color + size options |
+| `buy_buttons` | 1 | Add to bag |
+
+### `collection-list` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `collection` | unlimited | A single collection tile |
+
+### `multicolumn` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `column` | unlimited | A single column — icon, heading, body, link |
+
+### `rich-text` — 5 block types
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `heading` | unlimited | A heading line |
+| `text` | unlimited | A paragraph |
+| `button` | unlimited | A CTA button |
+| `caption` | unlimited | A caption / eyebrow line |
+| `image` | unlimited | An inline image |
+
+### `slideshow` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `slide` | 8 | A single slide — image, heading, copy, CTA |
+
+### `testimonials` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `testimonial` | unlimited | A quote + attribution + optional logo |
+
+### `logo-list` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `logo` | unlimited | A single logo image + link |
+
+### `announcement-bar` — 1 block type
+
+| Block type | Limit | Purpose |
+|---|---|---|
+| `message` | unlimited | A rotating message line |
+
+## Section groups
+
+| Group | Sections |
+|---|---|
+| `header-group.json` | `announcement-bar`, `header` |
+| `footer-group.json` | `footer` |
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Sections — full reference" href="/sections-reference/sections-overview">
+    Each section in detailed editorial reference.
+  </Card>
+  <Card title="CSS tokens" href="/reference/css-tokens-reference">
+    The design tokens consumed by every section.
+  </Card>
+</CardGroup>

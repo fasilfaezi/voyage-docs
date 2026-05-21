@@ -1,0 +1,137 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Voyage",
+  "description": "Documentation for the Voyage Shopify theme — editorial fashion theme for considered brands.",
+  "colors": {
+    "primary": "#002F5B",
+    "light": "#C39738",
+    "dark": "#002F5B"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/voyage-logo-navy.svg",
+    "dark": "/logo/voyage-logo-white.svg"
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "getting-started/introduction",
+              "getting-started/installation",
+              "getting-started/quick-start",
+              "getting-started/anatomy"
+            ]
+          },
+          {
+            "group": "Theme setup",
+            "pages": [
+              "theme-setup/logo-and-favicon",
+              "theme-setup/colors",
+              "theme-setup/typography",
+              "theme-setup/layout-and-spacing",
+              "theme-setup/theme-styles"
+            ]
+          },
+          {
+            "group": "Templates",
+            "pages": [
+              "templates/templates-overview",
+              "templates/homepage",
+              "templates/product-page",
+              "templates/collection-page",
+              "templates/cart",
+              "templates/blog-and-article",
+              "templates/customer-pages",
+              "templates/gift-card",
+              "templates/search-and-404",
+              "templates/alternate-templates"
+            ]
+          },
+          {
+            "group": "Sections reference",
+            "pages": [
+              "sections-reference/sections-overview",
+              "sections-reference/hero-and-banners",
+              "sections-reference/product-sections",
+              "sections-reference/editorial-sections",
+              "sections-reference/commerce-sections",
+              "sections-reference/media-sections",
+              "sections-reference/engagement-sections",
+              "sections-reference/custom-and-advanced",
+              "sections-reference/customer-section-templates",
+              "sections-reference/header-and-footer"
+            ]
+          },
+          {
+            "group": "Interactive features",
+            "pages": [
+              "interactive-features/cart-drawer",
+              "interactive-features/quick-view-modal",
+              "interactive-features/search-panel",
+              "interactive-features/page-transitions",
+              "interactive-features/magnetic-and-cursor",
+              "interactive-features/offer-popup",
+              "interactive-features/size-finder",
+              "interactive-features/dark-mode-and-grain"
+            ]
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              "customization/recipes-overview",
+              "customization/branding-recipes",
+              "customization/homepage-recipes",
+              "customization/pdp-recipes",
+              "customization/checkout-branding",
+              "customization/apps-and-integrations"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/theme-settings-reference",
+              "reference/template-reference",
+              "reference/section-schema-tables",
+              "reference/css-tokens-reference",
+              "reference/javascript-api"
+            ]
+          },
+          {
+            "group": "Troubleshooting & support",
+            "pages": [
+              "troubleshooting/common-issues",
+              "troubleshooting/faq",
+              "troubleshooting/performance-and-accessibility",
+              "troubleshooting/internationalization",
+              "troubleshooting/support-and-changelog"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@voyage-theme.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "View on Theme Store",
+      "href": "https://themes.shopify.com"
+    }
+  },
+  "footer": {
+    "socials": {}
+  }
+}

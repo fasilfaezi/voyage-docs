@@ -1,0 +1,158 @@
+---
+title: "Support and changelog"
+description: "How to reach the Voyage team, what's in scope, and the version history of every release."
+---
+
+Voyage is built and supported by a small studio. The aim is to give every merchant a clear, considered answer — not a ticket number.
+
+## Support
+
+For help with Voyage:
+
+| Channel | Use it for |
+|---|---|
+| **Email** — `support@voyage-theme.com` | Theme functionality, settings, customization questions |
+
+Response time: **1–2 business days**. We answer in the order received, and we don't ship form replies.
+
+## What's in scope
+
+We help with anything that touches Voyage directly.
+
+- Theme functionality questions — how a section works, why a setting behaves a certain way
+- Setting and configuration help — picking values, troubleshooting unexpected output
+- Customization guidance — where to add a Custom Liquid block, how to wire a metafield, how to reorder PDP blocks
+- Bug reports — anything that doesn't work as documented
+- Documentation gaps — if a guide is missing or unclear, tell us
+
+## What's out of scope
+
+We don't have visibility into the Shopify platform or third-party apps, so we route those questions elsewhere.
+
+| Issue | Route to |
+|---|---|
+| Shopify platform issues | [Shopify Support](https://help.shopify.com/) — payments, shipping, taxes, plans, billing |
+| Third-party app conflicts | The app's own support team — they have access to the app's code; we don't |
+| Custom development beyond settings | A Shopify Partner developer ([list of Partners](https://www.shopify.com/partners/directory)) |
+| Theme modifications you've made yourself | We can advise on the original Voyage behavior; we can't debug your fork |
+| Email / SMS marketing setup | Shopify Email, Klaviyo, or your ESP's support |
+
+## Before contacting support
+
+Most questions are answered faster by checking these first.
+
+<Steps>
+  <Step title="Search the docs">
+    The search bar at the top of these docs is full-text across every page.
+  </Step>
+  <Step title="Skim common issues">
+    [Common issues](/troubleshooting/common-issues) is the bugs-and-fixes list — 20+ specific symptoms with answers.
+  </Step>
+  <Step title="Skim the FAQ">
+    [FAQ](/troubleshooting/faq) covers the conceptual and operational questions that aren't strictly bugs.
+  </Step>
+  <Step title="If you still need help">
+    Send us a message with: your store URL, the theme version you're on, a description of what you expected vs. what's happening, and a screenshot if relevant.
+  </Step>
+</Steps>
+
+## What to include in a support request
+
+The more context, the faster the answer.
+
+- **Store URL** — so we can see the storefront
+- **Theme version** — found in **Theme settings → Theme info** (also pinned at the top of `settings_schema.json`)
+- **What you expected vs. what's happening** — one or two sentences each
+- **A screenshot** — if the issue is visual
+- **Browser and device** — only if the bug is browser-specific
+- **Any custom code** — if you've edited theme files, mention it; we'll otherwise assume stock Voyage
+
+## Changelog
+
+### v1.0.0 — Initial release (May 2026)
+
+The launch release. Everything Voyage ships with on day one.
+
+**Templates**
+
+- Home, product, collection, cart (drawer + page), search, list-collections, blog, article, page, 404, password
+- Customer-account suite (login, register, account dashboard, addresses, order detail, activate, reset)
+- About, Lookbook, Made-to-Measure, Contact templates
+
+**Sections**
+
+- Hero (multi-slide carousel, video + poster, dual CTAs)
+- New arrivals, Category archive (6 tiles), Bundle (hotspots), Chapters (2-up), Club (full-bleed CTA)
+- Featured collection, Featured product
+- Image banner, Image with text, Multicolumn, Rich text, Testimonials, Video, Logo list, Blog posts, Newsletter, Collection list, Slideshow, Custom liquid
+- Header group (announcement bar, header, search panel, cart drawer)
+- Footer group (footer with trust strip, newsletter, link lists, social, payment icons, studio block)
+
+**Interactive features**
+
+- Cinematic navy page-transition curtain (toggleable, respects reduced-motion)
+- Scroll-aware transparent nav with solid-on-scroll
+- Announcement bar with marquee, scroll-hide, dismissible
+- Offer popup — 3-stage email/SMS capture, sessionStorage-gated
+- Cart drawer with live updates via Section Rendering API
+- Quick-view modal on product cards
+- Cursor-follow zoom on PDP gallery
+- Predictive search panel
+- PDP size finder helper (brand cross-reference)
+- PLP filter sidebar (color swatch, size chips, price range, availability)
+- PLP view-mode picker (2/3/4-col + list), persisted in localStorage
+- Magnetic button effect on CTAs (reduced-motion aware)
+- Film grain overlay (toggleable)
+- Custom cursor (toggleable, cursor-device only)
+- Intro loader (toggleable)
+- Click sounds (toggleable)
+- Wishlist heart icon on product cards (localStorage by default)
+
+**Theme settings**
+
+- 3 named theme styles — Editorial Navy, Warm Cream, Minimal Monochrome
+- 4-scheme color system with brand palette
+- Typography slots — body, heading, accent
+- Button style, corner radius, letter-spacing
+- Layout — container width, section spacing, rule style
+- Cards — image ratio, text alignment, quick-view, wishlist, vendor
+- Cart — drawer / page / notification, notes, discount codes
+- Animation — reveal, hover, blur-to-clear, premium effects
+- Social media — Instagram, Facebook, Pinterest, TikTok, YouTube, X, LinkedIn, Threads
+- Currency — show currency codes
+- Search — predictive dropdown, collections / articles / pages in results
+
+**Performance**
+
+- Lazy-loaded images, fetchpriority hints on LCP
+- Metadata-only preload on hero videos 2+
+- Deferred non-critical JavaScript, async non-critical CSS
+- Section Rendering API for cart and filter updates
+- No build step, no `node_modules`
+
+**Accessibility**
+
+- WCAG-AA color contrast across all schemes
+- Focus-visible system, 2 px primary-ink ring
+- Skip link, 24×24 minimum touch targets
+- Semantic markup, correct heading order
+- ARIA on interactive widgets
+- Reduced-motion respect across all animations
+
+**Internationalization**
+
+- Shopify Markets-compatible (multi-currency, multi-language)
+- RTL support via CSS logical properties and `<html dir="rtl">`
+- Locale-file driven translations
+- Country / language selector in header and footer
+
+## Where to next
+
+<CardGroup cols={2}>
+  <Card title="Common issues" href="/troubleshooting/common-issues">
+    The fastest answer is usually here.
+  </Card>
+  <Card title="Recipes overview" href="/customization/recipes-overview">
+    Step-by-step customizations.
+  </Card>
+</CardGroup>

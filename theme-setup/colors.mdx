@@ -1,0 +1,91 @@
+---
+title: "Colors"
+description: "The brand palette, four schemes, functional tokens, and how dark mode flips them."
+---
+
+Voyage's colour system is built around four brand tokens, four background schemes, and three functional colours. Every section can choose which scheme it renders against — the brand tokens stay consistent across the storefront while schemes provide rhythm.
+
+All colours live in **Theme settings → Colors**.
+
+## Brand palette
+
+The four brand tokens are the centre of gravity for the storefront. Most sections inherit from them.
+
+| Setting | Default | Where it shows |
+|---|---|---|
+| **Primary (ink)** | `#002F5B` | Body text, headlines, filled buttons, link underlines |
+| **Secondary (paper)** | `#F6F4EF` | The base page background — every default scheme starts here |
+| **Accent** | `#C39738` | Hover states, the script Italianno headline tint, selected swatches, the announcement-bar dot |
+| **Muted text** | `#565E6B` | Captions, meta labels, breadcrumbs, the muted variant of body copy |
+
+Change these four and the whole storefront shifts mood. For example, swapping `Primary` from navy to a warm brown and `Accent` from caramel to soft terracotta produces the **Warm Cream** preset on the fly.
+
+## The four schemes
+
+Voyage uses background-and-foreground colour *pairs* — called **schemes** — that any section can choose from. Pick a scheme on a section and Voyage applies the matching ink colour automatically, so contrast is correct without manual tuning.
+
+| Scheme | Background | Foreground | Used by |
+|---|---|---|---|
+| **Scheme 1 — Default (page)** | `#F6F4EF` | `#002F5B` | Most page bodies, the cart drawer header, plain content |
+| **Scheme 2 — Inverse (navy)** | `#002F5B` | `#F6F4EF` | The hero overlay, the Category archive band, dark CTA cards, the footer's deep-fill variant |
+| **Scheme 3 — Soft (warm cream)** | `#EFE9DC` | `#0A0F18` | Editorial breakpoints, secondary banners, the bundle section background |
+| **Scheme 4 — Deep (charcoal)** | `#0A0F18` | `#F6F4EF` | The footer block group, full-bleed editorial chapters with imagery overlay |
+
+You can override any scheme's background and foreground independently. Voyage doesn't enforce a relationship between the four — Scheme 3 is "warm cream" by name, but you can make it sage green if you want a six-colour palette instead of four.
+
+## Changing schemes per section
+
+Most sections expose a `scheme` setting in their schema. Open the section in the Theme Editor and pick from a dropdown. The section background and text colour swap immediately.
+
+This lets you compose contrast rhythm — a page that goes paper → navy → paper → soft-cream → navy reads with intentional pace, where a page on a single background reads flat.
+
+## Functional colours
+
+Three tokens are reserved for system feedback. They don't change with section schemes — they're consistent everywhere.
+
+| Setting | Default | Used by |
+|---|---|---|
+| **Success** | `#2E7D32` | "Added to bag" toast, in-stock states, newsletter success confirmation |
+| **Error** | `#B00020` | Form validation errors, "Sold out" labels |
+| **Rule / hairline** | `#E5E2DA` | Every hairline divider, table borders, card outlines, input borders |
+
+The rule colour is small but mighty. It's the line under every accordion, between every line item in the cart drawer, around every product card. Make it too dark and the storefront looks gridded. Too light and the structure disappears.
+
+## Dark mode
+
+Voyage ships with a toggleable dark mode. The dark-mode icon (moon) sits in the header next to the cart icon. When toggled, the `<html>` element gains a `data-theme="dark"` attribute and the entire token system inverts:
+
+- `--paper` (Scheme 1 bg) flips with `--ink` (Scheme 1 fg)
+- `--surface-warm` flips to a deep variant
+- The grain overlay switches from `mix-blend-mode: multiply` to `screen`
+- The custom cursor flips from navy to paper
+
+The preference is stored in `localStorage` (`voyage-theme`), so the visitor's choice persists across pages and sessions.
+
+<Tip>
+Dark mode is purely CSS-driven. There's no JavaScript on the critical path — the token flip is instant and avoids the white-flash that plagues many dark-mode implementations. See [Dark mode and grain](/interactive-features/dark-mode-and-grain) for the full mechanic.
+</Tip>
+
+## Accessibility & contrast
+
+The default palette is WCAG-AA compliant on every preset:
+
+| Pair | Contrast ratio | Result |
+|---|---|---|
+| Navy `#002F5B` on Paper `#F6F4EF` | `11.4 : 1` | AAA |
+| Paper `#F6F4EF` on Navy `#002F5B` | `11.4 : 1` | AAA |
+| Muted `#565E6B` on Paper `#F6F4EF` | `5.9 : 1` | AA |
+| Accent `#C39738` on Paper `#F6F4EF` | `3.8 : 1` | AA Large only — never use accent for body text |
+
+If you change the brand tokens, run a contrast check (Stark, WebAIM, Figma Contrast) before publishing. The "Accent" colour is the easiest one to fail on, because the eye reads it as "rich" rather than "legible" — confine it to large headings, hover states, and decorative marks.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Typography" href="/theme-setup/typography">
+    Pair fonts that hold the editorial register.
+  </Card>
+  <Card title="Theme styles" href="/theme-setup/theme-styles">
+    Switch the whole palette in one click — three named presets.
+  </Card>
+</CardGroup>

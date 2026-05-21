@@ -1,0 +1,144 @@
+---
+title: "Blog and article"
+description: "Voyage's editorial journal templates — blog index and article detail."
+---
+
+The journal is the editorial counterweight to the catalog. Voyage ships two templates — a blog index and an article detail page — both styled in the same restrained editorial vocabulary as the rest of the storefront. Each is a JSON template wrapping a single section.
+
+## Blog index — `templates/blog.json`
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-blog", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The `main-blog` section renders the blog title, an optional intro, and a paginated grid of article cards.
+
+### Header
+
+<ParamField path="eyebrow" type="text" default="Journal">
+  Small tracked-out label above the blog title.
+</ParamField>
+<ParamField path="intro" type="textarea">
+  Optional paragraph between the title and the article grid.
+</ParamField>
+
+### Grid
+
+<ParamField path="columns" type="select" default="2">
+  Options: `1`, `2`, `3`. Two columns is the editorial default — generous, magazine-spread.
+</ParamField>
+<ParamField path="per_page" type="range" default="9">
+  Articles per page. Min 3, max 24, step 3.
+</ParamField>
+
+### Card content
+
+Each article card carries — in this order — featured image, published date eyebrow, title, excerpt, author, and a "Read more" link. Every element is toggleable.
+
+<ParamField path="show_image" type="checkbox" default="true" />
+<ParamField path="show_date" type="checkbox" default="true" />
+<ParamField path="show_excerpt" type="checkbox" default="true">
+  Truncates `article.excerpt_or_content` to 28 words.
+</ParamField>
+<ParamField path="show_author" type="checkbox" default="false" />
+
+### Pagination
+
+When the blog spans multiple pages, a "Previous · Page X of Y · Next" footer appears below the grid. Uses Shopify's standard `paginate` Liquid tag.
+
+### Empty state
+
+When the blog has no published articles, the section renders a single "No articles yet." line.
+
+---
+
+## Article detail — `templates/article.json`
+
+```json
+{
+  "sections": {
+    "main": { "type": "main-article", "settings": {} }
+  },
+  "order": ["main"]
+}
+```
+
+The `main-article` section renders a single full article — breadcrumb, title, optional author, featured image, body, tags, social share row, and comments (when enabled in admin).
+
+### Breadcrumb
+
+<ParamField path="show_breadcrumb" type="checkbox" default="true">
+  Renders `[Blog title] · [Published date]` above the article title.
+</ParamField>
+
+### Title
+
+`article.title` is always rendered, untruncated. Required by the Shopify Theme Store article requirements.
+
+### Author
+
+<ParamField path="show_author" type="checkbox" default="false">
+  When on, displays "By [First] [Last]" beneath the title.
+</ParamField>
+
+### Featured image
+
+<ParamField path="show_image" type="checkbox" default="true">
+  Renders `article.image` at 2000px wide, eagerly loaded for LCP.
+</ParamField>
+
+### Body
+
+`article.content` rendered as rich text (`.rte` class for prose styling — paragraphs, lists, blockquotes, inline images).
+
+### Tags
+
+<ParamField path="show_tags" type="checkbox" default="true">
+  Renders tags as links to `[blog]/tagged/[tag-handle]` — the standard Shopify tag filter URL.
+</ParamField>
+
+### Social share
+
+<ParamField path="show_share" type="checkbox" default="true">
+  Renders Twitter / Facebook / Pinterest share links. Each opens in a new tab with the article URL pre-filled.
+</ParamField>
+
+### Comments
+
+When the blog has comments enabled in admin, the article renders:
+
+1. A "[N] comments" header
+2. A success message when a comment was just posted (or a "submitted for review" note if the blog is moderated)
+3. A paginated list of approved comments (10 per page)
+4. A comment form — name, email, body, submit
+
+The form uses Shopify's `new_comment` form helper, including built-in error rendering.
+
+## Structured data
+
+Both templates emit JSON-LD:
+
+- **Blog index** — inherits the site-wide `WebSite` schema from `theme.liquid`.
+- **Article detail** — emits `Article` (headline, URL, datePublished, dateModified, image, description, author, publisher) and `BreadcrumbList` (Home › Blog › Article).
+
+`Article` schema unlocks the rich-card treatment in Google Discover and the article-with-image snippet in search results.
+
+## Two blogs, one article template
+
+Shopify supports multiple blogs (Journal, Press, Notes). All blogs share `templates/blog.json` and all articles share `templates/article.json` unless you create alternate templates (for example `blog.press.json`) in the code editor and assign them in the blog or article admin page.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Main blog section" href="/sections-reference/main-blog">
+    The blog section's full schema in reference form.
+  </Card>
+  <Card title="Main article section" href="/sections-reference/main-article">
+    The article section's full schema.
+  </Card>
+</CardGroup>

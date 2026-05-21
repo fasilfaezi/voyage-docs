@@ -1,0 +1,248 @@
+---
+title: "Customer section templates"
+description: "The seven editorial customer pages — login, register, account, order, addresses, password reset, activation."
+---
+
+Voyage ships seven customer sections — one per customer-facing page in the Shopify accounts surface. Each is styled in the same editorial language as the rest of the storefront: a script accent next to a serif title, hairline rules, magnetic CTAs, and a quiet form layout that lets the typography lead.
+
+<Note>
+  These sections **only render when Classic Customer Accounts is enabled** in Shopify admin (Settings → Customer accounts → Classic). Under the New Customer Accounts experience, Shopify renders its own hosted UI and these sections are bypassed entirely. The sections remain in the theme so merchants can switch back to Classic if they prefer the in-theme accounts treatment.
+</Note>
+
+| Section | Page | Form used |
+|---|---|---|
+| Customer login | `/account/login` | `customer_login` + `recover_customer_password` |
+| Customer register | `/account/register` | `create_customer` |
+| Customer account | `/account` | (dashboard view — no form) |
+| Customer order | `/account/orders/{id}` | (order detail — no form) |
+| Customer addresses | `/account/addresses` | `customer_address` |
+| Customer reset password | `/account/reset/{id}/{token}` | `reset_customer_password` |
+| Customer activate account | `/account/activate/{id}/{token}` | `activate_customer_password` |
+
+---
+
+## Customer login — `sections/main-customer-login.liquid`
+
+Sign-in form with inline password recovery. Two views in one template: the main login form is shown by default; clicking "Forgot your password?" toggles to the recover view. The recover view posts to Shopify's `recover_customer_password` form and shows the success message inline.
+
+**Available on:** Customer login template.
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Account">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text" default="Welcome back">
+  Script accent rendered above the title.
+</ParamField>
+<ParamField path="heading" type="text" default="Sign in">
+  Page heading.
+</ParamField>
+<ParamField path="intro" type="textarea">
+  Intro text below the heading. Optional.
+</ParamField>
+<ParamField path="button_label" type="text" default="Sign in">
+  Submit button label. Falls back to the `customer.login.sign_in` translation if blank.
+</ParamField>
+
+### Blocks
+
+None.
+
+---
+
+## Customer register — `sections/main-customer-register.liquid`
+
+Create-account form. Posts to Shopify's `create_customer` form with first name, last name, email, and password. A hairline rule separates the identity group (name fields) from the credentials group (email + password) for visual rhythm.
+
+**Available on:** Customer register template.
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Account">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text" default="Begin a fitting">
+  Script accent rendered above the title.
+</ParamField>
+<ParamField path="heading" type="text" default="Create account">
+  Page heading.
+</ParamField>
+<ParamField path="intro" type="textarea" default="A wardrobe, an order history, and access to bespoke commissions.">
+  Intro text below the heading.
+</ParamField>
+<ParamField path="button_label" type="text" default="Create account">
+  Submit button label.
+</ParamField>
+
+### Blocks
+
+None.
+
+---
+
+## Customer account — `sections/main-customer-account.liquid`
+
+Account dashboard. Personalized welcome row at the top (script greeting + customer's first name), then a 1fr / 280px grid: order history table on the left, default address card on the right. Orders are paginated 10 per page. Renders the empty state with a "Browse the collection" magnetic CTA when the customer has no orders.
+
+**Available on:** Customer account template.
+
+### Section settings
+
+<ParamField path="eyebrow" type="text" default="Account">
+  Eyebrow above the heading.
+</ParamField>
+<ParamField path="script_prefix" type="text" default="Bonjour">
+  Script greeting prefix. Followed by the customer's first name if available — e.g. "Bonjour, Marco".
+</ParamField>
+<ParamField path="heading" type="text" default="Your account">
+  Page heading.
+</ParamField>
+
+### Blocks
+
+None.
+
+### What renders automatically
+
+- **Order history table** — Order number, date, payment status, fulfillment status, total. Each order number links to `/account/orders/{id}`.
+- **Order count** — `customer.orders_count` shown as a small caption in the section head.
+- **Default address card** — `customer.default_address` rendered as an `<address>`, with a "Manage addresses" link.
+- **Sign-out link** — Inline next to the customer's email in the intro row.
+
+---
+
+## Customer order — `sections/main-customer-order.liquid`
+
+Order detail — passport-style editorial treatment. Top: eyebrow with the order date, script-font order number, "Detail" subtitle. Middle: a four-column meta strip (payment status · fulfillment status · item count · total). Then: the line items table with selling-plan metadata and unit pricing, followed by subtotal, discounts, shipping, taxes, and the grand total. Bottom: shipping and billing address dl pair.
+
+**Available on:** Customer order template.
+
+### Section settings
+
+None.
+
+### Blocks
+
+None.
+
+### What renders automatically
+
+The whole layout is data-driven from the `order` object:
+
+- **Line items** — Image (thumbnail), title (linked to the product), selling plan name, unit price, quantity, line total.
+- **Totals** — Subtotal, each cart-level discount application, each shipping method, each tax line, grand total.
+- **Cancellation notice** — When `order.cancelled` is true, a notice with the cancellation date and reason is shown.
+- **Addresses** — `order.shipping_address` and `order.billing_address` rendered as `<address>` elements.
+
+---
+
+## Customer addresses — `sections/main-customer-addresses.liquid`
+
+Address book. Lists the customer's saved addresses with edit / delete actions. A toggleable "Add a new address" form is hidden by default and revealed via a button click. Each saved address has an in-place edit form that toggles open under the card. Uses Shopify's `Shopify.CountryProvinceSelector` to populate the country / province pair selectors automatically.
+
+**Available on:** Customer addresses template.
+
+### Section settings
+
+None.
+
+### Blocks
+
+None.
+
+### What renders automatically
+
+- **Country/province selectors** — Initialized via `Shopify.CountryProvinceSelector` for each address form on the page (both new-address and per-address edit forms).
+- **Default address badge** — A small "Default" pill is rendered on the customer's default address.
+- **Pagination** — Addresses are paginated 5 per page (most customers won't hit this, but supported).
+
+---
+
+## Customer reset password — `sections/main-customer-reset-password.liquid`
+
+Completes a password-reset flow initiated via the "Forgot your password?" link on the login page. Posts to Shopify's `reset_customer_password` form with the new password and confirmation.
+
+**Available on:** Customer reset password template.
+
+### Section settings
+
+<ParamField path="heading" type="text" default="Reset password">
+  Page heading.
+</ParamField>
+<ParamField path="intro" type="textarea" default="Enter a new password for your account.">
+  Intro text below the heading.
+</ParamField>
+
+The eyebrow ("Account") and script accent ("Almost there") are hard-coded in the template, matching the login section's vocabulary.
+
+### Blocks
+
+None.
+
+---
+
+## Customer activate account — `sections/main-customer-activate-account.liquid`
+
+Entry point for customers invited by the merchant (e.g. via a draft order or a customer-creation invitation). Posts to Shopify's `activate_customer_password` form. Includes a "Decline invitation" submit button that posts the same form with `decline=decline`.
+
+**Available on:** Customer activate account template.
+
+### Section settings
+
+<ParamField path="heading" type="text" default="Activate account">
+  Page heading.
+</ParamField>
+<ParamField path="intro" type="textarea" default="Create a password to activate your account.">
+  Intro text below the heading.
+</ParamField>
+
+The eyebrow ("Welcome") and script accent ("Begin") are hard-coded in the template.
+
+### Blocks
+
+None.
+
+---
+
+## Shared visual vocabulary
+
+All seven customer sections share a small set of conventions, applied through the `customer__*` CSS classes:
+
+| Element | Class | Purpose |
+|---|---|---|
+| Section heading | `.customer__h1` + `.customer__h1-script` + `.customer__h1-line` | Two-part heading: script flourish prologue + serif main title. |
+| Eyebrow | `.eyebrow` | Tracked-out uppercase 0.28em letter-spacing. |
+| Primary CTA | `.customer__btn` wrapped in `.magnetic[data-magnetic="0.18"]` | Mirrors the PDP add-to-bag magnetic interaction. |
+| Hairline rule | `.customer__rule` | Subtle divider, used to separate groups of fields. |
+| Form input | `.customer__input`, `.customer__textarea`, `.customer__select` | Quiet bordered fields with consistent vertical rhythm. |
+
+This is what gives the accounts surface its editorial feel — the same visual language used in the rest of the storefront, applied to forms that would otherwise look generic.
+
+---
+
+## Enabling Classic Customer Accounts
+
+To use these sections, the merchant must enable **Classic Customer Accounts**:
+
+1. Shopify admin → **Settings** → **Customer accounts**.
+2. Under "Customer accounts version," choose **Classic customer accounts**.
+3. Optionally enable **Show login link in the order status page** to make sign-in discoverable post-purchase.
+
+Once Classic is selected, the seven customer templates in the theme will render these sections. Under the New Customer Accounts experience, Shopify renders a hosted UI at `/account` regardless of theme.
+
+---
+
+## Cross-reference
+
+<CardGroup cols={2}>
+  <Card title="Templates · Customer pages" href="/templates/customer-pages">
+    How the seven customer templates are wired and what defaults each ships with.
+  </Card>
+  <Card title="Engagement sections" href="/sections-reference/engagement-sections">
+    Newsletter and contact form — adjacent customer-touchpoint patterns.
+  </Card>
+  <Card title="Theme setup · Typography" href="/theme-setup/typography">
+    The script + serif pairing that drives the editorial heading treatment.
+  </Card>
+</CardGroup>
