@@ -111,7 +111,8 @@
               "troubleshooting/faq",
               "troubleshooting/performance-and-accessibility",
               "troubleshooting/internationalization",
-              "troubleshooting/support-and-changelog"
+              "troubleshooting/support-and-changelog",
+              "support"
             ]
           }
         ]
@@ -122,7 +123,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@voyage-theme.com"
+        "href": "/support"
       }
     ],
     "primary": {
