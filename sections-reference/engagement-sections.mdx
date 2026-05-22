@@ -112,6 +112,18 @@ Drop-in contact form. Uses Shopify's `{% form 'contact' %}` with fields for name
 <ParamField path="show_phone" type="checkbox" default="false">
   Show an optional phone field. Off by default — most editorial brands don't need it.
 </ParamField>
+<ParamField path="label_name" type="text" default="Name">
+  Label above the Name input. Editable for brand-voice ("Your name", "How should we address you", etc.) or for translation overrides.
+</ParamField>
+<ParamField path="label_email" type="text" default="Email">
+  Label above the Email input.
+</ParamField>
+<ParamField path="label_phone" type="text" default="Phone (optional)">
+  Label above the Phone input (renders only when **Show phone field** is on).
+</ParamField>
+<ParamField path="label_message" type="text" default="Message">
+  Label above the Message textarea.
+</ParamField>
 <ParamField path="submit_label" type="text" default="Send">
   Submit button label.
 </ParamField>

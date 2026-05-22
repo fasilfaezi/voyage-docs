@@ -1,0 +1,55 @@
+---
+title: "Collection pagination modes"
+description: "Three ways to handle overflow on the collection page — numbered pagination, a load-more button, or infinite scroll. Merchant chooses the mode from one theme setting."
+---
+
+The collection page (`templates/collection.json` → `sections/main-collection.liquid`) supports three pagination modes. Pick whichever fits your editorial pacing and the visitor behaviour you want to encourage. The default is numbered pagination because it preserves a deliberate reading pace — important for editorial-led catalogs where every product is meant to be considered.
+
+## The three modes
+
+| Mode | Behaviour | When to use |
+|---|---|---|
+| **Pagination** (default) | Numbered page links at the bottom of the grid. Visitor clicks **2**, **3**, etc. to load the next page. | Editorial catalogs, small-to-medium catalogs (≤ 50 products), brands where deliberate browsing is part of the voice. |
+| **Load more** | A single **Load more pieces** button at the bottom. Click to append the next page in place — no full reload. | Medium catalogs (50–200 products), wellness/beauty merchants whose customer expects a smooth scroll. |
+| **Infinite scroll** | New pages auto-load as the visitor scrolls within ~600px of the bottom. No button, no clicks. | Large catalogs (200+ products), high-discovery brands where the goal is to keep the visitor browsing. |
+
+## Switching modes
+
+Theme Customizer → **Theme settings → Collection pagination**.
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Pagination mode** | Numbered pagination | Switches between the three modes. |
+| **Load more button label** | `Load more pieces` | Text on the load-more button. Used in `load_more` mode. |
+| **End-of-list message** | `You have reached the end.` | Shown after the last page is loaded. Used in `load_more` and `infinite_scroll` modes. |
+
+The setting takes effect on every collection page automatically — no per-collection configuration needed.
+
+## How it works under the hood
+
+All three modes use the same Liquid `{% paginate collection.products by per_page %}` block. The difference is in what renders below the grid:
+
+- **Pagination** → renders `{{ paginate | default_pagination }}` — Shopify's standard numbered nav.
+- **Load more** → renders a `<button>` with `data-plp-loadmore` + `data-next-url` attributes. JS in `assets/infinite-scroll.js` intercepts the click, fetches the next URL via `fetch()`, parses out the next page's product cards (`[data-plp-grid]`), and appends them to the existing grid.
+- **Infinite scroll** → same as load-more, but JS hides the button and uses an `IntersectionObserver` with `rootMargin: '600px 0px'` to auto-trigger the fetch when the sentinel scrolls into view.
+
+After each fetch, the `data-next-url` attribute is advanced to whatever the freshly loaded page's next-link is. When that becomes empty, the end-of-list message renders and further loading stops.
+
+## SEO considerations
+
+| Mode | SEO impact |
+|---|---|
+| **Pagination** | Best for SEO. Each page is a distinct URL with its own canonical, crawlable by search engines. |
+| **Load more** | Neutral. The initial page is fully crawlable; appended content isn't indexed at deeper pages but the products themselves are reachable via their own PDP URLs. |
+| **Infinite scroll** | Same as load more, with a slight risk of users feeling "lost" without a back-to-top reference. The theme ships a back-to-top button to mitigate this — make sure it's enabled in **Theme settings → Animation → Show back-to-top button**. |
+
+## Mixing modes
+
+The setting is global — every collection page uses the same mode. If you need different behavior per collection (e.g. infinite scroll on `/collections/all` but pagination on curated edits), Voyager doesn't ship that per-collection override out of the box; ask via the support form if you need it.
+
+## Implementation notes
+
+- Section: `sections/main-collection.liquid` lines ~214–245 (paginate block)
+- JS: `assets/infinite-scroll.js` — loaded conditionally only when the mode is `load_more` or `infinite_scroll` (gated by `{%- if settings.collection_pagination_mode == 'load_more' or settings.collection_pagination_mode == 'infinite_scroll' -%}` at the bottom of the section)
+- Styling: `.plp-loadmore__*` block at the end of `assets/premium.css`
+- Theme settings: new "Collection pagination" group in `config/settings_schema.json`

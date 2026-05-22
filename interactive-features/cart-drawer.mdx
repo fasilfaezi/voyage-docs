@@ -61,7 +61,24 @@ from the Summer collection.
 [Continue shopping]
 ```
 
-You can edit the empty-state copy in `snippets/cart-drawer.liquid`. The copy is intentionally on-brand rather than a generic "Your cart is empty" — feel free to tune the language to your house voice.
+Every piece of copy in the drawer — the header eyebrow, the empty headline, the empty body, the CTA, the subtotal label, the shipping note, both buttons — is **merchant-editable** via the section's own schema in the Theme Customizer. The cart drawer is now a true section (not a snippet), so its settings appear in the customizer just like any other section.
+
+## Editable copy
+
+Open the Theme Customizer → click the cart icon to open the drawer in preview → **Cart drawer** section in the right-rail picker.
+
+| Setting | Default | Where it renders |
+|---|---|---|
+| **Eyebrow above piece count** | `Your bag` | Small caps above the "N pieces" line in the header |
+| **Script headline** (empty state) | `Empty` | The large script word in the empty state |
+| **Body** (empty state) | `Your bag is quiet. Begin with a shirt or a pair of trousers from the Summer collection.` | The paragraph below the script |
+| **CTA label** (empty state) | `Continue shopping` | The link inside the empty state |
+| **Subtotal label** | `Subtotal` | The left side of the totals row in the footer |
+| **Shipping note** | `Shipping & taxes calculated at checkout · Complimentary worldwide` | The small line under the subtotal |
+| **Checkout button** | `Proceed to Checkout →` | The primary CTA in the footer |
+| **Continue shopping button** | `Continue shopping` | The text link below the checkout button |
+
+The copy is intentionally on-brand rather than generic — tune all eight strings to your house voice without editing theme code.
 
 ## Mobile vs desktop
 

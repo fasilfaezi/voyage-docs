@@ -1,0 +1,88 @@
+---
+title: "Promo tiles"
+description: "A 2–4 column grid of image+text tiles with overlay copy. Useful for seasonal collections, limited drops, curated edits, and editorial archive links."
+---
+
+Promo tiles is a flexible content section that renders a grid of image-led tiles. Each tile is its own editable block with an image, an optional eyebrow + headline + body, an optional CTA, and a configurable text alignment. Tiles can link to any URL — collections, products, lookbook pages, journal articles.
+
+Use it for:
+
+- Seasonal collection cards on the homepage
+- Limited-edition drops alongside the standard catalog
+- Curated edits ("The summer wardrobe", "The travel kit")
+- Linking out to lookbook chapters or journal articles
+- A 2-column "category split" — men's / women's
+
+## What it looks like
+
+```
+       ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+       │             │  │             │  │             │
+       │   image     │  │   image     │  │   image     │
+       │   tile 1    │  │   tile 2    │  │   tile 3    │
+       │             │  │             │  │             │
+       │             │  │             │  │             │
+       │  EYEBROW    │  │  EYEBROW    │  │  EYEBROW    │
+       │  Headline   │  │  Headline   │  │  Headline   │
+       │  ──────     │  │  ──────     │  │  ──────     │
+       │  Cta →      │  │  Cta →      │  │  Cta →      │
+       └─────────────┘  └─────────────┘  └─────────────┘
+```
+
+The overlay copy sits on top of the image. A configurable dark overlay between the image and the text keeps the text legible against any background.
+
+## Adding the section
+
+Theme Customizer:
+
+1. Choose a page (typically the homepage).
+2. **Add section → Promo tiles**. The section ships with 3 default tiles.
+3. For each tile block:
+   - Upload an **Image**.
+   - Set the **Eyebrow**, **Headline**, **Body**, and **CTA label**.
+   - Add the **Link URL** the tile points to.
+   - Adjust **Text alignment within tile** (left/center/right) and the **Image overlay opacity** (0–70%) for legibility.
+4. Add or remove tiles as needed — up to **6** per section.
+
+## Section settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Eyebrow** | (blank) | Small caps line above the section headline. |
+| **Headline** | (blank) | Section heading above the grid. |
+| **Header alignment** | Left | Left or center alignment for the section header. |
+| **Columns (desktop)** | 3 | Number of columns on desktop. Range 2–4. Always collapses to 2 on tablet, 1 on mobile. |
+| **Tile height** | Tall (4:5) | Short (3:2), Tall (4:5), or Square (1:1). |
+
+## Tile block settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Image** | — | Background image for the tile. Lazy-loaded. |
+| **Eyebrow** | (blank) | Small caps line above the tile headline. |
+| **Headline** | (blank) | Tile headline. |
+| **Body** | (blank) | Short paragraph below the headline. |
+| **CTA label** | (blank) | Underlined call-to-action at the bottom. |
+| **Link URL** | (blank) | Where the entire tile points. If set, the whole card becomes a single clickable link. |
+| **Text alignment within tile** | Center | Left, center, or right alignment for the tile's overlay copy. |
+| **Image overlay opacity** | 25% | Dark layer between the image and the text. Bump higher for better text legibility over busy images. |
+
+## Recipes
+
+### Seasonal collection cards
+
+3 columns · Tall tiles. Each tile = one collection. Eyebrow `Voyage I` · Headline `Mediterranean editions` · CTA `Discover` · Link = `/collections/mediterranean`.
+
+### Editorial split
+
+2 columns · Square tiles. Tile 1 image = a journal hero · CTA `Read` · Link = `/blogs/journal/article-handle`. Tile 2 image = lookbook hero · CTA `View lookbook` · Link = `/pages/lookbook`.
+
+### Category drop
+
+4 columns · Short tiles. Each tile = a category — Shirts, Knitwear, Trousers, Outerwear.
+
+## Implementation notes
+
+Section: `sections/promo-tiles.liquid`. No JS — pure Liquid + CSS. Styling lives at the end of `assets/premium.css` under the `.promo-tiles__*` and `.promo-tile__*` namespaces.
+
+The grid uses CSS `grid-template-columns: repeat(var(--cols), 1fr)` for layout flexibility. The image overlay uses a CSS custom property `--overlay` driven by the merchant-set opacity setting (0–70 → 0.0–0.7).

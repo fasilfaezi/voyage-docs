@@ -1,0 +1,90 @@
+---
+title: "Before / after slider"
+description: "A draggable image-comparison section. Move a vertical divider left or right to reveal one image over another. Useful for skincare results, ingredient transformations, and styling comparisons."
+---
+
+The before/after slider is a content section that stacks two images and reveals the second one behind a draggable vertical divider. The visitor moves the divider with their pointer or with the keyboard arrow keys, and the second image reveals or hides accordingly. It's well-suited to skincare, beauty, and wellness merchants showing results, but works for any pairing — sketch vs. finished garment, raw vs. cooked, before-styling vs. after-styling, season-1 vs. season-2.
+
+## What it looks like
+
+```
+       Before image (full)
+       ┌──────────────────────────────────┐
+       │     ░░░░░░░░░░ │ ▓▓▓▓▓▓▓▓▓▓     │
+       │     ░ before ░ │ ▓  after  ▓     │
+       │     ░░░░░░░░░░ │ ▓▓▓▓▓▓▓▓▓▓     │
+       │                ◉  ← drag handle  │
+       │     ░░░░░░░░░░ │ ▓▓▓▓▓▓▓▓▓▓     │
+       │     ░░░░░░░░░░ │ ▓▓▓▓▓▓▓▓▓▓     │
+       │   [ before ]               [ after ] │
+       └──────────────────────────────────┘
+```
+
+The "after" image is clip-pathed from the left edge to the divider position. Move the divider right → more of the "after" image is revealed.
+
+## Adding the section
+
+In the Theme Customizer:
+
+1. Open the page where you want the section (homepage / product / collection / page template).
+2. **Add section → Before / after**.
+3. Upload your **Before image** and **After image** under the Images header.
+4. Save and preview.
+
+The section ships with sensible defaults: 50% divider position, 3:2 landscape aspect ratio, "Before" / "After" labels.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Eyebrow** | `The difference` | Small caps line above the headline. Leave blank to hide. |
+| **Headline** | `See the result` | Serif headline above the image stage. Leave blank to hide. |
+| **Before image** | — | The base image. Renders full behind the "after" layer. |
+| **After image** | — | The image revealed over the divider. |
+| **Before label** | `Before` | Caption in the bottom-left of the stage. |
+| **After label** | `After` | Caption in the bottom-right. |
+| **Aspect ratio** | Landscape (3:2) | Stage shape — square, 3:2, 16:9, or portrait 2:3. |
+| **Default divider position** | 50% | Where the divider starts on first render. Range 10–90%. |
+
+## Interaction
+
+The visitor can move the divider with:
+
+- **Mouse / pointer** — click and drag the handle, or click anywhere in the image stage to jump the divider to that position.
+- **Touch** — drag on mobile.
+- **Keyboard** — focus the handle (tab to it), then use:
+  - **← / ↓** — move 5% left
+  - **→ / ↑** — move 5% right
+  - **Home** — jump to 0% (all "before")
+  - **End** — jump to 100% (all "after")
+
+The handle is announced to screen readers as a slider with values 0–100.
+
+## Recipes
+
+### Skincare result
+
+- Eyebrow: `Two weeks` · Headline: `The Vitamin C effect`
+- Before image: bare skin under flat light
+- After image: same crop, 2 weeks later, same flat light
+- Aspect ratio: Portrait (2:3)
+
+### Ingredient sourcing
+
+- Eyebrow: `From the source` · Headline: `Raw to refined`
+- Before image: raw botanical
+- After image: finished serum bottle on the same surface
+- Aspect ratio: Landscape (3:2)
+
+### Garment styling
+
+- Eyebrow: `Same shirt` · Headline: `Two ways`
+- Before image: shirt styled smart
+- After image: shirt styled casual
+- Aspect ratio: Square (1:1)
+
+## Implementation notes
+
+Section: `sections/before-after-slider.liquid`. JS: `assets/before-after.js` (loaded with `defer`). Styling: `.ba-slider__*` block at the end of `assets/premium.css`.
+
+The reveal uses `clip-path: inset(0 0 0 var(--ba-pos))` on the "after" layer; the handle position is the same `--ba-pos` custom property on the handle element. One source of truth keeps the two visually locked.

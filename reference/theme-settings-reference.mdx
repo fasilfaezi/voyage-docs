@@ -212,6 +212,92 @@ The first object in the schema is informational metadata, not a setting group. I
 <ParamField path="click_sounds" type="checkbox" default="true">
   Click sounds on primary CTAs.
 </ParamField>
+<ParamField path="show_back_to_top" type="checkbox" default="true">
+  Show a floating back-to-top button after the visitor scrolls past the first viewport.
+</ParamField>
+
+## Tab title recall
+
+When a visitor switches to another tab, the storefront's browser-tab title rotates through merchant-editable messages. See [Tab title recall](/interactive-features/tab-title-recall) for the full walkthrough.
+
+<ParamField path="tab_recall_enable" type="checkbox" default="true">
+  Master toggle.
+</ParamField>
+<ParamField path="tab_recall_delay" type="range" default="1s">
+  Delay before the first message swap.
+</ParamField>
+<ParamField path="tab_recall_interval" type="range" default="2s">
+  Interval between message rotations.
+</ParamField>
+<ParamField path="tab_recall_message_1" type="text" default="← Don't leave! Come back">
+  First message in the rotation.
+</ParamField>
+<ParamField path="tab_recall_message_2" type="text" default="← Selling fast · only a few left">
+  Second message.
+</ParamField>
+<ParamField path="tab_recall_message_3" type="text" default="← Hurry · stock running low">
+  Third message.
+</ParamField>
+
+## Quick view
+
+Strings shown by the quick-view modal during the fetch + on failure. See [Quick view modal](/interactive-features/quick-view-modal).
+
+<ParamField path="quickview_loading_text" type="text" default="Loading…">
+  Body content while the product fetch is in flight.
+</ParamField>
+<ParamField path="quickview_error_text" type="text" default="Sorry — could not load this piece.">
+  Body content if the fetch fails.
+</ParamField>
+<ParamField path="quickview_heading_aria" type="text" default="Product details">
+  Modal accessible label (announced by screen readers).
+</ParamField>
+
+## Size finder
+
+Cross-brand size recommendation matrix on the PDP. See [Size finder](/interactive-features/size-finder) for the full walkthrough.
+
+<ParamField path="size_finder_heading" type="text" default="Recommend my size">
+  Eyebrow above the size finder panel.
+</ParamField>
+<ParamField path="size_finder_open_label" type="text" default="Find my size →">
+  Toggle label when the panel is closed.
+</ParamField>
+<ParamField path="size_finder_close_label" type="text" default="Close size finder">
+  Toggle label when the panel is open.
+</ParamField>
+<ParamField path="size_finder_brand_matrix" type="textarea">
+  One brand per line — `Brand Name | XS=XS, S=S, M=M, L=L, XL=XL, XXL=XXL`. Clear all lines to hide the brand selector entirely.
+</ParamField>
+
+## Age verifier
+
+Splash gate for liquor / age-restricted brands. Off by default. See [Age verifier](/interactive-features/age-verifier) for setup.
+
+<ParamField path="age_verifier_enable" type="checkbox" default="false">
+  Master toggle. Off by default — turn on only if your products require an age check.
+</ParamField>
+<ParamField path="age_verifier_min_age" type="range" default="21">
+  Minimum age the visitor must meet. Range 13–30.
+</ParamField>
+<ParamField path="age_verifier_eyebrow" type="text" default="A small question">
+  Eyebrow above the headline.
+</ParamField>
+<ParamField path="age_verifier_headline" type="text" default="Are you of legal age?">
+  Main question.
+</ParamField>
+<ParamField path="age_verifier_body" type="richtext">
+  Body paragraph with the legal disclaimer.
+</ParamField>
+<ParamField path="age_verifier_button_label" type="text" default="Yes — enter site">
+  Confirm CTA label.
+</ParamField>
+<ParamField path="age_verifier_decline_label" type="text" default="I am under age">
+  Decline button label.
+</ParamField>
+<ParamField path="age_verifier_decline_message" type="text">
+  Shown after a failed verification or a decline.
+</ParamField>
 
 ## Social media
 
@@ -259,6 +345,23 @@ The first object in the schema is informational metadata, not a setting group. I
 </ParamField>
 <ParamField path="search_show_pages" type="checkbox" default="false">
   Include pages in predictive results.
+</ParamField>
+<ParamField path="search_empty_text" type="text" default="No pieces match — try a different term.">
+  Shown in the predictive-search right pane when a query returns zero products.
+</ParamField>
+
+## Collection pagination
+
+Controls how the collection page renders product overflow. See [Collection pagination modes](/templates/collection-pagination) for the walkthrough.
+
+<ParamField path="collection_pagination_mode" type="select" default="pagination">
+  Options: `pagination` (numbered page links — default), `load_more` (button), `infinite_scroll` (auto-load).
+</ParamField>
+<ParamField path="collection_load_more_label" type="text" default="Load more pieces">
+  Button label in `load_more` mode.
+</ParamField>
+<ParamField path="collection_end_message" type="text" default="You have reached the end.">
+  End-of-list message in `load_more` and `infinite_scroll` modes.
 </ParamField>
 
 ## What's next

@@ -47,6 +47,7 @@
               "templates/homepage",
               "templates/product-page",
               "templates/collection-page",
+              "templates/collection-pagination",
               "templates/cart",
               "templates/blog-and-article",
               "templates/customer-pages",
@@ -61,10 +62,13 @@
               "sections-reference/sections-overview",
               "sections-reference/hero-and-banners",
               "sections-reference/product-sections",
+              "sections-reference/ingredients-and-usage-blocks",
               "sections-reference/editorial-sections",
               "sections-reference/commerce-sections",
               "sections-reference/media-sections",
               "sections-reference/engagement-sections",
+              "sections-reference/before-after-slider",
+              "sections-reference/promo-tiles",
               "sections-reference/custom-and-advanced",
               "sections-reference/customer-section-templates",
               "sections-reference/header-and-footer"
@@ -80,6 +84,8 @@
               "interactive-features/magnetic-and-cursor",
               "interactive-features/offer-popup",
               "interactive-features/size-finder",
+              "interactive-features/age-verifier",
+              "interactive-features/tab-title-recall",
               "interactive-features/dark-mode-and-grain"
             ]
           },

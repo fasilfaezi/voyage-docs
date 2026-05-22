@@ -1,9 +1,11 @@
 ---
 title: "Size finder"
-description: "A cross-brand size mapping that helps customers pick the right Voyager size based on what they wear elsewhere."
+description: "A cross-brand size mapping that helps customers pick the right Voyager size based on what they wear elsewhere. Brand matrix is fully merchant-editable."
 ---
 
-The size finder is a small, considered helper on the product detail page. A visitor who knows they wear a Medium at Brioni can ask Voyager "what's that in your sizes?" and get an answer — Small, in Brioni's case, because the house runs generous. It's a tiny touch that converts size anxiety into confidence at the buy moment.
+The size finder is a small, considered helper on the product detail page. A visitor who knows they wear a Medium at a particular house can ask Voyager "what's that in your sizes?" and get an answer. It's a tiny touch that converts size anxiety into confidence at the buy moment.
+
+The brand-to-size mapping is **fully merchant-editable** via a single textarea in Theme Settings. Voyager ships with three generic fit categories as defaults — replace them with the specific houses your customer actually cross-references for a much better recommendation.
 
 ## Where it appears
 
@@ -21,92 +23,81 @@ Click "Find my size →" and the panel expands:
 ```
 What size do you wear at another house?
 
-[Brand: Brioni ▾]   [Size: M ▾]
+[Brand: True to size ▾]   [Size: M ▾]
 
-Recommended: S
+Recommended: M
 
-[Use S →]
+[Use M →]
 ```
 
-Pick a brand and a size, and Voyager maps it to the equivalent Voyager size. Click **Use S →** and the size chip is automatically selected on the variant picker.
+Pick a brand and a size, and Voyager maps it to the equivalent Voyager size. Click **Use M →** and the size chip is automatically selected on the variant picker.
 
-## Brand mapping
+## Configuring the brand matrix
 
-Voyager ships with cross-references for eight houses. The mapping is conservative — when in doubt, it suggests the smaller Voyager size, because tailored garments forgive being slightly loose more easily than slightly tight.
+Theme Customizer → **Theme settings → Size finder → Brand matrix**.
 
-| Brand | XS | S | M | L | XL | XXL |
-|---|---|---|---|---|---|---|
-| **Loro Piana** | XS | S | M | L | XL | XXL |
-| **Brunello Cucinelli** | XS | S | M | L | XL | XXL |
-| **Zegna** | XS | S | M | L | XL | XXL |
-| **Brioni** | XS | XS | S | M | L | XL |
-| **Kiton** | XS | XS | S | M | L | XL |
-| **Drake's** | XS | XS | S | M | L | XL |
-| **Massimo Dutti** | S | S | M | L | XL | XXL |
-| **Uniqlo** | XS | XS | S | M | L | XL |
+The brand matrix is a textarea — one brand per line, in the format:
 
-The rationale:
-
-- **Loro Piana / Brunello Cucinelli / Zegna** — house sizing close to Voyager's own. 1:1 mapping.
-- **Brioni / Kiton / Drake's** — generous house cut. A "Medium" at these brands typically sits between Voyager's S and M, but we recommend S because a slightly close fit reads more refined.
-- **Massimo Dutti** — runs slightly small. An XS at Massimo Dutti corresponds to Voyager S.
-- **Uniqlo** — runs slightly large on the body. Same offset as Brioni / Kiton.
-
-If a (brand, size) pair isn't found in the matrix, the recommendation falls back to `M` — a safe middle ground.
-
-## Extending the mapping
-
-To add a new brand, open `assets/pdp.js` and find the `sizeMap` object:
-
-```js
-const sizeMap = {
-  'Loro Piana':         { XS: 'XS', S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
-  'Brunello Cucinelli': { XS: 'XS', S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
-  // …
-  'Massimo Dutti':      { XS: 'S',  S: 'S',  M: 'M',  L: 'L',  XL: 'XL', XXL: 'XXL' },
-};
+```
+Brand Name | XS=XS, S=S, M=M, L=L, XL=XL, XXL=XXL
 ```
 
-Add a new key with the brand name as it should appear in the dropdown, mapped to the Voyager size for each of the visitor's likely sizes:
+Left side of each `=` is the size the customer wears at the other brand. Right side is the equivalent Voyager size. You don't need to map every size — partial matrices work fine.
 
-```js
-const sizeMap = {
-  // existing entries…
-  'Boglioli': { XS: 'XS', S: 'XS', M: 'S', L: 'M', XL: 'L', XXL: 'XL' },
-  'A.P.C.':   { XS: 'XS', S: 'S',  M: 'M', L: 'L', XL: 'XL', XXL: 'XXL' },
-};
+### Default matrix (generic fit categories)
+
+The theme ships with three generic categories so the picker has something useful to show on day one:
+
+```
+True to size | XS=XS, S=S, M=M, L=L, XL=XL, XXL=XXL
+Runs small   | XS=XS, S=XS, M=S, L=M, XL=L, XXL=XL
+Runs large   | XS=S, S=M, M=L, L=XL, XL=XXL
 ```
 
-The brand also needs to be added to the `<select data-sf-brand>` element in the variant-picker block — open the PDP main section and add a matching `<option>` value.
+### Example custom matrix (named houses)
 
-## When the recommendation is missing
+If your customer commonly cross-references specific brands, name them in the matrix:
 
-If the visitor picks a brand or size combination Voyager doesn't know, the recommendation defaults to `M`. That's deliberate — a fallback is more useful than an empty state, and the merchant can extend the matrix at any time.
+```
+Loro Piana          | XS=XS, S=S, M=M, L=L, XL=XL, XXL=XXL
+Brunello Cucinelli  | XS=XS, S=S, M=M, L=L, XL=XL, XXL=XXL
+Boglioli            | XS=XS, S=XS, M=S, L=M, XL=L, XXL=XL
+Drake's             | XS=XS, S=XS, M=S, L=M, XL=L, XXL=XL
+Brioni              | XS=XS, S=XS, M=S, L=M, XL=L, XXL=XL
+Caruso              | XS=S, S=M, M=L, L=XL, XL=XXL
+```
 
-## Apply the recommendation
+### Hiding the brand selector entirely
 
-The **Use [size] →** button below the recommendation sets the matching Voyager size radio button as checked and dispatches a `change` event. The variant picker reacts to the change exactly as if the visitor had clicked the size chip themselves — price updates, variant id updates, the add-to-bag button targets the correct variant.
+If you don't want the size finder visible on your store at all, **clear every line** in the brand matrix textarea. With an empty matrix, the JS hides the toggle button and the panel automatically — visitors see only the standard size chips.
 
-After applying, the panel collapses and the "Find my size →" toggle reappears, ready to be used again if the visitor wants to compare with another brand.
+You can also keep the brand matrix populated but disable the toggle per PDP block: PDP block library → **Variant picker** → uncheck **Show size finder helper**.
 
-## What if my brand isn't in apparel?
+## Other size finder settings
 
-The size finder is wired to any variant option named `Size` (case-sensitive — Voyager uses Shopify's standard `Size` option label). If your products are sized in a different system — shoe sizes (EU 41 / US 8), or ring sizes — the brand-cross-reference logic doesn't fit directly. You have two options:
+| Setting | Default | What it does |
+|---|---|---|
+| **Modal heading** | `Recommend my size` | Eyebrow above the size finder form. |
+| **Open button label** | `Find my size →` | Text on the toggle when the panel is closed. |
+| **Close button label** | `Close size finder` | Text on the toggle when the panel is open. |
+| **Brand matrix** | (3 generic categories — see above) | The brand-to-size mapping textarea. |
 
-1. **Rename your sizes** to the XS–XXL convention so the matrix applies (works for apparel-adjacent categories like belts and accessories).
-2. **Replace the matrix** with a sizing logic that fits your category — for shoes, you'd map EU to UK to US; for rings, mm circumference to standard US/UK/EU sizes. The same pattern applies — replace `sizeMap` with your own object and update the dropdown options.
+On the variant picker block itself:
 
-## Disabling
+| Setting | Default | What it does |
+|---|---|---|
+| **Show size finder helper** | On | Toggle the entire size finder per PDP. |
+| **Size finder hint text** | `Tell us what you wear in another house — we will suggest your size.` | Body copy above the brand selector. |
+| **Size guide link** | (blank) | Optional URL link to a full size chart page. |
 
-There's no theme setting for this — the size finder renders when the variant picker block's "Show size finder" toggle is on. To hide it on a product, the merchant disables the toggle on the block. To remove it sitewide, set the default to `false` in `sections/main-product.liquid`'s variant-picker block schema.
+## Recommendation logic
 
-## What's next
+When the visitor picks a brand and a size, the JS looks up `sizeMap[brand][size]` and renders the result. If a particular (brand, size) pair isn't in the matrix, the picker shows `—` and the **Use →** button is inert. This is a conservative behavior — better to show nothing than a wrong recommendation.
 
-<CardGroup cols={2}>
-  <Card title="Product page" href="/templates/product-page">
-    The PDP that hosts the size finder block.
-  </Card>
-  <Card title="Quick view" href="/interactive-features/quick-view-modal">
-    The compact buy surface — note: size finder is PDP-only, not modal.
-  </Card>
-</CardGroup>
+## Implementation notes
+
+The brand matrix is parsed in `assets/pdp.js` from `window.voyagerSizeFinder.brandMatrix` (emitted by `layout/theme.liquid` based on the textarea setting). The picker's `<select data-sf-brand>` is repopulated at load time from the parsed matrix — Liquid renders an empty `<select>`, and JS injects the merchant's brand list in.
+
+If the matrix is empty (or parses to zero brands), the JS calls `setAttribute('hidden', '')` on both the toggle and the panel. The visitor sees only the standard size chips.
+
+Toggle button labels are read from `window.voyagerSizeFinder.openLabel` and `closeLabel`. The heading and hint text are server-rendered via Liquid from theme settings and the variant picker block settings respectively.

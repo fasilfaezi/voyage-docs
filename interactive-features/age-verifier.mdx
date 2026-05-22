@@ -1,0 +1,87 @@
+---
+title: "Age verifier"
+description: "A splash gate that asks the visitor to confirm their age before the storefront becomes visible. Off by default — opt in for liquor, spirits, and age-restricted brands."
+---
+
+The age verifier is a fullscreen splash gate that loads in front of the storefront and asks the visitor for their date of birth. If the visitor is at least the minimum age you've set, the gate dismisses and they enter the site. If they decline or fail the check, they see a polite block message. The verified state persists in `sessionStorage` for the duration of the visit, so the gate appears once per session, not on every page load.
+
+The feature is **off by default**. Enable it from Theme Settings only if your products require an age check (alcoholic beverages, age-restricted skincare ingredients, certain wellness products, etc.).
+
+## When it appears
+
+The gate renders inside `layout/theme.liquid` and overlays every template — homepage, PDP, collection, cart, account, search, everything. It's the very first thing a new visitor sees.
+
+```
+       ╔═══════════════════════════════╗
+       ║   A SMALL QUESTION            ║
+       ║                               ║
+       ║   Are you of legal age?       ║
+       ║                               ║
+       ║   By entering this site you   ║
+       ║   confirm that you are of     ║
+       ║   legal drinking age...       ║
+       ║                               ║
+       ║   Date of birth               ║
+       ║   [   /  /        ]           ║
+       ║                               ║
+       ║   You must be at least 21     ║
+       ║   years old to enter.         ║
+       ║                               ║
+       ║   [ Yes — enter site → ]      ║
+       ║                                 ║
+       ║   I am under age              ║
+       ╚═══════════════════════════════╝
+```
+
+After a successful verification, a sessionStorage flag is set:
+
+```js
+sessionStorage.setItem('voyager_age_verified', 'true');
+```
+
+On subsequent page loads in the same session, the gate stays hidden. Closing the tab clears the flag and the gate returns on the next visit.
+
+## Theme settings
+
+Theme Customizer → **Theme settings → Age verifier**.
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Enable age verifier** | Off | Master toggle. Off by default — turn on only if you actually need an age check. |
+| **Minimum age** | 21 | The age the visitor must meet. Range 13–30. |
+| **Eyebrow** | `A small question` | Small caps line above the headline. |
+| **Headline** | `Are you of legal age?` | Main question. |
+| **Body copy** | (default disclaimer) | Rich-text body. |
+| **Confirm button label** | `Yes — enter site` | Primary CTA. |
+| **Decline button label** | `I am under age` | Secondary action. Triggers the decline message. |
+| **Decline message** | (default polite block) | What appears after a failed verification or a decline click. |
+
+## Common configurations
+
+### Spirits & wine merchants (US)
+
+- Minimum age: **21**
+- Body copy: `<p>By entering this site you confirm that you are of legal drinking age in your country of residence. This site contains content related to alcohol.</p>`
+
+### Spirits & wine merchants (EU)
+
+- Minimum age: **18**
+- Body copy: `<p>By entering this site you confirm that you are of legal drinking age. This site contains content related to alcohol.</p>`
+
+### Adult skincare
+
+- Minimum age: **18**
+- Headline: `Are you 18 or over?`
+- Body copy: `<p>Some of our products contain ingredients intended for adult use.</p>`
+
+## Compliance note
+
+The age verifier is a **self-reported** age check. It does not perform any verification against ID documents or external databases. It is the merchant's responsibility to comply with all applicable laws and regulations in the jurisdictions where they sell. The verifier is a UX tool, not a legal substitute for actual age-verification compliance.
+
+## Implementation notes
+
+The gate markup lives in `snippets/age-verifier.liquid`. The visibility logic and DOB validation live in an IIFE in `assets/theme.js`. The IIFE reads `window.voyagerAgeVerifier` (emitted from `layout/theme.liquid` based on theme settings) and only runs when the `enable` flag is true.
+
+The minimum age is checked by computing a precise age from the entered date of birth — accounting for month and day so a visitor whose 21st birthday is tomorrow still gets blocked today.
+
+Styling lives at the end of `assets/premium.css` under the `.age-verifier__*` namespace.

@@ -29,7 +29,13 @@ modalBody.innerHTML = html;
 
 The endpoint returns the same product section Voyager uses inside the modal — defined in `sections/quick-view.liquid`. Because it's server-rendered with full Shopify product context, the modal includes accurate prices, variant availability, accelerated-checkout buttons, and stock states.
 
-While the fetch is in flight, the modal shows a quiet "Loading…" state. On network failure, it falls back to a polite "Sorry — could not load this piece" message.
+While the fetch is in flight, the modal shows a quiet "Loading…" state. On network failure, it falls back to a polite "Sorry — could not load this piece" message. Both strings — plus the modal's accessible label for screen readers — are **merchant-editable** via Theme Settings → Quick view.
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Loading text** | `Loading…` | Shown in the modal body while the product fetch is in flight. |
+| **Error message** | `Sorry — could not load this piece.` | Shown if the fetch fails (offline, 404, etc). |
+| **Modal accessible label (aria)** | `Product details` | Announced by screen readers when the modal opens. |
 
 ## Layout
 

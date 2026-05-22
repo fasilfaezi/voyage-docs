@@ -32,6 +32,15 @@ The PDP. A two-column layout: sticky gallery on the left, block-driven buy colum
 <ParamField path="thumbnail_count" type="range" default="4">
   How many gallery thumbnails to render (3–6).
 </ParamField>
+<ParamField path="show_sticky_atc" type="checkbox" default="true">
+  Show a slim sticky add-to-cart bar at the bottom of the viewport once the visitor scrolls past the buy column.
+</ParamField>
+<ParamField path="sticky_atc_label" type="text" default="Add to bag">
+  Label on the sticky bar's Add-to-cart button when the variant is available.
+</ParamField>
+<ParamField path="sticky_atc_soldout_label" type="text" default="Sold out">
+  Label when the selected variant is unavailable.
+</ParamField>
 
 #### Details section
 
@@ -75,11 +84,16 @@ The block also renders the unit price (`variant.unit_price_measurement`) and com
 #### Variant picker (limit 1)
 
 <ParamField path="show_size_finder" type="checkbox" default="true">
-  Show the in-line "size finder" helper that recommends a size based on the customer's size in other houses (Loro Piana, Brunello Cucinelli, Zegna, Brioni, Kiton, Drake's, Massimo Dutti, Uniqlo).
+  Show the in-line "size finder" helper that recommends a size based on the customer's size in other houses. The brand list is fully merchant-editable from **Theme settings → Size finder → Brand matrix** — leave the matrix blank to hide the helper entirely.
+</ParamField>
+<ParamField path="size_finder_hint" type="text" default="Tell us what you wear in another house — we will suggest your size.">
+  Body copy above the brand selector inside the size finder panel.
 </ParamField>
 <ParamField path="size_guide_url" type="url">
   Optional link to a full size guide page.
 </ParamField>
+
+See [Size finder](/interactive-features/size-finder) for the complete configuration walkthrough.
 
 The picker auto-detects color options (renders as swatches keyed off the handleized value name) and size options (renders as chip buttons). Other option names render as chip buttons.
 
@@ -200,6 +214,42 @@ Multiple accordion blocks can be added. Each renders as a `<details>` element in
 </ParamField>
 <ParamField path="open_by_default" type="checkbox" default="false">
   Render the accordion open on first paint.
+</ParamField>
+
+#### Ingredients (no limit) — `ingredients`
+
+Metafield-driven accordion item dedicated to ingredient lists (skincare INCI lists, food ingredients, etc.). Reads `product.metafields.custom.ingredients` per product; falls back to the manual content below if the metafield is empty.
+
+<ParamField path="heading" type="text" default="Ingredients">
+  Accordion heading text.
+</ParamField>
+<ParamField path="fallback_content" type="richtext">
+  Rich-text shown when the product has no `custom.ingredients` metafield set.
+</ParamField>
+<ParamField path="metafield_key" type="text" default="ingredients">
+  Which metafield to read (under `custom.*`). Change if you use a different namespace key.
+</ParamField>
+<ParamField path="open_by_default" type="checkbox" default="false">
+  Render the panel open on first paint.
+</ParamField>
+
+See [Ingredients & usage blocks](/sections-reference/ingredients-and-usage-blocks) for the full walkthrough.
+
+#### How to use (no limit) — `usage`
+
+Sibling block to **Ingredients** for application / usage / preparation instructions. Reads `product.metafields.custom.usage` per product; falls back to the manual content below.
+
+<ParamField path="heading" type="text" default="How to use">
+  Accordion heading text.
+</ParamField>
+<ParamField path="fallback_content" type="richtext">
+  Rich-text shown when the product has no `custom.usage` metafield set.
+</ParamField>
+<ParamField path="metafield_key" type="text" default="usage">
+  Which metafield to read (under `custom.*`).
+</ParamField>
+<ParamField path="open_by_default" type="checkbox" default="false">
+  Render the panel open on first paint.
 </ParamField>
 
 #### Custom liquid (no limit)

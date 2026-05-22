@@ -74,11 +74,13 @@ The net effect: results always match the current input, even on slow connections
 
 ## Empty state
 
-If the visitor's query returns zero products, the right pane shows:
+If the visitor's query returns zero products, the right pane shows the **No-results message** set in Theme Settings → Search:
 
 ```
 No pieces match — try a different term.
 ```
+
+The default reads in Voyager's editorial vocabulary ("pieces" rather than "products"). Override it to match your house voice from Theme Settings → Search → **Empty state → No-results message**.
 
 The "View all results →" footer link stays hidden in this state — it would lead to a similarly empty page.
 
@@ -100,6 +102,7 @@ A few related controls in **Theme settings → Search**:
 | **Include collections in predictive results** | `true` | Reserved for predictive endpoints (the JSON view returns products only by default). |
 | **Include articles in predictive results** | `false` | Surface blog articles when set to `true`. |
 | **Include pages in predictive results** | `false` | Surface pages when set to `true`. |
+| **No-results message** | `No pieces match — try a different term.` | Shown in the right pane when a query returns zero products. |
 
 ## What's next
 

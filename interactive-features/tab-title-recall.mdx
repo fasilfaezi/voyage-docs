@@ -1,0 +1,63 @@
+---
+title: "Tab title recall"
+description: "Rotate the browser-tab title with editable messages when the visitor switches to another tab — and restore it the moment they return."
+---
+
+When a visitor switches away from your storefront tab, the browser-tab title rotates through a set of merchant-editable messages on a configurable interval. The original page title returns the moment they switch back. It's a small conversion lever — useful for catching the visitor's eye in a row of dormant tabs — and all of its copy is editable so it can match your brand voice (or be turned off entirely).
+
+## Where it lives
+
+The recall messages render in the browser-tab title only when the document's visibility state is `hidden`. The visitor never sees them on-page.
+
+```
+voyage-kd6mom7v.myshopify.com    ← original title
+                ↓ visitor switches tabs
+← Don't leave! Come back         ← recall message 1 (after 1s)
+                ↓ 2s later
+← Selling fast · only a few left ← recall message 2
+                ↓ 2s later
+← Hurry · stock running low      ← recall message 3
+                ↓ 2s later (cycles)
+← Don't leave! Come back         ← back to message 1
+                ↓ visitor returns
+voyage-kd6mom7v.myshopify.com    ← original restored
+```
+
+## Theme settings
+
+Theme Customizer → **Theme settings → Tab title recall**.
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Enable tab title recall** | On | Master toggle. Turn off if it clashes with your brand voice. |
+| **Delay before first swap** | 1s | How long after the visitor leaves before the first message appears. Range 0–30s. |
+| **Time between messages** | 2s | How often the title rotates while the visitor is away. Range 1–10s. |
+| **Message 1** | `← Don't leave! Come back` | First message shown after the delay. |
+| **Message 2** | `← Selling fast · only a few left` | Second message. |
+| **Message 3** | `← Hurry · stock running low` | Third message. |
+
+### Clearing slots
+
+Leave any message field blank to skip that slot in the rotation. For example, clearing Message 2 means the cycle becomes `Message 1 → Message 3 → Message 1 → …`. Clearing all three messages effectively disables the recall — same as turning the toggle off.
+
+### Brand voice examples
+
+The defaults lean promotional. Editorial brands often soften them:
+
+| Brand voice | Message 1 | Message 2 | Message 3 |
+|---|---|---|---|
+| **Restrained** | `We'll be here.` | `Your seat is reserved.` | `Take your time.` |
+| **Editorial** | `← Continue the voyage.` | `← Your bag is waiting.` | `← Back to the maison.` |
+| **Playful** | `Hey, where'd you go?` | `← Come back · we miss you` | `← The bag is feeling lonely` |
+
+## Implementation notes
+
+The feature lives in `assets/theme.js` as a small IIFE that reads `window.voyagerTabRecall` (emitted from `layout/theme.liquid` based on the theme settings) and attaches a single `visibilitychange` listener.
+
+When the document becomes hidden:
+
+1. After the configured delay, the title swaps to message 1.
+2. A `setInterval` rotates through the messages.
+3. When the document becomes visible again, both the timeout and interval are cleared, the original title is restored, and the message index resets.
+
+If the `window.voyagerTabRecall` config object is missing for any reason, the IIFE falls back to the original hardcoded messages so the feature always functions.

@@ -1,0 +1,81 @@
+---
+title: "Ingredients & usage blocks"
+description: "Two PDP blocks that surface beauty/wellness-specific structured data: ingredient lists and application instructions. Reads per-product metafields with a manual fallback."
+---
+
+The PDP ships with two metafield-driven blocks for merchants in beauty, skincare, wellness, food, and home-goods verticals: **Ingredients** and **How to use**. Both render as collapsible accordion items in the PDP details section, alongside the standard accordion blocks (Details, Composition & Care, Shipping, Payment).
+
+Both follow the same pattern: the block looks up a `product.metafields.custom.<key>` per product and renders that as the panel content. If a particular product doesn't have the metafield set, the block falls back to a merchant-editable rich-text default.
+
+## Why a dedicated block instead of a generic accordion?
+
+The standard accordion block exists already and can render any rich-text content. The dedicated **Ingredients** and **How to use** blocks add two things:
+
+1. **Sensible defaults** — heading text ("Ingredients", "How to use"), metafield key (`ingredients`, `usage`) preconfigured.
+2. **Theme Store feature signaling** — these blocks let Voyager claim the "Ingredients or nutritional information" and "Usage information" feature tags, which surface in Theme Store filtering for beauty/wellness merchants.
+
+You can still use the generic accordion if you want to fully customize the heading and metafield key.
+
+## Adding the blocks
+
+PDP block library → **Add block** → choose **Ingredients** or **How to use**.
+
+Drag the block to the position you want in the PDP block stack. The blocks render in the **details section below the gallery** (with the other accordion blocks), not in the buy column.
+
+## Setting the metafield per product
+
+In Shopify admin:
+
+1. **Settings → Custom data → Products**.
+2. **Add definition** → name `Ingredients` → namespace and key `custom.ingredients` → type **Rich text**.
+3. Repeat for `custom.usage` if using the How to use block.
+4. Open a product. Scroll to the **Metafields** section at the bottom. Fill in the rich-text content.
+
+The block reads the metafield via `product.metafields.custom.ingredients` (or `custom.usage`). If the metafield is set, it takes precedence over the block's fallback content.
+
+## Block settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Heading** | `Ingredients` / `How to use` | Accordion heading text. |
+| **Fallback content** | (blank) | Rich-text shown when the product has no metafield set. |
+| **Metafield key (under custom.\*)** | `ingredients` / `usage` | Which metafield to read. Change if you use a different namespace key. |
+| **Open by default** | Off | Whether the accordion starts expanded on page load. |
+
+## Recipes
+
+### Skincare brand with consistent INCI lists
+
+- Set every product's `custom.ingredients` metafield to its full INCI list.
+- Add the **Ingredients** block to the PDP — leave fallback blank.
+- Customers see the live ingredient list per product, with no fallback noise on products that don't have one yet.
+
+### Wellness brand with a shared "How to use" routine
+
+- Most products share the same usage instructions ("Apply to clean, dry skin morning and evening").
+- Add the **How to use** block with that text in the **Fallback content** field.
+- For special products that need their own instructions, set `custom.usage` per product to override.
+
+### Food / drink brand with nutritional info
+
+- Override the heading to `Nutritional information`.
+- Change the metafield key to `nutrition` (and define a `custom.nutrition` metafield in admin).
+- Use the standard table format inside the rich-text editor.
+
+## Implementation notes
+
+The blocks live in the existing `sections/main-product.liquid` block library and render in the same `.pdp__details-accord` container as the standard `accordion` block. Markup pattern:
+
+```html
+<details class="pdp__accord-item">
+  <summary>
+    <span>Ingredients</span>
+    <span class="pdp__accord-mark" aria-hidden="true">+</span>
+  </summary>
+  <div class="pdp__accord-body">
+    {{ product.metafields.custom.ingredients }}
+  </div>
+</details>
+```
+
+Both blocks support multiple instances per PDP (e.g. you could add two **Ingredients** blocks if you have multiple ingredient categories you want to surface in separate panels) — though most merchants will use one of each.
